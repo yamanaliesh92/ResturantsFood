@@ -17,8 +17,7 @@ export interface IResponseUser {
 }
 
 export interface IResponseRegister {
-  user: IResponseUser;
-  token: string;
+  acceesToken: string;
 }
 
 export interface IPayloadChangePassword {
@@ -55,7 +54,7 @@ const user = api.injectEndpoints({
       query: (body) => ({
         body: body,
         method: "POST",
-        url: "/auth/user/login",
+        url: "/api/auth/user/login",
       }),
     }),
     getMe: builder.query<IResponseUser, any>({

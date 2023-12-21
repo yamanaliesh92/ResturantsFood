@@ -17,25 +17,17 @@ interface IProps {
 const Login: FC<IProps> = ({ setOpen }) => {
   const [visible, setVisible] = useState<Boolean>(false);
   const [value, setValue] = useState<IPayloadLogin>(init);
-  const [mutate, { data, isSuccess }] = useLoginUserMutation();
+  const [mutate, { isSuccess, data, isLoading }] = useLoginUserMutation();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
-    if (data && isSuccess) {
-      console.log("Dddddddddddddddd", { data });
-      setCookie("MyToken", data.token);
-      dispatch(login({ email: data.user.email }));
-    }
-  }, [data, dispatch, isSuccess]);
 
   const changeOpen = () => {
     setOpen((prev) => !prev);
   };
 
-  // if (isLoading) {
-  //   return <h1>....loading</h1>;
-  // }
+  if (isSuccess) {
+    setCookie("MyToken", data?.acceesToken as string);
+    dispatch(login({ email: value.email }));
+  }
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,11 +52,12 @@ const Login: FC<IProps> = ({ setOpen }) => {
   };
 
   const styleVisible = "absolute right-2 top-[17px] cursor-pointer";
-  const dd =
+  const styleInput =
     "appearance-none w-full block relative  px-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
 
   return (
     <div className="mt-12 w-[230px] sm:w-[400px] md:w-[500px]  mx-[20px]  sm:mx-auto">
+      {isLoading && <h1>Loading....</h1>}
       <h2 className="text-center text-3xl text-gray-900 font-extrabold">
         Login
       </h2>
@@ -86,7 +79,7 @@ const Login: FC<IProps> = ({ setOpen }) => {
                 autoComplete={"gamil"}
                 name="email"
                 type={"email"}
-                className={dd}
+                className={styleInput}
               />
             </div>
           </div>
@@ -106,7 +99,7 @@ const Login: FC<IProps> = ({ setOpen }) => {
                 onChange={onChange}
                 name="password"
                 type={visible ? "text" : "password"}
-                className={dd}
+                className={styleInput}
               />
               {visible ? (
                 <AiOutlineEye

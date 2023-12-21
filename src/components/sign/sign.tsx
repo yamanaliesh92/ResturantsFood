@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FC, useRef, useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { HiPhotograph } from "react-icons/hi";
 import { useDispatch } from "react-redux";
@@ -27,7 +27,8 @@ const Sign: FC<IProps> = ({ setOpen }) => {
   const [visible, setVisible] = useState<Boolean>(false);
   const [value, setValue] = useState(init);
   const [img, setImg] = useState<File | null>(null);
-  const [mutate, { data, isSuccess, error }] = useCreateUserMutation();
+  const [mutate, { isSuccess, data, error, isLoading }] =
+    useCreateUserMutation();
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -41,11 +42,10 @@ const Sign: FC<IProps> = ({ setOpen }) => {
     setImg(value);
   };
 
-  useEffect(() => {
-    if (data && isSuccess) {
-      setCookie("MyToken", data.token);
-    }
-  }, [data, isSuccess]);
+  if (isSuccess) {
+    setCookie("MyToken", data?.acceesToken as string);
+    dispatch(login({ email: value.email }));
+  }
 
   console.log("error", error);
   const onChange = (
@@ -76,7 +76,6 @@ const Sign: FC<IProps> = ({ setOpen }) => {
     formDate.append("username", value.username);
 
     await mutate(formDate as any);
-    dispatch(login({ email: value.email }));
   };
 
   const styleVisible = "absolute right-2 top-[17px] cursor-pointer";
@@ -91,6 +90,7 @@ const Sign: FC<IProps> = ({ setOpen }) => {
 
       <div className="bg-white py-8 px-4 s sm:rounded-lg sm:px-10">
         <form className="spec-y-6" onSubmit={onSubmit}>
+          {isLoading && <h1>Loading ....</h1>}
           <div>
             <label
               htmlFor="email"
