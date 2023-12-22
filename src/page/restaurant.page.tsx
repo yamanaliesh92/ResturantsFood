@@ -79,7 +79,6 @@ export default function RestaurantPage() {
           {data &&
             data?.events &&
             data.events.map((event) => <EventCard data={event} />)}
-          evvent
         </div>
       )}
       <Footer />
