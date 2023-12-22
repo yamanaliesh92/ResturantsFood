@@ -38,6 +38,11 @@ export interface IPayloadUpdate {
   id: number;
 }
 
+export interface IPayloadUpdateImgEvent {
+  id: number;
+  img: string;
+}
+
 export interface IPayloadDeleteEvent {
   id: number;
 }
@@ -53,6 +58,7 @@ const Event = api.injectEndpoints({
       }),
       invalidatesTags: ["Event"],
     }),
+
     AllEvent: builder.query<IResponseEvent[], any>({
       query: (body) => ({
         method: "GET",
@@ -86,6 +92,15 @@ const Event = api.injectEndpoints({
       invalidatesTags: ["Event"],
     }),
 
+    updateEventImg: builder.mutation<boolean, IPayloadUpdateImgEvent>({
+      query: (body) => ({
+        method: "PATCH",
+        url: `/api/events/update/img/${body.id}`,
+        body: body.img,
+      }),
+      invalidatesTags: ["Order"],
+    }),
+
     deleteEvent: builder.mutation<boolean, IPayloadDeleteEvent>({
       query: (body) => ({
         method: "DELETE",
@@ -100,6 +115,7 @@ export const {
   useCreateEventMutation,
   useAllEventQuery,
   useUpdateEventMutation,
+  useUpdateEventImgMutation,
   useDeleteEventMutation,
   useMyEventsQuery,
 } = Event;

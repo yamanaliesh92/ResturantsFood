@@ -8,6 +8,7 @@ import "react-datetime-picker/dist/DateTimePicker.css";
 import React, { ChangeEvent, FC, useRef, useState } from "react";
 import {
   IResponseEvent,
+  useUpdateEventImgMutation,
   useUpdateEventMutation,
 } from "../../redux/api/event.api";
 interface IProps {
@@ -40,7 +41,11 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
 
   const [element, setElement] = useState(init);
   const [file, setFile] = useState<File | null>(null);
+  const [openUpdateImg, setOpenUpdateImg] = useState(false);
   //   const [open, setOpen] = useState(false);
+
+  const [mutateUpdateImg, { isSuccess: isSuccessUpdateImg }] =
+    useUpdateEventImgMutation();
 
   const [date, setDate] = useState<Date | null>(null);
 
@@ -48,7 +53,6 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
     setOpen((prev) => ({ id: 0, open: false }));
   };
 
-  //   const inputRef = useRef<HTMLInputElement>(null);
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return "";
@@ -57,31 +61,16 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
     setFile(value);
   };
 
-  //   const openImg = () => {
-  //     setOpen((prev) => !prev);
-  //     inputRef.current?.click();
-  //   };
-
-  //   const { mutateAsync } = useMutation({
-  //     mutationFn: UpdateCarApi,
-  //     onSuccess: () => {
-  //       client.invalidateQueries({ queryKey: ["allCar"] });
-  //       {
-  //         !open && close();
-  //       }
-  //     },
-  //   });
-
-  //   const { mutateAsync: mutateAsyncImg } = useMutation({
-  //     mutationFn: UpdateImgCarApi,
-  //     onSuccess: () => {
-  //       client.invalidateQueries({ queryKey: ["allCar"] });
-  //       close();
-  //       toast("update is doen");
-  //     },
-  //   });
+  const openGallery = () => {
+    setOpenUpdateImg(true);
+    inputRef.current?.click();
+  };
 
   const [mutate, { isLoading, isSuccess }] = useUpdateEventMutation();
+
+  if (isSuccessUpdateImg) {
+    setOpen((prev) => ({ ...prev, open: !prev.open }));
+  }
 
   if (isSuccess) {
     close();
@@ -101,11 +90,11 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
 
     await mutate({ id: data.id, payload: body });
 
-    const form = new FormData();
-    if (!file) {
-      return;
-    }
-    form.append("img", file);
+    const formData = new FormData();
+    formData.append("imgOrder", file as any);
+
+    openUpdateImg &&
+      (await mutateUpdateImg({ id: data.id, img: formData as any }));
   };
 
   const onChange = (
@@ -123,12 +112,6 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
   };
 
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const [openCategory, setOpenCategory] = useState(false);
-
-  const changeOpenCategory = () => {
-    setOpenCategory((prev) => !prev);
-  };
 
   return (
     <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
@@ -203,7 +186,7 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
             <h1 className="text-[15px] font-bold mr-3">
               click here to change your img Event
             </h1>
-            <HiPhotograph size={25} onClick={() => inputRef.current?.click()} />
+            <HiPhotograph size={25} onClick={openGallery} />
           </div>
 
           {isLoading && <h1>loading.....</h1>}

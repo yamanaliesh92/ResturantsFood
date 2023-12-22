@@ -42,6 +42,11 @@ export interface IPayloadUpdateOrder {
   payload: IUpdateOrder;
 }
 
+export interface IPayloadUpdateOrderImg {
+  id: number;
+  img: string;
+}
+
 export interface IPayloadGetAllProductByUserId {
   userId: number;
 }
@@ -57,7 +62,7 @@ export interface IPayloadDeleteProduct {
 export interface IPayloadGetOneOrder {
   id: number;
 }
-export interface IPayloadUpdateImgProduct {
+export interface IPayloadUpdateImgOrder {
   id: number;
   imgProduct: string;
 }
@@ -98,6 +103,15 @@ const product = api.injectEndpoints({
       invalidatesTags: ["Order"],
     }),
 
+    updateOrderImg: builder.mutation<boolean, IPayloadUpdateOrderImg>({
+      query: (body) => ({
+        method: "PATCH",
+        url: `/api/order/update/img/${body.id}`,
+        body: body.img,
+      }),
+      invalidatesTags: ["Order"],
+    }),
+
     getOneOrder: builder.query<IResponseOrder, IPayloadGetOneOrder>({
       query: (body) => ({
         method: "GET",
@@ -110,15 +124,6 @@ const product = api.injectEndpoints({
         method: "GET",
         url: `/api/order?category=${body.category}`,
       }),
-    }),
-
-    updateImgOrder: builder.mutation<boolean, IPayloadUpdateImgProduct>({
-      query: (body) => ({
-        method: "PATCH",
-        url: `/prod/upload/${body.id}`,
-        body: body.imgProduct,
-      }),
-      invalidatesTags: ["Order"],
     }),
 
     getAllOrdersByUserId: builder.query<IResponseOrder[], any>({
@@ -145,8 +150,8 @@ export const {
   useGetAllOrdersByUserIdQuery,
   useUpdateOrderMutation,
   useAllOrdersQuery,
+  useUpdateOrderImgMutation,
   useGetOneOrderQuery,
   useGetOrderByCategoryQuery,
-  useUpdateImgOrderMutation,
   useDeleteOrderMutation,
 } = product;

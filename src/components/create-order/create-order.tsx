@@ -37,7 +37,7 @@ const CreateOrder = () => {
     fromDate.append("imgOrder", img);
     fromDate.append("description", element.description);
     fromDate.append("category", element.category);
-    fromDate.append("category", restaurantId as any);
+    fromDate.append("restaurantId", restaurantId as any);
 
     await mutate(fromDate as any);
   };

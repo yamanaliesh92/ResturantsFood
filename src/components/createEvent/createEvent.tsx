@@ -27,8 +27,6 @@ const init: ICreateEvent = {
   category: "",
 };
 const CreateEvent = () => {
-  // const [startDate, setStartDate] = useState(null);
-  // const [endDate, setEndDate] = useState(null);
   const [img, setImg] = useState<File | null>(null);
   const inputImgRef = useRef<HTMLInputElement>(null);
   const [date, setDate] = useState<Date>(new Date());
@@ -36,12 +34,6 @@ const CreateEvent = () => {
   const [restaurantId, setRestaurantId] = useState<number>(0);
 
   const [mutate, { isLoading, isSuccess }] = useCreateEventMutation();
-
-  // const handelStartDate = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const startDates = new Date(e.target.value);
-  //   const minEndDate = new Date(startDates.getTime() + 3 * 24 * 60 * 60 * 1000);
-  //   // setStartDate(minEndDate);
-  // };
 
   const navigate = useNavigate();
 
