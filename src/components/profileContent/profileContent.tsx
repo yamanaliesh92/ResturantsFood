@@ -1,77 +1,57 @@
-import React, { FC, useContext, useState } from "react";
+import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
 import woman from "../../img/woman.jpeg";
 import { MdAddAPhoto } from "react-icons/md";
 import AllOrder from "../AllOrders/AllOrder";
 import MethodPayment from "../methodPayement/methodPayement";
 import { contextUser } from "../../context/user.context";
+import {
+  useUpdateImgInfoMutation,
+  useUpdateUsernameInfoMutation,
+} from "../../redux/api/user.api";
+import { HiPhotograph } from "react-icons/hi";
 
 interface IProps {
   active: number;
   setActive: React.Dispatch<React.SetStateAction<number>>;
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProfileContent: FC<IProps> = ({ active, setActive }) => {
-  const [edit, setEdit] = useState(false);
-  const { data: dateMe } = useContext(contextUser);
+const ProfileContent: FC<IProps> = ({ active, setEdit, setActive }) => {
+  const { data: dataMe } = useContext(contextUser);
 
-  console.log("dateMe", dateMe.img);
-
-  const init = {
-    username: dateMe.username,
-    img: dateMe.img,
-  };
-  const [username, setUserName] = useState(init.username);
-  const [file, setFile] = useState(init.img);
   return (
-    <div className="w-full p-10 ">
+    <>
       {active === 1 ? (
-        <div className="w-full flex items-center flex-col p-5">
-          <div className="relative items-center justify-center flex">
-            {edit ? (
-              <input
-                value={file}
-                type={file}
-                onChange={(e) => setFile(e.target.value)}
-                className=" w-full block relative  px-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            ) : (
-              <img
-                src={dateMe.img}
-                alt="ads"
-                className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] rounded-full border-[3px] object-cover border-[#3da123]"
-              />
-            )}
+        <div className=" w-[190px] sm:w-[500px] h-full bg-slate-100 shadow-md p-0 sm:p-5  flex flex-col items-center rounded-md  mt-3">
+          <h1 className="t p-2  text-center font-bold">
+            Welcome in your information page
+          </h1>
+          <div className="flex items-center w-[150px] h-[150px] p-4  justify-center ">
+            <img
+              src={dataMe.img}
+              alt="ds"
+              className="w-full h-full rounded-full border border-b-gray-600"
+            />
+          </div>
+          <div className="f flex mt-4  p-2 items-center">
+            <h1 className="text-[13px]  sm:text-[18px]">
+              your name in this application :
+            </h1>
+            <h1 className="text-[15px] ml-1 sm:text-[18px] sm:ml-4 text-blue-500">
+              {dataMe?.username}
+            </h1>
           </div>
 
-          <div className="flex items-center mt-3">
-            {edit ? (
-              <input
-                value={username}
-                onChange={(e) => setUserName(e.target.value)}
-                className=" w-full block relative  px-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            ) : (
-              <>
-                <h1 className="text-[18px] ml-1">{username}</h1>
-              </>
-            )}
-          </div>
-
-          <div className="mt-4 flex items-center">
-            {edit && (
-              <button
-                className=" text-white ml-3 bg-blue-600 hover:bg-white hover:text-blue-600 p-4 rounded-md"
-                type={"submit"}
-              >
-                update
-              </button>
-            )}
+          <div className=" flex  mt-4  p-2 items-center">
+            <h1 className="text-[15px] font-bold sm:text-[18px] ml-1 sm:ml-4 text-blue-500">
+              if you want to update info
+            </h1>
             <button
-              onClick={() => setEdit((prev) => !prev)}
-              className=" text-white bg-blue-600 hover:bg-white hover:text-blue-600 p-4 rounded-md"
+              onClick={() => setEdit(true)}
+              className=" text-white ml-4 w-[50px] sm:w-[70px]  bg-blue-600 hover:bg-white hover:text-blue-600 p-2 rounded-md"
               type={"submit"}
             >
-              {edit ? "cancel" : "edit"}
+              edit
             </button>
           </div>
         </div>
@@ -80,7 +60,7 @@ const ProfileContent: FC<IProps> = ({ active, setActive }) => {
       {active === 2 ? <AllOrder /> : null}
 
       {active === 6 ? <MethodPayment /> : null}
-    </div>
+    </>
   );
 };
 

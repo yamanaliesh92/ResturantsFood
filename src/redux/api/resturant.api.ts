@@ -1,10 +1,21 @@
 import { api } from "./api";
 import { IResponseEvent } from "./event.api";
 import { IResponseOrder } from "./order.api";
+import { IPayloadUpdateUsernameUser } from "./user.api";
 
 export interface ICreateRestaurant {
   name: string;
   address: string;
+}
+
+export interface IUpdate {
+  name?: string;
+  address?: string;
+}
+
+export interface IUpdateRestaurant {
+  id: number;
+  payload: IUpdate;
 }
 
 export interface IResponseRestaurant {
@@ -18,6 +29,10 @@ export interface IResponseRestaurant {
 
 export interface IPayloadGetOneRestaurant {
   id: number;
+}
+
+export interface IResponseGetOneRestaurant {
+  dataRes: IResponseRestaurant;
 }
 
 const Restaurant = api.injectEndpoints({
@@ -38,6 +53,16 @@ const Restaurant = api.injectEndpoints({
       }),
     }),
 
+    updateRestaurantInfo: builder.mutation<boolean, IUpdateRestaurant>({
+      query: (body) => ({
+        method: "PATCH",
+        body: body.payload,
+        url: `/api/restaurant/update/${body.id}`,
+      }),
+
+      invalidatesTags: ["Restaurant"],
+    }),
+
     getOneRestaurant: builder.query<
       IResponseRestaurant,
       IPayloadGetOneRestaurant
@@ -54,4 +79,5 @@ export const {
   useCreateRestaurantMutation,
   useAllRestaurantQuery,
   useGetOneRestaurantQuery,
+  useUpdateRestaurantInfoMutation,
 } = Restaurant;

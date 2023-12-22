@@ -16,6 +16,14 @@ export interface IResponseUser {
   img: string;
 }
 
+export interface IPayloadUpdateImgUser {
+  img: string;
+}
+
+export interface IPayloadUpdateUsernameUser {
+  username: string;
+}
+
 export interface IResponseRegister {
   acceesToken: string;
 }
@@ -50,6 +58,22 @@ const user = api.injectEndpoints({
       }),
     }),
 
+    updateImgInfo: builder.mutation<boolean, IPayloadUpdateImgUser>({
+      query: (body) => ({
+        method: "PATCH",
+        body: body,
+        url: "/api/auth/user/update/img",
+      }),
+    }),
+
+    updateUsernameInfo: builder.mutation<boolean, IPayloadUpdateUsernameUser>({
+      query: (body) => ({
+        method: "PATCH",
+        body: body,
+        url: "/api/auth/update",
+      }),
+    }),
+
     loginUser: builder.mutation<IResponseRegister, IPayloadLogin>({
       query: (body) => ({
         body: body,
@@ -69,6 +93,8 @@ const user = api.injectEndpoints({
 export const {
   useCreateUserMutation,
   useLoginUserMutation,
+  useUpdateUsernameInfoMutation,
+  useUpdateImgInfoMutation,
   useGetMeQuery,
   useChangePasswordMutation,
 } = user;

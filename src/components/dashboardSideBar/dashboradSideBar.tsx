@@ -124,10 +124,7 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
           </h3>
         </Link>
 
-        <Link
-          to={"/dashboard-withDrawMoney"}
-          className="flex items-center p-2 mb-3"
-        >
+        <Link to={"/dashboard/resInfo"} className="flex items-center p-2 mb-3">
           <CiMoneyBill
             size={25}
             className={`${active === 7 ? "text-[red]" : "text-[#555]"}`}

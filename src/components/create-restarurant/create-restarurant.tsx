@@ -99,7 +99,7 @@ const CreateRestaurant = () => {
             </button>
             <Link
               to={"/"}
-              className="w-fit ml-4 mt-4 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
+              className="w-fit ml-4  h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
             >
               Cancel
             </Link>
