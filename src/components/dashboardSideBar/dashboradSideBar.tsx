@@ -3,12 +3,8 @@ import { RxDashboard } from "react-icons/rx";
 import { FiShoppingBag } from "react-icons/fi";
 import { FaAddressCard } from "react-icons/fa";
 import { VscNewFile } from "react-icons/vsc";
-import { HiReceiptRefund } from "react-icons/hi";
-import { BiPackage, BiMessageSquareDetail } from "react-icons/bi";
 
-import { CiMoneyBill, CiSettings } from "react-icons/ci";
-
-import { AiOutlineFolderAdd, AiOutlineGift } from "react-icons/ai";
+import { AiOutlineFolderAdd } from "react-icons/ai";
 import { MdOutlineLocalOffer } from "react-icons/md";
 
 import { Link } from "react-router-dom";
@@ -52,24 +48,6 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
             } text-[12px] sm:text-[18px] font-bold text-bold ml-3`}
           >
             AllOrder
-            {/* here in h3 800px:hidden and all h3 like that */}
-          </h3>
-        </Link>
-
-        <Link
-          to={"/dashboard-allProduct"}
-          className="flex items-center p-2 mb-3"
-        >
-          <BiPackage
-            size={25}
-            className={`${active === 3 ? "text-[red]" : "text-[#555]"}`}
-          />
-          <h3
-            className={`${
-              active === 3 ? "text-[red]" : "text-[#555]"
-            } text-[12px] sm:text-[18px] font-bold text-bold ml-3`}
-          >
-            AllProduct
           </h3>
         </Link>
 
@@ -86,7 +64,7 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
               active === 4 ? "text-[red]" : "text-[#555]"
             } text-[18px] text-bold ml-3`}
           >
-            createProduct
+            createOrder
           </h3>
         </Link>
 
@@ -125,86 +103,16 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
         </Link>
 
         <Link to={"/dashboard/resInfo"} className="flex items-center p-2 mb-3">
-          <CiMoneyBill
+          <FaAddressCard
             size={25}
             className={`${active === 7 ? "text-[red]" : "text-[#555]"}`}
           />
           <h3
             className={`${
               active === 7 ? "text-[red]" : "text-[#555]"
-            } text-[12px] sm:text-[18px] font-bold text-bold ml-3`}
+            } text-[12px] sm:text-[16px] font-bold text-bold ml-3`}
           >
-            WithDrawMoney
-          </h3>
-        </Link>
-
-        <Link to={"/dashboard-message"} className="flex items-center p-2 mb-3">
-          <BiMessageSquareDetail
-            size={25}
-            className={`${active === 8 ? "text-[red]" : "text-[#555]"}`}
-          />
-          <h2
-            className={`${
-              active === 8 ? "text-[red]" : "text-[#555]"
-            } text-[18px] text-bold ml-3`}
-          >
-            ShopInbox
-          </h2>
-        </Link>
-
-        <Link to={"/dashboard-Coupon "} className="flex items-center p-2 mb-3">
-          <AiOutlineGift
-            size={25}
-            className={`${active === 9 ? "text-[red]" : "text-[#555]"}`}
-          />
-          <h3
-            className={`${
-              active === 9 ? "text-[red]" : "text-[#555]"
-            } text-[18px] text-bold ml-3`}
-          >
-            Discount Code
-          </h3>
-        </Link>
-
-        <Link to={"/dashboard-refund"} className="flex items-center p-2 mb-3">
-          <HiReceiptRefund
-            size={25}
-            className={`${active === 10 ? "text-[red]" : "text-[#555]"}`}
-          />
-          <h3
-            className={`${
-              active === 10 ? "text-[red]" : "text-[#555]"
-            } text-[18px] text-bold ml-3`}
-          >
-            Refund
-          </h3>
-        </Link>
-
-        <Link to={"/dashboard-setting"} className="flex items-center p-2 mb-3">
-          <CiSettings
-            size={25}
-            className={`${active === 11 ? "text-[red]" : "text-[#555]"}`}
-          />
-          <h3
-            className={`${
-              active === 11 ? "text-[red]" : "text-[#555]"
-            } text-[18px] text-bold ml-3`}
-          >
-            Refund
-          </h3>
-        </Link>
-
-        <Link to={"/dashboard-address"} className="flex items-center p-2 mb-3">
-          <FaAddressCard
-            size={25}
-            className={`${active === 12 ? "text-[red]" : "text-[#555]"}`}
-          />
-          <h3
-            className={`${
-              active === 12 ? "text-[red]" : "text-[#555]"
-            } text-[18px] text-bold ml-3`}
-          >
-            address
+            information of restaurant
           </h3>
         </Link>
 

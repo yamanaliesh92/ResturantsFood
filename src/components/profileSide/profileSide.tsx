@@ -35,67 +35,11 @@ const ProfileSide: FC<IProps> = ({ active, setActive }) => {
 
       <div
         className="flex items-center cursor-pointer w-full mb-5"
-        onClick={() => setActive(4)}
-      >
-        <AiOutlineMessage
-          size={20}
-          color={active === 4 ? "red" : ""}
-          className="mr-3"
-        />
-        <span className={`${active === 4 ? "text-[red]" : ""}`}>Refund</span>
-      </div>
-      <div
-        className="flex items-center cursor-pointer w-full mb-5"
-        onClick={() => setActive(5)}
-      >
-        <MdTrackChanges
-          size={20}
-          color={active === 5 ? "red" : ""}
-          className="mr-3"
-        />
-        <span className={` hidden sm:block${active === 5 ? "text-[red]" : ""}`}>
-          Track Order
-        </span>
-      </div>
-      <div
-        className="flex items-center cursor-pointer w-full mb-5"
-        onClick={() => setActive(6)}
-      >
-        <AiOutlineCreditCard
-          size={20}
-          color={active === 6 ? "red" : ""}
-          className="mr-3"
-        />
-        <span
-          className={` hidden sm:block${
-            active === 6 ? "text-[red]" : ""
-          }800px:block hidden`}
-        >
-          Payment method
-        </span>
-      </div>
-
-      <div
-        className="flex items-center cursor-pointer w-full mb-5"
-        onClick={() => setActive(7)}
-      >
-        <ImAddressBook
-          size={20}
-          color={active === 7 ? "red" : ""}
-          className="mr-3"
-        />
-        <span className={` hidden sm:block${active === 7 ? "text-[red]" : ""}`}>
-          Address
-        </span>
-      </div>
-
-      <div
-        className="flex items-center cursor-pointer w-full mb-5"
-        onClick={() => setActive(8)}
+        onClick={() => setActive(2)}
       >
         <AiOutlineLogout
           size={20}
-          color={active === 8 ? "red" : ""}
+          color={active === 2 ? "red" : ""}
           className="mr-3"
         />
         <span className={`hidden sm:block${active === 8 ? "text-[red]" : ""}`}>

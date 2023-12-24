@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
 import woman from "../../img/woman.jpeg";
 import { MdAddAPhoto } from "react-icons/md";
 import AllOrder from "../AllOrders/AllOrder";
-import MethodPayment from "../methodPayement/methodPayement";
+
 import { contextUser } from "../../context/user.context";
 import {
   useUpdateImgInfoMutation,
@@ -58,8 +58,6 @@ const ProfileContent: FC<IProps> = ({ active, setEdit, setActive }) => {
       ) : null}
 
       {active === 2 ? <AllOrder /> : null}
-
-      {active === 6 ? <MethodPayment /> : null}
     </>
   );
 };

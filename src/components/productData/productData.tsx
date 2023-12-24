@@ -12,12 +12,9 @@ import {
 import ProductDetailsCart from "../productDetailsCart/productDetailsCart";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addToWishlist,
-  removeFromWishlist,
-} from "../../redux/actions/wishlist.action";
+
 import { toast } from "react-toastify";
-import { addToCart } from "../../redux/actions/cart.action";
+
 import { AiFillEdit } from "react-icons/ai";
 import UpdateProductModal from "../update-order/update-order";
 import {
@@ -25,6 +22,11 @@ import {
   useDeleteOrderMutation,
 } from "../../redux/api/order.api";
 import { contextUser } from "../../context/user.context";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../redux/reducers/wishlist.reducer";
+import { addToCart } from "../../redux/reducers/cart.reducer";
 
 interface IProps {
   data: IResponseOrder;
@@ -35,7 +37,7 @@ const ProductsData: FC<IProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState({ id: 0, open: false });
   const [mutate] = useDeleteOrderMutation();
-  const { wishlist } = useSelector((state: any) => state.wishlist);
+  const wishlist = useSelector((state: any) => state.wishlist.whishItem);
   const dispatch = useDispatch();
 
   const { data: dateMe } = useContext(contextUser);
@@ -44,14 +46,14 @@ const ProductsData: FC<IProps> = ({ data }) => {
     setEdit((prev) => ({ id: id, open: !prev.open }));
   };
 
-  const removeFromWishlistHandler = (data: any) => {
+  const removeFromWishlistHandler = (id: number) => {
     setClick((prev) => !prev);
-    dispatch(removeFromWishlist(data) as any);
+    dispatch(removeFromWishlist({ id: id }));
   };
 
-  const addToWishlistHandler = (data: any) => {
+  const addToWishlistHandler = (data: IResponseOrder) => {
     setClick((prev) => !prev);
-    dispatch(addToWishlist(data) as any);
+    dispatch(addToWishlist(data));
   };
 
   const deleteOrder = async (id: number) => {
@@ -59,7 +61,7 @@ const ProductsData: FC<IProps> = ({ data }) => {
   };
 
   useEffect(() => {
-    if (wishlist && wishlist.find((i: any) => i.id === data.id)) {
+    if (wishlist && wishlist.find((i: IResponseOrder) => i.id === data.id)) {
       setClick(true);
     } else {
       setClick(false);
@@ -67,15 +69,13 @@ const ProductsData: FC<IProps> = ({ data }) => {
   }, [data.id, wishlist]);
 
   const changeSetOpen = () => {
-    console.log("dd", open);
     setOpen((prev) => !prev);
   };
 
   const { cart } = useSelector((state: any) => state.cart);
 
   const addToCartHandler = (id: number) => {
-    console.log("cart", { cart });
-    const isItemExists = cart && cart.find((i: any) => i.id === id);
+    const isItemExists = cart && cart.find((i: IResponseOrder) => i.id === id);
     if (isItemExists) {
       console.log("already exist");
       toast.error("Item already in cart!");
@@ -84,7 +84,7 @@ const ProductsData: FC<IProps> = ({ data }) => {
         toast.error("Product stock limited!");
       } else {
         const cartData = { ...data, qty: 1 };
-        dispatch(addToCart(cartData) as any);
+        dispatch(addToCart(cartData));
         toast.success("Item added to cart successfully!");
       }
     }
@@ -140,12 +140,9 @@ const ProductsData: FC<IProps> = ({ data }) => {
             <h5 className="font-bold text-[18px] text-[#333] font-Roboto">
               {data.price}$
             </h5>
-            <h4 className="font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through">
-              {data.price ? data.price + "$" : null}
-            </h4>
           </div>
           <span className="text-[17px] font-[400] text-[#68d284]">
-            {data.description} sold
+            {data.description}
           </span>
         </div>
 
@@ -153,7 +150,7 @@ const ProductsData: FC<IProps> = ({ data }) => {
           {click ? (
             <AiFillHeart
               size={22}
-              onClick={() => removeFromWishlistHandler(data)}
+              onClick={() => removeFromWishlistHandler(data.id)}
               color={click ? "red" : "#333"}
               className="absolute right-1 top-3 cursor-pointer"
               title="Remove from wishlist"

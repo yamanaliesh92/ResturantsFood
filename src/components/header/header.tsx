@@ -1,20 +1,13 @@
-import {
-  AiOutlineSearch,
-  AiOutlineHeart,
-  AiOutlineShoppingCart,
-} from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 
 import { CgProfile } from "react-icons/cg";
 
-import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
-import { BiMenu } from "react-icons/bi";
 import { ChangeEvent, FC, useEffect, useState } from "react";
-import DropDown from "../dropDown/dropDown";
 
 import Navbar from "../navbar/navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { IProductData, productData } from "../../sataic/product.data";
-import { categoriesData } from "../../sataic/categorise.data";
+
 import CartProduct from "../cartOrder/cartOrder";
 import WhishList from "../whishlist/whishlist";
 import { useSelector } from "react-redux";
@@ -23,7 +16,6 @@ import {
   IResponseRestaurant,
   useAllRestaurantQuery,
 } from "../../redux/api/resturant.api";
-import { iteratorSymbol } from "immer/dist/internal";
 
 interface IProps {
   activeHeading: number;
@@ -38,8 +30,6 @@ const initSearch: ISearch = {
 };
 
 const Header: FC<IProps> = ({ activeHeading }) => {
-  const [active, setActive] = useState<boolean>(false);
-  const [dropDown, setDropDown] = useState<boolean>(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [searchValue, setSearchValue] = useState<ISearch>(initSearch);
   const [data, setData] = useState<IProductData[]>([]);
@@ -49,7 +39,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
   >([]);
   const [openWhishList, setOpenWhishList] = useState<boolean>(false);
   const [openCart, setOpenCart] = useState<boolean>(false);
-  const [restaurantId, setRestaurantId] = useState<number>(0);
+
   const [searchRestaurant, setSearchRestaurant] = useState("");
 
   const { data: dataAllRestaurant } = useAllRestaurantQuery({});
@@ -62,20 +52,12 @@ const Header: FC<IProps> = ({ activeHeading }) => {
     setDataSearchRestaurant(filleter as IResponseRestaurant[]);
   };
 
-  useEffect(() => {
-    const id = localStorage.getItem("id")
-      ? JSON.parse(localStorage.getItem("id") as any)
-      : 0;
-    setRestaurantId(id);
-  }, []);
-
-  const { wishlist } = useSelector((state: any) => state.wishlist);
-  const { cart } = useSelector((state: any) => state.cart);
+  const wishlist = useSelector((state: any) => state.wishlist.whishItem);
+  const cart = useSelector((state: any) => state.cart.cartItem);
 
   const navigate = useNavigate();
 
   const changeOpenCart = () => {
-    console.log(openCart);
     setOpenMenu(false);
     setOpenCart((prev) => !prev);
   };
@@ -94,15 +76,6 @@ const Header: FC<IProps> = ({ activeHeading }) => {
     setData(searchText);
   };
 
-  // const changeDropDown = () => {
-  //   setDropDown((prev) => !prev);
-  // };
-  // window.addEventListener("scroll", () => {
-  //   if (window.scrollY > 70) {
-  //     setActive(true);
-  //   }
-  //   setActive(false);
-  // });
   return (
     <>
       <div className="w-11/12 mx-auto my-auto">
@@ -124,7 +97,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               className="h-[40px] placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-[#3957db] border-[2px] rounded-md"
             />
             {data && data.length !== 0 && searchValue.text ? (
-              <div className="s absolute h-auto bg-slate-200 p-4 z-10 shadow-sm">
+              <div className="absolute h-auto bg-slate-200 p-4 z-10 shadow-sm">
                 {data.map((item) => {
                   return (
                     <Link to={`/products/${item.id}`}>
@@ -152,7 +125,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               className="h-[40px] placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-[#3957db] border-[2px] rounded-md"
             />
             {dataSearchRestaurant && dataSearchRestaurant.length !== 0 ? (
-              <div className="s absolute h-auto bg-slate-200 p-4 z-10 shadow-sm">
+              <div className="absolute h-auto bg-slate-200 p-4 z-10 shadow-sm">
                 {dataSearchRestaurant.map((item) => {
                   return (
                     <Link to={`/restaurant/${item.id}`}>
@@ -160,11 +133,6 @@ const Header: FC<IProps> = ({ activeHeading }) => {
                         className="w-full flex items-center py-3"
                         onClick={() => setDataSearchRestaurant([])}
                       >
-                        {/* <img
-                          src={item.image_Url[0].url}
-                          alt="dd"
-                          className="mr-2 rounded-full h-[45px] w-[45px]"
-                        /> */}
                         <h1>{item.name}</h1>
                       </div>
                     </Link>
@@ -180,15 +148,6 @@ const Header: FC<IProps> = ({ activeHeading }) => {
         <div className="w-11/12 mx-auto my-auto flex items-center justify-between">
           <div className=" hidden sm:flex sm:items-center">
             <Navbar active={activeHeading} />
-
-            {restaurantId === 0 && (
-              <Link
-                className="w-[100px] text-[15px] flex items-center justify-center text-white bg-black h-[50px] my-3 rounded-xl cursor-pointer"
-                to={"/create-restaurant"}
-              >
-                Become seller
-              </Link>
-            )}
           </div>
           <RxHamburgerMenu
             size={20}
@@ -199,22 +158,6 @@ const Header: FC<IProps> = ({ activeHeading }) => {
 
           <div className="flex">
             <div className="flex items-center">
-              {restaurantId !== 0 && (
-                <div className="f flex items-center">
-                  <Link
-                    className="w-fit rounded-full h-fit p-4 bg-blue-400 text-white"
-                    to={"/dashboard-createProduct"}
-                  >
-                    create order
-                  </Link>
-                  <Link
-                    className="w-fit rounded-full h-fit p-4 bg-blue-400 text-white"
-                    to={"/dashboard"}
-                  >
-                    to dashboard
-                  </Link>
-                </div>
-              )}
               <div className="relative cursor-pointer ml-[15px]">
                 <AiOutlineHeart
                   size={30}
@@ -240,7 +183,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
             </div>
 
             <div className="flex items-center">
-              <div className="r relative cursor-pointer ml-[15px]">
+              <div className="relative cursor-pointer ml-[15px]">
                 <CgProfile
                   size={30}
                   color="rgb(255,255,255/83%)"
@@ -261,7 +204,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
         <div className="w-full transition-all ease-linear duration-300 h-[520px] fixed top-0 left-0 z-20 bg-gray-400 flex items-center flex-col ">
           <div
             onClick={() => setOpenMenu(false)}
-            className="t self-end mr-2 text-[25px] font-bold mt-4 cursor-pointer "
+            className="self-end mr-2 text-[25px] font-bold mt-4 cursor-pointer "
           >
             X
           </div>
@@ -272,33 +215,3 @@ const Header: FC<IProps> = ({ activeHeading }) => {
   );
 };
 export default Header;
-
-{
-  /* <BiMenu size={30} className="absolute top-3 left-2" /> */
-}
-{
-  /* <button
-              onClick={changeDropDown}
-              className="h-[100%] w-full justify-between items-center rounded-t-md pl-10 bg-white text-lg font-[500]"
-            >
-              Al Categories
-            </button> */
-}
-{
-  /* <IoIosArrowDown
-              size={20}
-              className="absolute top-3 right-2 cursor-pointer"
-              onClick={changeDropDown}
-            /> */
-}
-{
-  /* {dropDown ? (
-              <DropDown
-                data={categoriesData}
-                setDrop={setDropDown}
-                drop={dropDown}
-              /> */
-}
-{
-  /* ) : null} */
-}

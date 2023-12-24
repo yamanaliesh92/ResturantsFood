@@ -2,8 +2,10 @@ import { FC } from "react";
 import { BsBagDash } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromWishlist } from "../../redux/actions/wishlist.action";
-import { cartData } from "../../sataic/cart.data";
+
+import { IResponseOrder } from "../../redux/api/order.api";
+import { removeFromWishlist } from "../../redux/reducers/wishlist.reducer";
+
 import CartWhishList from "./cartWhishList";
 
 interface IProps {
@@ -11,11 +13,13 @@ interface IProps {
 }
 
 const WhishList: FC<IProps> = ({ openWhishList }) => {
-  const { wishlist } = useSelector((state: any) => state.wishlist);
+  const wishlist: IResponseOrder[] = useSelector(
+    (state: any) => state.wishlist.whishItem
+  );
   const dispatch = useDispatch();
 
-  const removeFromWishlistHandler = (data: any) => {
-    dispatch(removeFromWishlist(data) as any);
+  const removeFromWishlistHandler = (id: number) => {
+    dispatch(removeFromWishlist({ id: id }));
   };
   return (
     <div className="fixed top-0 right-0  bg-white w-[20%] z-10 min-h-screen">
@@ -27,7 +31,7 @@ const WhishList: FC<IProps> = ({ openWhishList }) => {
           <BsBagDash size={20} />
           <h2 className="d pl-2 text-[20px] font-bold">{wishlist.length}</h2>
         </div>
-        {wishlist.map((item: any) => {
+        {wishlist.map((item) => {
           return (
             <div className="w-full border-t">
               <CartWhishList data={item} remove={removeFromWishlistHandler} />

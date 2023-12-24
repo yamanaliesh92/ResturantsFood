@@ -1,28 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/header/header";
 import ProductsData from "../components/productData/productData";
 import { useGetOrderByCategoryQuery } from "../redux/api/order.api";
 
-import { IProductData, productData } from "../sataic/product.data";
-
 const OrderCategoryPage = () => {
   const [SearchParams] = useSearchParams();
   const category = SearchParams.get("category");
-  // const [data, setData] = useState<IProductData[]>([]);
 
   const { data } = useGetOrderByCategoryQuery({ category: category as string });
 
-  // useEffect(() => {
-  //   console.log("cat", { cat });
-  //   if (cat === null) {
-  //     const d = productData.sort((a, b) => b.total_sell - a.total_sell);
-  //     setData(d);
-  //   }
-  //   const dd = productData.filter((i) => i.category === cat);
-
-  //   setData(dd);
-  // }, [cat]);
   return (
     <div>
       <Header activeHeading={3} />

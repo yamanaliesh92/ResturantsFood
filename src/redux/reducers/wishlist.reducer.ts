@@ -1,35 +1,49 @@
-import { createReducer } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initalState = {
-  wishlist: localStorage.getItem("wishlistItems")
-    ? JSON.parse(localStorage.getItem("wishlistItems") as any)
-    : [],
+import { IResponseOrder } from "../api/order.api";
+
+interface IWishList {
+  whishItem: IResponseOrder[];
+}
+
+const cartFromLocalStorage: IResponseOrder[] = window.localStorage.getItem(
+  "wishlistItems"
+)
+  ? JSON.parse(window.localStorage.getItem("wishlistItems")!)
+  : [];
+
+const init: IWishList = {
+  whishItem: cartFromLocalStorage,
 };
 
-export const WishlistReduce = createReducer(initalState, {
-  removeFromWishlist: (state, action) => {
-    return {
-      ...state,
-      wishlist: state.wishlist.filter((i: any) => i.id !== action.payload),
-    };
-  },
+const whishListReduce = createSlice({
+  name: "whishList",
+  initialState: init,
+  reducers: {
+    addToWishlist: (state, action: PayloadAction<IResponseOrder>) => {
+      const newItem = action.payload;
+      const existItem = state.whishItem.find((item) => item.id === newItem.id);
 
-  addToWishlist: (state, action) => {
-    const item = action.payload;
-    const isItemExist = state.wishlist.find((i: any) => i.id === item.id);
-    if (isItemExist) {
-      console.log("is existssssssssssss");
-      return {
-        ...state,
-        wishlist: state.wishlist.map((i: any) =>
-          i._id === isItemExist._id ? item : i
-        ),
-      };
-    } else {
-      return {
-        ...state,
-        wishlist: [...state.wishlist, item],
-      };
-    }
+      if (existItem) {
+        alert("already is exist");
+      } else {
+        state.whishItem.push(newItem);
+      }
+
+      window.localStorage.setItem(
+        "wishlistItems",
+        JSON.stringify(state.whishItem)
+      );
+    },
+    removeFromWishlist: (state, action: PayloadAction<{ id: number }>) => {
+      const id = action.payload.id;
+      const updateState = state.whishItem.filter((item) => item.id !== id);
+      state.whishItem.splice(0, state.whishItem.length, ...updateState);
+
+      localStorage.setItem("wishlistItems", JSON.stringify(state.whishItem));
+    },
   },
 });
+export default whishListReduce.reducer;
+
+export const { addToWishlist, removeFromWishlist } = whishListReduce.actions;
