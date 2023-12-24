@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CreateEvent from "../components/createEvent/createEvent";
 
-import DashboardHeader from "../components/dashboard/dashboard";
 import DashboardSideBar from "../components/dashboardSideBar/dashboradSideBar";
 import RestaurantInfo from "../components/restaurant-info/restauranInfo";
 import UpdateRestaurantInfo from "../components/update-resturantInfo/update-resturantInfo";
@@ -22,10 +20,8 @@ const RestaurantInfoPage = () => {
 
   return (
     <div>
-      <DashboardHeader />
       <div className="flex w-full  justify-between">
-        <div className="w-[150px] sm:w-[330px]">
-          {/* 800px:w-[100px] */}
+        <div className="w-[150px] h-screen sm:w-[330px]">
           <DashboardSideBar active={7} />
         </div>
         <div className="w-full flex justify-center  h-[450px]">

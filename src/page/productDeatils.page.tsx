@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/header/header";
-import ProductDetailsInfo from "../components/productDeatilsInfo/productDeatilsInfo";
+
 import ProductsDetails from "../components/prouctdeatils/ ProductsDetails";
 import SuggestProduct from "../components/suggestOrder/suggestOrder";
 import Footer from "../layout/footer/footer";
@@ -26,16 +26,9 @@ const ProductDetailsPage = () => {
 
   console.log("dataGaterway", { dataGetByCategory });
 
-  const [data, setData] = useState<IProductData>();
-
-  // useEffect(() => {
-  //   const find = productData.find((i) => i.id === (id as any));
-  //   if (!find) return;
-  //   setData(find);
-  // }, [id]);
-
   return (
     <div>
+      {isLoading && <h1>loading...</h1>}
       <Header activeHeading={4} />
       <ProductsDetails data={dateGetOneProduct} />
       <SuggestProduct data={dataGetByCategory} />

@@ -32,8 +32,10 @@ const EventCard: FC<IProps> = ({ active, data }) => {
   const { data: dataAllRestaurant } = useAllRestaurantQuery({});
   return (
     <div className=" flex-col  flex sm:flex-row mt-2 w-full h-auto items-center bg-white rounded-lg">
+      {isLoading && <h2>loading...</h2>}
+
       <div className="w-full  sm:w-[40%] md:w-[70%] mr-2">
-        <img src={data.imgOrder} alt="dd" className="ss w-[200px] h-[250px]" />
+        <img src={data.imgOrder} alt="dd" className="w-[200px] h-[250px]" />
       </div>
       <div className="w-full mt-2 sm:mt-0  flex flex-col">
         <div className="flex justify-between">
@@ -85,7 +87,7 @@ const EventCard: FC<IProps> = ({ active, data }) => {
             {data.category}
           </span>
         </div>
-        <CountDown />
+        <CountDown data={data} />
       </div>
 
       {edit.open && edit.id === data.id ? (

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { IProductData } from "../../sataic/product.data";
+
 import { RxCross1 } from "react-icons/rx";
 import {
   AiOutlineShoppingCart,
@@ -9,13 +9,14 @@ import {
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../redux/actions/cart.action";
+
 import { toast } from "react-toastify";
+
+import { IResponseOrder } from "../../redux/api/order.api";
 import {
   addToWishlist,
   removeFromWishlist,
-} from "../../redux/actions/wishlist.action";
-import { IResponseOrder } from "../../redux/api/order.api";
+} from "../../redux/reducers/wishlist.reducer";
 
 interface IProps {
   open: boolean;
@@ -30,37 +31,37 @@ const ProductDetailsCart: FC<IProps> = ({ open, setOpen, dataProduct }) => {
   const [click, setClick] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  const { cart } = useSelector((state: any) => state.cart);
+  const cart = useSelector((state: any) => state.cart.cartItem);
 
-  const { wishlist } = useSelector((state: any) => state.wishlist);
+  const wishlist = useSelector((state: any) => state.wishlist.whishItem);
 
-  const removeFromWishlistHandler = (data: any) => {
+  const removeFromWishlistHandler = (id: number) => {
     setClick((prev) => !prev);
-    dispatch(removeFromWishlist(dataProduct) as any);
+    dispatch(removeFromWishlist({ id: id }));
   };
 
-  const addToWishlistHandler = (data: any) => {
-    console.log("hello in wish list", { data });
-    setClick((prev) => !prev);
-    dispatch(addToWishlist(dataProduct) as any);
-  };
+  // const addToWishlistHandler = (data: any) => {
+  //   console.log("hello in wish list", { data });
+  //   setClick((prev) => !prev);
+  //   dispatch(addToWishlist(dataProduct) as any);
+  // };
 
-  const addToCartHandler = (id: number) => {
-    console.log("cart", { cart });
-    const isItemExists = cart && cart.find((i: any) => i.id === id);
-    if (isItemExists) {
-      console.log("already exist");
-      toast.error("Item already in cart!");
-    } else {
-      if (dataProduct.id < count) {
-        toast.error("Product stock limited!");
-      } else {
-        const cartData = { ...dataProduct, qty: count };
-        dispatch(addToCart(cartData) as any);
-        toast.success("Item added to cart successfully!");
-      }
-    }
-  };
+  // const addToCartHandler = (id: number) => {
+  //   console.log("cart", { cart });
+  //   const isItemExists = cart && cart.find((i: any) => i.id === id);
+  //   if (isItemExists) {
+  //     console.log("already exist");
+  //     toast.error("Item already in cart!");
+  //   } else {
+  //     if (dataProduct.id < count) {
+  //       toast.error("Product stock limited!");
+  //     } else {
+  //       const cartData = { ...dataProduct, qty: count };
+  //       dispatch(addToCart(cartData) as any);
+  //       toast.success("Item added to cart successfully!");
+  //     }
+  //   }
+  // };
 
   const decrementCount = () => {
     if (count > 1) {
@@ -164,7 +165,7 @@ const ProductDetailsCart: FC<IProps> = ({ open, setOpen, dataProduct }) => {
                       <AiFillHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => removeFromWishlistHandler(dataProduct)}
+                        // onClick={() => removeFromWishlistHandler(dataProduct)}
                         color={click ? "red" : "#333"}
                         title="Remove from wishlist"
                       />
@@ -172,7 +173,7 @@ const ProductDetailsCart: FC<IProps> = ({ open, setOpen, dataProduct }) => {
                       <AiOutlineHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => addToWishlistHandler(dataProduct)}
+                        // onClick={() => addToWishlistHandler(dataProduct)}
                         title="Add to wishlist"
                       />
                     )}
@@ -180,7 +181,7 @@ const ProductDetailsCart: FC<IProps> = ({ open, setOpen, dataProduct }) => {
                 </div>
                 <div
                   className="'w-[150px] bg-black  my-3  justify-center  cursor-pointer mt-6 rounded-[4px] h-11 flex items-center"
-                  onClick={() => addToCartHandler(dataProduct.id)}
+                  // onClick={() => addToCartHandler(dataProduct.id)}
                 >
                   <span className="text-[#fff] flex items-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />

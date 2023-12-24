@@ -2,9 +2,10 @@ import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addToCart } from "../../redux/actions/cart.action";
-import { addToWishlist } from "../../redux/actions/wishlist.action";
+
 import { IResponseOrder } from "../../redux/api/order.api";
+import { addToCart } from "../../redux/reducers/cart.reducer";
+import { addToWishlist } from "../../redux/reducers/wishlist.reducer";
 import { IProductData } from "../../sataic/product.data";
 
 interface IProps {
@@ -18,30 +19,30 @@ const ProductsDetails: FC<IProps> = ({ data }) => {
   const naviagte = useNavigate();
   const dispatch = useDispatch();
 
-  const addToWishlistHandler = (data: any) => {
-    dispatch(addToWishlist(data) as any);
+  const addToWishlistHandler = (data: IResponseOrder) => {
+    dispatch(addToWishlist(data));
   };
 
   if (!data) {
     console.log("no data");
   }
-  const addToCartHandler = (id: number) => {
-    console.log("cart", { cart });
+  // const addToCartHandler = (id: number) => {
+  //   console.log("cart", { cart });
 
-    const isItemExists = cart && cart.find((i: any) => i.id === id);
-    if (isItemExists) {
-      console.log("already exist");
-      toast.error("Item already in cart!");
-    } else {
-      if (data && data.price < 1) {
-        toast.error("Product stock limited!");
-      } else {
-        const cartData = { ...data, qty: 1 };
-        dispatch(addToCart(cartData) as any);
-        toast.success("Item added to cart successfully!");
-      }
-    }
-  };
+  //   const isItemExists = cart && cart.find((i: any) => i.id === id);
+  //   if (isItemExists) {
+  //     console.log("already exist");
+  //     toast.error("Item already in cart!");
+  //   } else {
+  //     if (data && data.price < 1) {
+  //       toast.error("Product stock limited!");
+  //     } else {
+  //       const cartData = { ...data, qty: 1 };
+  //       dispatch(addToCart(cartData) as any);
+  //       toast.success("Item added to cart successfully!");
+  //     }
+  //   }
+  // };
 
   const incrementCount = () => {
     setCount((prev) => prev + 1);

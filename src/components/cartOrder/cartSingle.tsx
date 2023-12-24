@@ -1,17 +1,18 @@
 import { FC, useState } from "react";
 import { toast } from "react-toastify";
+import { IResponseOrder } from "../../redux/api/order.api";
 
 interface IProps {
   // data: ICartData;
-  data: any;
-  remove: (data: any) => void;
+  data: IResponseOrder;
+  remove: (id: number) => void;
   qunatiy: (data: any) => void;
 }
 
 const CartSingle: FC<IProps> = ({ data, remove, qunatiy }) => {
-  const [value, setValue] = useState<number>(data.qty);
+  const [value, setValue] = useState<number>(1);
 
-  const totalPrice = data.discount_price * value;
+  const totalPrice = data.price * value;
 
   const increment = (data: any) => {
     if (data.stock < value) {
@@ -46,19 +47,15 @@ const CartSingle: FC<IProps> = ({ data, remove, qunatiy }) => {
           -
         </span>
       </div>
-      <img
-        src={data.image_Url[0].url}
-        alt="dd"
-        className=" w-[80px] h-[80px]"
-      />
+      <img src={data.imgOrder} alt="dd" className=" w-[80px] h-[80px]" />
       <div className="flex items-center flex-col">
         <h1>{data.name}</h1>
         <h3 className="font-[400] text-[15px] text-blue-400">
-          ${data.discount_price}* {value}
+          ${data.price}* {value}
         </h3>
         <h3 className="font-[600] text-[#d02222] text-[17px]">${totalPrice}</h3>
       </div>
-      <button onClick={() => remove(data)}>X</button>
+      <button onClick={() => remove(data.id)}>X</button>
     </div>
   );
 };

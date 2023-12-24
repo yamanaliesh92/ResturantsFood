@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./api/api";
-import { createReduce } from "./reducers/cart.reducer";
+import cartReduce from "./reducers/cart.reducer";
 import userReducer from "./reducers/user.reducer";
-import { WishlistReduce } from "./reducers/wishlist.reducer";
+import whishListReduce from "./reducers/wishlist.reducer";
 
 const Store = configureStore({
   reducer: {
-    cart: createReduce,
-    wishlist: WishlistReduce,
+    cart: cartReduce,
+    wishlist: whishListReduce,
     user: userReducer,
     [api.reducerPath]: api.reducer,
   },

@@ -1,22 +1,19 @@
 import { FC, PropsWithChildren } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AllCouponesPage from "../page/allCoupone.page";
+
 import AllEventsPage from "../page/allEvents.page";
 import BestSellingPage from "../page/bestSelling.page";
 import CreateEventPage from "../page/createEventPage";
 import EventPage from "../page/event.page";
-import FaqPage from "../page/faq.page";
+
 import Homepage from "../page/Home.page";
 
-import ProductPage from "../page/order.page";
 import ProductDetailsPage from "../page/productDeatils.page";
 import ProfilePage from "../page/profile.page";
 
-import ShopCreatePage from "../page/shopCreate.page";
 import ShopCreateProductPage from "../page/shopCreateProduct.page";
 import ShopDashboardPage from "../page/shopDashboradPage";
-import ShopHomePage from "../page/shopHome.page";
-import AddressPage from "../page/address.page";
+
 import ChangePasswordPage from "../page/changePassword.page";
 import AuthPage from "../page/auth.page";
 import PublicRouter from "./public.router";
@@ -47,91 +44,126 @@ const router = createBrowserRouter([
   },
   {
     path: "/orders",
-    element: <OrderCategoryPage />,
+    element: (
+      <PrivateRouter>
+        <OrderCategoryPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
     path: "/create-restaurant",
-    element: <CreateRestaurantPage />,
+    element: (
+      <PrivateRouter>
+        <CreateRestaurantPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
     path: "/best-selling",
-    element: <BestSellingPage />,
+    element: (
+      <PrivateRouter>
+        <BestSellingPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
     path: "/events",
-    element: <EventPage />,
+    element: (
+      <PrivateRouter>
+        <EventPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
-    path: "/faq",
-    element: <FaqPage />,
-  },
-  {
     path: "/products/:id",
-    element: <ProductDetailsPage />,
+    element: (
+      <PrivateRouter>
+        <ProductDetailsPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
     path: "/profile",
-    element: <ProfilePage />,
-  },
-
-  {
-    path: "/shop-cart",
-    element: <ShopCreatePage />,
+    element: (
+      <PrivateRouter>
+        <ProfilePage />,
+      </PrivateRouter>
+    ),
   },
 
   {
     path: "/restaurant/:id",
-    element: <RestaurantPage />,
+    element: (
+      <PrivateRouter>
+        <RestaurantPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
     path: "/dashboard",
-    element: <ShopDashboardPage />,
+    element: (
+      <PrivateRouter>
+        <ShopDashboardPage />,
+      </PrivateRouter>
+    ),
   },
   {
     path: "/dashboard/resInfo",
-    element: <RestaurantInfoPage />,
+    element: (
+      <PrivateRouter>
+        <RestaurantInfoPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
     path: "/dashboard-allOrder",
-    element: <MyOrdersPage />,
+    element: (
+      <PrivateRouter>
+        <MyOrdersPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
-    path: "/shop",
-    element: <ShopHomePage />,
-  },
-  {
     path: "/dashboard-createProduct",
-    element: <ShopCreateProductPage />,
+    element: (
+      <PrivateRouter>
+        <ShopCreateProductPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
     path: "/dashboard-createEvent",
-    element: <CreateEventPage />,
+    element: (
+      <PrivateRouter>
+        <CreateEventPage />,
+      </PrivateRouter>
+    ),
   },
   {
     path: "/dashboard-allEvents",
-    element: <AllEventsPage />,
-  },
-  {
-    path: "/dashboard-Coupon",
-    element: <AllCouponesPage />,
+    element: (
+      <PrivateRouter>
+        <AllEventsPage />,
+      </PrivateRouter>
+    ),
   },
 
   {
-    path: "/dashboard-address",
-    element: <AddressPage />,
-  },
-  {
     path: "/dashboard-changePassword",
-    element: <ChangePasswordPage />,
+    element: (
+      <PrivateRouter>
+        <ChangePasswordPage />,
+      </PrivateRouter>
+    ),
   },
 ]);
 

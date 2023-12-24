@@ -1,7 +1,7 @@
 import Header from "../components/header/header";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../layout/footer/footer";
-import { useGetAllOrdersByUserIdQuery } from "../redux/api/order.api";
+
 import { useGetOneRestaurantQuery } from "../redux/api/resturant.api";
 import ProductsData from "../components/productData/productData";
 import { useState } from "react";
@@ -11,8 +11,6 @@ export default function RestaurantPage() {
   const { id } = useParams();
 
   const { data } = useGetOneRestaurantQuery({ id: Number(id) });
-
-  const navigate = useNavigate();
 
   const [order, setOrder] = useState("Order");
 
