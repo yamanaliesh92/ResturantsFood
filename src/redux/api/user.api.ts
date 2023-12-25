@@ -64,6 +64,7 @@ const user = api.injectEndpoints({
         body: body,
         url: "/api/auth/user/update/img",
       }),
+      invalidatesTags: ["User"],
     }),
 
     updateUsernameInfo: builder.mutation<boolean, IPayloadUpdateUsernameUser>({
@@ -72,6 +73,7 @@ const user = api.injectEndpoints({
         body: body,
         url: "/api/auth/update",
       }),
+      invalidatesTags: ["User"],
     }),
 
     loginUser: builder.mutation<IResponseRegister, IPayloadLogin>({
@@ -86,6 +88,10 @@ const user = api.injectEndpoints({
         method: "GET",
         url: "api/auth/user/me",
       }),
+      providesTags: (result) =>
+        result
+          ? [{ type: "User", id: "LIST" }]
+          : [{ id: "LIST", type: "User" }],
     }),
   }),
 });

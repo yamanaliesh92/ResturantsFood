@@ -84,6 +84,16 @@ const product = api.injectEndpoints({
         method: "GEt",
         url: "api/order/all",
       }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ name }) => ({
+                type: "Order" as const,
+                name,
+              })),
+              { type: "Order", id: "LIST" },
+            ]
+          : [{ id: "LIST", type: "Order" }],
     }),
 
     deleteOrder: builder.mutation<boolean, IPayloadDeleteProduct>({
@@ -100,7 +110,7 @@ const product = api.injectEndpoints({
         url: `/api/order/update/${body.id}`,
         body: body.payload,
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: [{ id: "LIST", type: "Order" }],
     }),
 
     updateOrderImg: builder.mutation<boolean, IPayloadUpdateOrderImg>({
@@ -109,7 +119,7 @@ const product = api.injectEndpoints({
         url: `/api/order/update/img/${body.id}`,
         body: body.img,
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: [{ id: "LIST", type: "Order" }],
     }),
 
     getOneOrder: builder.query<IResponseOrder, IPayloadGetOneOrder>({
@@ -131,16 +141,6 @@ const product = api.injectEndpoints({
         method: "GET",
         url: "api/order/userId",
       }),
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ name }) => ({
-                type: "Order" as const,
-                name,
-              })),
-              { type: "Order", id: "LIST" },
-            ]
-          : [{ id: "LIST", type: "Order" }],
     }),
   }),
 });
