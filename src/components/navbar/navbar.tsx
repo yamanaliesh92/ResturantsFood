@@ -30,25 +30,6 @@ const Navbar: FC<IProps> = ({ active }) => {
           </div>
         );
       })}
-      {/* {restaurantId !== 0 ?  (
-        <div className="flex items-center">
-          <Link
-            className="font-[500] sm:text-[13px] md:text-[16px] text-[#fff] ml-1 cursor-pointer sm:px-1 md:px-3"
-            to={"/dashboard-createProduct"}
-          >
-            create order
-          </Link>
-          <Link
-            className="font-[500] sm:text-[13px] md:text-[16px] text-[#fff] ml-1 cursor-pointer sm:px-1 md:px-3"
-            to={"/dashboard"}
-          >
-            to dashboard
-          </Link>
-        </div>
-        : <>
-        dd
-        </>
-      )} */}
 
       {restaurantId === 0 ? (
         <Link

@@ -32,7 +32,7 @@ interface IProps {
   data: IResponseOrder;
 }
 
-const ProductsData: FC<IProps> = ({ data }) => {
+const OrderData: FC<IProps> = ({ data }) => {
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState({ id: 0, open: false });
@@ -203,4 +203,4 @@ const ProductsData: FC<IProps> = ({ data }) => {
   );
 };
 
-export default ProductsData;
+export default OrderData;

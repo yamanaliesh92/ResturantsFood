@@ -7,6 +7,7 @@ import {
   useReducer,
 } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IResponseUser, useGetMeQuery } from "../redux/api/user.api";
 import { login, logout } from "../redux/reducers/user.reducer";
 
@@ -47,7 +48,6 @@ export const ProviderContext: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (data) {
-      console.log("data", data);
       dispatchRedux(login({ email: data.email }));
     }
     if (error) {

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { IResponseOrder } from "../../redux/api/order.api";
 
-import ProductsData from "../productData/productData";
+import ProductsData from "../orderData/orderData";
 
 interface IProps {
   data: IResponseOrder[] | undefined;
@@ -21,7 +21,9 @@ const SuggestOrder: FC<IProps> = ({ data }) => {
             })}
           </div>
         </div>
-      ) : null}
+      ) : (
+        <h1>there no any SuggestOrder for this order</h1>
+      )}
     </div>
   );
 };

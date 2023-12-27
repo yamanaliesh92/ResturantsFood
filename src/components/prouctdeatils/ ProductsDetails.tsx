@@ -68,7 +68,7 @@ const ProductsDetails: FC<IProps> = ({ data }) => {
             {data?.price}
           </h2>
         </div>
-        <p className="text-[16px] p-4 my-4 h-[120px] overflow-auto bg-green-400 text-red-400">
+        <p className="text-[16px] p-4 my-4 h-[120px] overflow-auto  text-red-400">
           {data?.description}
         </p>
         <div className="flex items-center mt-12  pr-3">
@@ -94,10 +94,6 @@ const ProductsDetails: FC<IProps> = ({ data }) => {
             // onClick={() => addToCartHandler(data?.id)}
           >
             Add to Cart
-          </button>
-
-          <button className="w-[150px]  bg-[#6443d1] ml-6 text-white h-[50px]  rounded-xl cursor-pointer">
-            send message
           </button>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/header/header";
-import ProductsData from "../components/productData/productData";
+import ProductsData from "../components/orderData/orderData";
 
 import { IProductData, productData } from "../sataic/product.data";
 

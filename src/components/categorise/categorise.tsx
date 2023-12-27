@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useAllOrdersQuery } from "../../redux/api/order.api";
 import { brandingData } from "../../sataic/branding.data";
-import juicie from "../../img/juicie.jpeg";
-import lanch from "../../img/lanchh.jpeg";
+import juice from "../../img/juicie.jpeg";
+import lance from "../../img/lanchh.jpeg";
+import breakFast from "../../img/break.jpeg";
+import dessert from "../../img/dessert.jpeg";
 const Categorise = () => {
   const navigate = useNavigate();
 
@@ -51,7 +53,23 @@ const Categorise = () => {
 
                 {items === "lanch" && (
                   <img
-                    src={lanch}
+                    src={lance}
+                    className="w-[120px] object-cover"
+                    alt="ds"
+                  />
+                )}
+
+                {items === "breakfast" && (
+                  <img
+                    src={breakFast}
+                    className="w-[120px] object-cover"
+                    alt="ds"
+                  />
+                )}
+
+                {items === "dessert" && (
+                  <img
+                    src={dessert}
                     className="w-[120px] object-cover"
                     alt="ds"
                   />
@@ -59,16 +77,11 @@ const Categorise = () => {
 
                 {items === "juice" && (
                   <img
-                    src={juicie}
+                    src={juice}
                     className="w-[100px] my-2 object-cover"
                     alt="ds"
                   />
                 )}
-                {/* <img
-                  src={items.image_Url}
-                  className="w-[120px] object-cover"
-                  alt="d"
-                /> */}
               </div>
             );
           })}

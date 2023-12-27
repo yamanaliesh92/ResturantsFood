@@ -12,25 +12,6 @@ import {
 const Footer = () => {
   return (
     <div className="d bg-[#000] text-white mt-4">
-      <div className="md:flex items-center justify-between sm:px-5  py-4 bg-[#342ac8]">
-        <h1 className="d lg:text-4xl mb-5">
-          <span className="text-[#56b879]">Subscribe </span>
-          us for get news <br /> event and offers
-        </h1>
-        <div className="flex items-center">
-          <input
-            required
-            placeholder="enter your email..."
-            className="h-[40px] my-2 text-gray-800 outline-none border-none w-full border-[#3957db]
-          border-[2px] rounded-md"
-          />
-
-          <button className="bg-[#000] ml-2 text-white rounded-md hover:bg-white hover:text-[#000] duration-300 px-4 py-2 md:w-auto ">
-            login
-          </button>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 sm:px-7 px-5 py-18 gap-3">
         <ul className="px-5  flex flex-col items-start sm:text-start">
           <img
@@ -58,7 +39,7 @@ const Footer = () => {
           {footerProductLinks.map((item) => {
             return (
               <h1 className="text-[14px] cursor-pointer items-center text-yellow-100 hover:text-[#34b789]">
-                {item.name}{" "}
+                {item.name}
               </h1>
             );
           })}

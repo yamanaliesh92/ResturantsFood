@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Footer from "../layout/footer/footer";
 
 import { useGetOneRestaurantQuery } from "../redux/api/resturant.api";
-import ProductsData from "../components/productData/productData";
+import ProductsData from "../components/orderData/orderData";
 import { useState } from "react";
 import EventCard from "../components/EventCard/EventCard";
 
