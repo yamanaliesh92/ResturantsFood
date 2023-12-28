@@ -1,45 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface IInit {
+export interface Init {
   email: string;
   authorization: boolean;
   isLoading: boolean;
 }
 
-const initState: IInit = {
+const initState: Init = {
   email: "",
   authorization: false,
   isLoading: false,
 };
 
-export enum Action {
-  LOGIN = "LOGIN",
-  LOGOUT = "LOGOUT",
-}
-export interface IPaylodLogin {
+export interface IPayloadLogin {
   email: string;
 }
 
+export interface IPayloadLoading {
+  isLoading: boolean;
+}
+
 interface ILogin {
-  //   type: "LOGIN";
-  payload: IPaylodLogin;
+  payload: IPayloadLogin;
 }
 
 const userSlice = createSlice({
   name: "user",
   initialState: initState,
   reducers: {
-    login: (state: IInit, action: ILogin) => {
-      const d = state.authorization;
-      const ddd = state.email;
-      console.log("inddddddddditekkkkk", { state, action, ddd, d });
+    login: (state: Init, action: ILogin) => {
       return {
         ...state,
         email: action.payload.email,
         authorization: true,
       };
     },
-    logout: (state: IInit) => {
+    logout: (state: Init) => {
       return {
         ...state,
         authorization: false,

@@ -4,15 +4,13 @@ import {
   PropsWithChildren,
   useEffect,
   useMemo,
-  useReducer,
 } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+
 import { IResponseUser, useGetMeQuery } from "../redux/api/user.api";
 import { login, logout } from "../redux/reducers/user.reducer";
 
 interface IUser {
-  isLoading?: boolean;
   data: IResponseUser;
 }
 
@@ -25,21 +23,9 @@ const initUser: IResponseUser = {
 };
 
 const init: IUser = {
-  isLoading: false,
   data: initUser,
 };
 
-export enum ActionUser {
-  "SET_LOADING" = "SET_LOADING",
-}
-
-const reduce = (prev: IUser, action: any) => {
-  switch (action.type) {
-    case ActionUser.SET_LOADING: {
-      return { ...prev, isLoading: action.loading };
-    }
-  }
-};
 export const contextUser = createContext(init);
 
 export const ProviderContext: FC<PropsWithChildren> = ({ children }) => {

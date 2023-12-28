@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { IResponseOrder } from "../../redux/api/order.api";
 
 import ProductsData from "../orderData/orderData";
