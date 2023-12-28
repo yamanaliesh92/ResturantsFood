@@ -5,15 +5,12 @@ import {
   AiFillStar,
   AiOutlineStar,
   AiOutlineHeart,
-  AiOutlineEye,
   AiOutlineShoppingCart,
   AiFillDelete,
 } from "react-icons/ai";
-import ProductDetailsCart from "../productDetailsCart/productDetailsCart";
+
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import { toast } from "react-toastify";
 
 import { AiFillEdit } from "react-icons/ai";
 import UpdateProductModal from "../update-order/update-order";
@@ -32,9 +29,10 @@ interface IProps {
   data: IResponseOrder;
 }
 
-const ProductsData: FC<IProps> = ({ data }) => {
+const OrderData: FC<IProps> = ({ data }) => {
   const [click, setClick] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [rtk] = useState(1);
+
   const [edit, setEdit] = useState({ id: 0, open: false });
   const [mutate] = useDeleteOrderMutation();
   const wishlist = useSelector((state: any) => state.wishlist.whishItem);
@@ -68,26 +66,8 @@ const ProductsData: FC<IProps> = ({ data }) => {
     }
   }, [data.id, wishlist]);
 
-  const changeSetOpen = () => {
-    setOpen((prev) => !prev);
-  };
-
-  const { cart } = useSelector((state: any) => state.cart);
-
-  const addToCartHandler = (id: number) => {
-    const isItemExists = cart && cart.find((i: IResponseOrder) => i.id === id);
-    if (isItemExists) {
-      console.log("already exist");
-      toast.error("Item already in cart!");
-    } else {
-      if (data.id < 1) {
-        toast.error("Product stock limited!");
-      } else {
-        const cartData = { ...data, qty: 1 };
-        dispatch(addToCart(cartData));
-        toast.success("Item added to cart successfully!");
-      }
-    }
+  const addCart = (data: IResponseOrder) => {
+    dispatch(addToCart({ ...data, cartQuantity: rtk }));
   };
 
   return (
@@ -165,29 +145,13 @@ const ProductsData: FC<IProps> = ({ data }) => {
             />
           )}
 
-          <AiOutlineEye
-            className="absolute right-1 top-10 cursor-pointer"
-            size={22}
-            color={"#333"}
-            onClick={changeSetOpen}
-            title="Quick View"
-          />
-
           <AiOutlineShoppingCart
             className="absolute right-1 top-16 cursor-pointer"
             size={22}
             color={"#444"}
-            onClick={() => addToCartHandler(data.id)}
+            onClick={() => addCart(data)}
             title="Add to Cart"
           />
-
-          {open ? (
-            <ProductDetailsCart
-              open={open}
-              setOpen={setOpen}
-              dataProduct={data}
-            />
-          ) : null}
 
           {edit.open && edit.id === data.id ? (
             <UpdateProductModal
@@ -203,4 +167,4 @@ const ProductsData: FC<IProps> = ({ data }) => {
   );
 };
 
-export default ProductsData;
+export default OrderData;

@@ -56,7 +56,7 @@ const Event = api.injectEndpoints({
         url: "/api/event",
         body: body,
       }),
-      invalidatesTags: ["Event"],
+      invalidatesTags: [{ id: "LIST", type: "Event" }],
     }),
 
     AllEvent: builder.query<IResponseEvent[], any>({
@@ -89,7 +89,7 @@ const Event = api.injectEndpoints({
         body: body.payload,
         url: `api/events/update/${body.id}`,
       }),
-      invalidatesTags: ["Event"],
+      invalidatesTags: [{ id: "LIST", type: "Event" }],
     }),
 
     updateEventImg: builder.mutation<boolean, IPayloadUpdateImgEvent>({
@@ -98,7 +98,7 @@ const Event = api.injectEndpoints({
         url: `/api/events/update/img/${body.id}`,
         body: body.img,
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: [{ id: "LIST", type: "Event" }],
     }),
 
     deleteEvent: builder.mutation<boolean, IPayloadDeleteEvent>({
@@ -106,7 +106,7 @@ const Event = api.injectEndpoints({
         method: "DELETE",
         url: `api/events/${body.id}`,
       }),
-      invalidatesTags: ["Event"],
+      invalidatesTags: [{ id: "LIST", type: "Event" }],
     }),
   }),
 });

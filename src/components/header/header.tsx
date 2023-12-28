@@ -16,6 +16,7 @@ import {
   IResponseRestaurant,
   useAllRestaurantQuery,
 } from "../../redux/api/resturant.api";
+import { IResponseOrder, useAllOrdersQuery } from "../../redux/api/order.api";
 
 interface IProps {
   activeHeading: number;
@@ -32,7 +33,8 @@ const initSearch: ISearch = {
 const Header: FC<IProps> = ({ activeHeading }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [searchValue, setSearchValue] = useState<ISearch>(initSearch);
-  const [data, setData] = useState<IProductData[]>([]);
+  const [data, setData] = useState<IResponseOrder[]>([]);
+  const { data: dataAllPsot, isLoading } = useAllOrdersQuery({});
 
   const [dataSearchRestaurant, setDataSearchRestaurant] = useState<
     IResponseRestaurant[]
@@ -70,9 +72,12 @@ const Header: FC<IProps> = ({ activeHeading }) => {
 
   const search = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue({ text: e.target.value });
-    const searchText = productData.filter((pr) =>
-      pr.name.toLowerCase().includes(searchValue.text)
-    );
+    const searchText =
+      dataAllPsot &&
+      dataAllPsot.filter((pr) =>
+        pr.name.toLowerCase().includes(searchValue.text)
+      );
+    if (!searchText) return;
     setData(searchText);
   };
 
@@ -103,7 +108,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
                     <Link to={`/products/${item.id}`}>
                       <div className="w-full flex items-center  py-3">
                         <img
-                          src={item.image_Url[0].url}
+                          src={item.imgOrder}
                           alt="dd"
                           className="mr-2 rounded-full h-[45px] w-[45px]"
                         />

@@ -18,7 +18,7 @@ root.render(
     <Provider store={Store}>
       <ProviderContext>
         <IndexRouter>
-          <ToastContainer />
+          <ToastContainer position={"top-center"} />
           <App />
         </IndexRouter>
       </ProviderContext>

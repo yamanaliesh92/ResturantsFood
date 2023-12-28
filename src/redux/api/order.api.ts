@@ -76,7 +76,7 @@ const product = api.injectEndpoints({
         url: "api/order/create",
         body: body,
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: [{ id: "LIST", type: "Order" }],
     }),
 
     allOrders: builder.query<IResponseOrder[], any>({
@@ -101,7 +101,7 @@ const product = api.injectEndpoints({
         url: `/api/order/${body.id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: [{ id: "LIST", type: "Order" }],
     }),
 
     updateOrder: builder.mutation<boolean, IPayloadUpdateOrder>({

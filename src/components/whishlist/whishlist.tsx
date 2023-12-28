@@ -22,7 +22,7 @@ const WhishList: FC<IProps> = ({ openWhishList }) => {
     dispatch(removeFromWishlist({ id: id }));
   };
   return (
-    <div className="fixed top-0 right-0  bg-white w-[20%] z-10 min-h-screen">
+    <div className="fixed top-0 right-0  bg-white w-[20%] sm:w-[35%] z-10 min-h-screen">
       <div className="flex flex-col ">
         <div className="flex justify-end p-4">
           <RxCross1 size={25} onClick={() => openWhishList(false)} />

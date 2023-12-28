@@ -1,5 +1,5 @@
 import { useGetAllOrdersByUserIdQuery } from "../../redux/api/order.api";
-import ProductsData from "../productData/productData";
+import ProductsData from "../orderData/orderData";
 
 export default function MyOrders() {
   const { data, isLoading } = useGetAllOrdersByUserIdQuery({});

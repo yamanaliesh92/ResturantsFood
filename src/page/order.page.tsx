@@ -1,7 +1,7 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/header/header";
-import ProductsData from "../components/productData/productData";
+import ProductsData from "../components/orderData/orderData";
 import { useGetOrderByCategoryQuery } from "../redux/api/order.api";
 
 const OrderCategoryPage = () => {

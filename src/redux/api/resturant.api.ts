@@ -1,7 +1,6 @@
 import { api } from "./api";
 import { IResponseEvent } from "./event.api";
 import { IResponseOrder } from "./order.api";
-import { IPayloadUpdateUsernameUser } from "./user.api";
 
 export interface ICreateRestaurant {
   name: string;
@@ -44,7 +43,7 @@ const Restaurant = api.injectEndpoints({
         url: "/api/restaurant/create",
         body: body,
       }),
-      invalidatesTags: ["Restaurant"],
+      invalidatesTags: [{ id: "LIST", type: "Restaurant" }],
     }),
     AllRestaurant: builder.query<IResponseRestaurant[], any>({
       query: (body) => ({
@@ -60,7 +59,7 @@ const Restaurant = api.injectEndpoints({
         url: `/api/restaurant/update/${body.id}`,
       }),
 
-      invalidatesTags: ["Restaurant"],
+      invalidatesTags: [{ id: "LIST", type: "Restaurant" }],
     }),
 
     getOneRestaurant: builder.query<

@@ -8,7 +8,7 @@ const AllEventsPage = () => {
         <DashboardSideBar active={5} />
       </div>
       <div className="w-full">
-        <AllEvents />
+        <AllEvents owner={true} />
       </div>
     </div>
   );

@@ -24,6 +24,7 @@ import MyOrdersPage from "../page/my-orders.page";
 import OrderCategoryPage from "../page/order.page";
 import RestaurantPage from "../page/restaurant.page";
 import RestaurantInfoPage from "../page/restuarantInfo.page";
+import OwnerRouter from "./owner.router";
 
 const router = createBrowserRouter([
   {
@@ -116,9 +117,9 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/resInfo",
     element: (
-      <PrivateRouter>
+      <OwnerRouter>
         <RestaurantInfoPage />,
-      </PrivateRouter>
+      </OwnerRouter>
     ),
   },
 

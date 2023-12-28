@@ -1,7 +1,6 @@
-import React from "react";
 import { useAllOrdersQuery } from "../../redux/api/order.api";
-import { productData } from "../../sataic/product.data";
-import ProductsData from "../productData/productData";
+
+import ProductsData from "../orderData/orderData";
 
 const BestDeals = () => {
   const { data, isLoading } = useAllOrdersQuery({});
