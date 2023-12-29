@@ -7,10 +7,7 @@ export const navItems: INavItems[] = [
     title: "Home",
     url: "/",
   },
-  {
-    title: "Best Selling",
-    url: "/best-selling",
-  },
+
   {
     title: "Products",
     url: "/products",
@@ -18,9 +15,5 @@ export const navItems: INavItems[] = [
   {
     title: "Events",
     url: "/events",
-  },
-  {
-    title: "FAQ",
-    url: "/faq",
   },
 ];

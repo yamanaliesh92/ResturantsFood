@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { IResponseOrder } from "../../redux/api/order.api";
-
-import ProductsData from "../orderData/orderData";
+import OrderData from "../orderData/orderData";
 
 interface IProps {
   data: IResponseOrder[] | undefined;
@@ -17,7 +16,7 @@ const SuggestOrder: FC<IProps> = ({ data }) => {
           </h2>
           <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2 grid-[22px] lg:grid-cols-4 grid-[26px] xl:grid-cols-5 xl:grid-[30px]">
             {data.map((item) => {
-              return <ProductsData data={item} />;
+              return <OrderData data={item} />;
             })}
           </div>
         </div>

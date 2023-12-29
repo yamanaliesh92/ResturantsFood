@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/header/header";
 
-import ProductsDetails from "../components/prouctdeatils/ ProductsDetails";
+import ProductsDetails from "../components/orderDetails/orderDetails";
 import SuggestProduct from "../components/suggestOrder/suggestOrder";
 import Footer from "../layout/footer/footer";
 import {

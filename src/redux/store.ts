@@ -1,8 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./api/api";
-import cartReduce from "./reducers/cart.reducer";
-import userReducer from "./reducers/user.reducer";
-import whishListReduce from "./reducers/wishlist.reducer";
+import cartReduce, { ICart } from "./reducers/cart.reducer";
+import userReducer, { Init } from "./reducers/user.reducer";
+import whishListReduce, { IWishList } from "./reducers/wishlist.reducer";
+
+export interface IStateRedux {
+  user: Init;
+  cart: ICart;
+  wishlist: IWishList;
+}
 
 const Store = configureStore({
   reducer: {

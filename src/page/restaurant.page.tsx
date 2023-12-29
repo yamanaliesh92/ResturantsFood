@@ -3,9 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import Footer from "../layout/footer/footer";
 
 import { useGetOneRestaurantQuery } from "../redux/api/resturant.api";
-import ProductsData from "../components/orderData/orderData";
+
 import { useState } from "react";
 import EventCard from "../components/EventCard/EventCard";
+import OrderData from "../components/orderData/orderData";
 
 export default function RestaurantPage() {
   const { id } = useParams();
@@ -69,7 +70,7 @@ export default function RestaurantPage() {
       )}
       {order === "Order" && (
         <div className="grid mt-6 grid-cols-1 gap-[18px] md:grid-cols-2 grid-[22px] lg:grid-cols-4 grid-[26px] xl:grid-cols-5 xl:grid-[30px]">
-          {data && data.orders.map((item) => <ProductsData data={item} />)}
+          {data && data.orders.map((item) => <OrderData data={item} />)}
         </div>
       )}
       {order === "Event" && (

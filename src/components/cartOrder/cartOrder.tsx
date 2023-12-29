@@ -9,6 +9,7 @@ import {
   ICartItemFromLocalStorage,
   removeFromCart,
 } from "../../redux/reducers/cart.reducer";
+import { IStateRedux } from "../../redux/store";
 
 import CartSingle from "./cartSingle";
 
@@ -18,10 +19,10 @@ interface IProps {
 
 const CartOrder: FC<IProps> = ({ setOpenCart }) => {
   const cart: ICartItemFromLocalStorage[] = useSelector(
-    (state: any) => state.cart.cartItem
+    (state: IStateRedux) => state.cart.cartItem
   );
   const cartTotalAmount = useSelector(
-    (state: any) => state.cart.cartTotalAmount
+    (state: IStateRedux) => state.cart.cartTotalAmount
   );
 
   const dispatch = useDispatch();

@@ -71,11 +71,11 @@ const CreateOrder = () => {
   }
 
   return (
-    <div className="w-[200px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center justify-center  h-[550px] rounded-[4px] bg-white p-2">
+    <div className="w-[200px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex  items-center  h-[550px] rounded-[4px] bg-white p-2">
       <h1 className="sm:text-[20px] font-bold text-center">Create a order</h1>
       <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
         <div className="flex flex-col mt-2">
-          <label htmlFor="name">name of order</label>
+          <label className="text-[14px]">name of order:</label>
           <input
             data-testid={"nameTest"}
             value={element.name}
@@ -97,9 +97,8 @@ const CreateOrder = () => {
         </div>
 
         <div className="flex flex-col mt-2">
-          <label htmlFor="name">category</label>
+          <label className="text-[14px]">category:</label>
           <input
-            data-testid={"nameTest"}
             value={element.category}
             onChange={(e) => onChange(e, false, "category")}
             type={"text"}
@@ -108,7 +107,7 @@ const CreateOrder = () => {
         </div>
 
         <div className="flex flex-col mt-3">
-          <label htmlFor="price">description</label>
+          <label className="text-[14px]">description:</label>
           <textarea
             value={element.description}
             onChange={(e) =>
@@ -120,13 +119,12 @@ const CreateOrder = () => {
         </div>
 
         <div className="hidden flex-col mt-2 ">
-          <label htmlFor="Img">img of order</label>
+          <label className="text-[14px]">img of order</label>
           <input
             onChange={onChangeImg}
             ref={inputImgRef}
             type={"file"}
             data-testid={"imgTest"}
-            className="w-full mt-2  h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
           />
         </div>
 

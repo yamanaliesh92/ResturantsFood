@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 export interface Init {
   email: string;
   authorization: boolean;
@@ -9,7 +8,7 @@ export interface Init {
 const initState: Init = {
   email: "",
   authorization: false,
-  isLoading: false,
+  isLoading: true,
 };
 
 export interface IPayloadLogin {
@@ -33,12 +32,15 @@ const userSlice = createSlice({
         ...state,
         email: action.payload.email,
         authorization: true,
+        isLoading: false,
       };
     },
     logout: (state: Init) => {
       return {
         ...state,
         authorization: false,
+        isLoading: false,
+
         email: "",
       };
     },

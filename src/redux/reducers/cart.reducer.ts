@@ -12,7 +12,7 @@ export interface ICartItemFromLocalStorage {
   cartQuantity: number;
 }
 
-interface ICart {
+export interface ICart {
   cartItem: ICartItemFromLocalStorage[];
 
   cartTotalAmount: number;

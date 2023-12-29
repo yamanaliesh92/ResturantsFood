@@ -1,7 +1,8 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/header/header";
-import ProductsData from "../components/orderData/orderData";
+import OrderData from "../components/orderData/orderData";
+
 import { useGetOrderByCategoryQuery } from "../redux/api/order.api";
 
 const OrderCategoryPage = () => {
@@ -17,7 +18,7 @@ const OrderCategoryPage = () => {
         <div className="grid mt-6 grid-cols-1 gap-[18px] md:grid-cols-2 grid-[22px] lg:grid-cols-4 grid-[26px] xl:grid-cols-5 xl:grid-[30px]">
           {data &&
             data.map((item) => {
-              return <ProductsData data={item} />;
+              return <OrderData data={item} />;
             })}
           {data && data.length === 0 ? (
             <h1> no product in {category} </h1>

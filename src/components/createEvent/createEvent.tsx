@@ -15,7 +15,7 @@ interface ICreateEvent {
   oldPrice: number;
   description: string;
   category: string;
-  // date: Date;
+
   imgOrder: string;
 }
 const init: ICreateEvent = {
@@ -86,95 +86,85 @@ const CreateEvent = () => {
     });
   };
   return (
-    <div className="w-[200px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center justify-center  h-[750px] rounded-[4px] bg-white p-2">
+    <div className="w-[220px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center   h-[750px] rounded-[4px] bg-white p-2">
       <h1 className="sm:text-[20px] font-bold text-center">Create a Event</h1>
       <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
-        <div className="flex flex-col mt-2">
-          <label htmlFor="name">name of order</label>
+        <div className="flex flex-col my-2">
+          <label className="text-[14px]">name of order:</label>
           <input
             data-testid={"nameTest"}
             value={element.name}
             onChange={(e) => onChange(e, false, "name")}
             type={"text"}
-            className="w-[75%] mt-2  h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
+            className="w-[75%]   h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
           />
         </div>
 
-        <div className="g grid grid-cols-2 gap-2">
-          <div className="f flex flex-col">
-            <label htmlFor="name">old price for this order</label>
+        <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col">
+            <label className="sm:text-[14px]">old price</label>
             <input
               data-testid={"nameTest"}
               value={element.oldPrice}
               onChange={(e) => onChange(e, true, "oldPrice")}
               type={"number"}
-              className="w-[45%]  mt-2  h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
+              className="w-full    h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
             />
           </div>
-          <div className="f flex flex-col">
-            <label htmlFor="name">new price </label>
+          <div className="flex flex-col">
+            <label className="text-[14px]">new price: </label>
             <input
               data-testid={"nameTest"}
               value={element.newPrice}
               onChange={(e) => onChange(e, true, "newPrice")}
               type={"number"}
-              className="w-[45%]  mt-2  h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
+              className="w-full   h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
             />
           </div>
         </div>
 
-        {/* <div className="flex flex-col mt-2">
-          <label htmlFor="name">price of order</label>
-          <input
-            data-testid={"nameTest"}
-            value={element.oldPrice}
-            onChange={(e) => onChange(e, true, "oldPrice")}
-            type={"number"}
-            className="w-[75%]  mt-2  h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
-          />
-        </div> */}
-
         <div className="flex flex-col mt-2">
-          <label htmlFor="name">category</label>
+          <label className="text-[14px]">category:</label>
           <input
             data-testid={"nameTest"}
             value={element.category}
             onChange={(e) => onChange(e, false, "category")}
             type={"text"}
-            className="w-[75%]  mt-2  h-[35px] p-4 outline-0  border border-gray-300   rounded-[3px] placeholder-gray-400 "
+            className="w-[75%]    h-[35px] p-4 outline-0  border border-gray-300   rounded-[3px] placeholder-gray-400 "
           />
         </div>
 
         <div className="flex  flex-col w-[75%] mt-2">
-          <label htmlFor="name">End of Event time</label>
+          <label className="text-[14px] mb-2">End of Event time</label>
+
           <DateTimePicker
             data-cy="dateInput"
             onChange={setDate as any}
             value={date}
             required
+            className="text-[12px]  sm:text-[17px] overflow-x-auto sm:overflow-visible"
           />
         </div>
 
         <div className="flex flex-col mt-3">
-          <label htmlFor="price">description</label>
+          <label className="text-[14px]">description:</label>
           <textarea
             value={element.description}
             onChange={(e) =>
               setElement({ ...element, description: e.target.value })
             }
             rows={3}
-            className="w-[90%] mt-2  h-[55px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400  focus:border-blue-500 "
+            className="w-[90%]   h-[55px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400  focus:border-blue-500 "
           />
         </div>
 
         <div className="hidden flex-col mt-2 ">
-          <label htmlFor="Img">img of order</label>
+          <label className="text-[14px]">img of order:</label>
           <input
             onChange={onChangeImg}
             ref={inputImgRef}
             type={"file"}
             data-testid={"imgTest"}
-            className="w-full mt-2  h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
           />
         </div>
 

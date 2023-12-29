@@ -1,5 +1,9 @@
 import { FC, PropsWithChildren } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 
 import AllEventsPage from "../page/allEvents.page";
 import BestSellingPage from "../page/bestSelling.page";
@@ -11,8 +15,7 @@ import Homepage from "../page/Home.page";
 import ProductDetailsPage from "../page/productDeatils.page";
 import ProfilePage from "../page/profile.page";
 
-import ShopCreateProductPage from "../page/shopCreateProduct.page";
-import ShopDashboardPage from "../page/shopDashboradPage";
+import ShopDashboardPage from "../page/DashboradPage";
 
 import ChangePasswordPage from "../page/changePassword.page";
 import AuthPage from "../page/auth.page";
@@ -25,6 +28,8 @@ import OrderCategoryPage from "../page/order.page";
 import RestaurantPage from "../page/restaurant.page";
 import RestaurantInfoPage from "../page/restuarantInfo.page";
 import OwnerRouter from "./owner.router";
+import CreateOrderPage from "../page/CreateOrder.page";
+import OrdersPage from "../page/bestSelling.page";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +53,15 @@ const router = createBrowserRouter([
     element: (
       <PrivateRouter>
         <OrderCategoryPage />,
+      </PrivateRouter>
+    ),
+  },
+
+  {
+    path: "/products",
+    element: (
+      <PrivateRouter>
+        <OrdersPage />,
       </PrivateRouter>
     ),
   },
@@ -109,9 +123,9 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <PrivateRouter>
+      <OwnerRouter>
         <ShopDashboardPage />,
-      </PrivateRouter>
+      </OwnerRouter>
     ),
   },
   {
@@ -126,35 +140,35 @@ const router = createBrowserRouter([
   {
     path: "/dashboard-allOrder",
     element: (
-      <PrivateRouter>
+      <OwnerRouter>
         <MyOrdersPage />,
-      </PrivateRouter>
+      </OwnerRouter>
     ),
   },
 
   {
     path: "/dashboard-createProduct",
     element: (
-      <PrivateRouter>
-        <ShopCreateProductPage />,
-      </PrivateRouter>
+      <OwnerRouter>
+        <CreateOrderPage />,
+      </OwnerRouter>
     ),
   },
 
   {
     path: "/dashboard-createEvent",
     element: (
-      <PrivateRouter>
+      <OwnerRouter>
         <CreateEventPage />,
-      </PrivateRouter>
+      </OwnerRouter>
     ),
   },
   {
     path: "/dashboard-allEvents",
     element: (
-      <PrivateRouter>
+      <OwnerRouter>
         <AllEventsPage />,
-      </PrivateRouter>
+      </OwnerRouter>
     ),
   },
 
@@ -165,6 +179,11 @@ const router = createBrowserRouter([
         <ChangePasswordPage />,
       </PrivateRouter>
     ),
+  },
+
+  {
+    path: "/*",
+    element: <Navigate to={"/"} />,
   },
 ]);
 

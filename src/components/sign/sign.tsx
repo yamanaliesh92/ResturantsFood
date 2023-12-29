@@ -67,8 +67,8 @@ const Sign: FC<IProps> = ({ setOpen }) => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("dddddd");
-    if (!img) return;
+
+    if (!img) return alert("please click in icon Gallery  img is required");
     const formDate = new FormData();
     formDate.append("img", img);
     formDate.append("email", value.email);
@@ -84,20 +84,25 @@ const Sign: FC<IProps> = ({ setOpen }) => {
 
   return (
     <div className="mt-10 w-[230px] sm:w-[400px] md:w-[500px]  mx-[20px]  sm:mx-auto   ">
-      <h2 className="mt-6 text-center text-3xl text-gray-900 font-extrabold">
+      <h2 className="mt-3 text-center text-3xl text-gray-900 font-extrabold">
         create a new account
       </h2>
 
       <div className="bg-white py-8 px-4 s sm:rounded-lg sm:px-10">
         <form className="spec-y-6" onSubmit={onSubmit}>
           {isLoading && <h1>Loading ....</h1>}
-          <div>
+          {error && (
+            <h1 className="text-center text-[14px] text-red-400 my-2">
+              {JSON.stringify(error)}
+            </h1>
+          )}
+
+          <div className="my-2">
             <label
-              htmlFor="email"
               data-testid="labelEmail"
               className="block text-sm text-gray-700 font-medium"
             >
-              Email addres
+              Email address
             </label>
             <div className="mt-1">
               <input
@@ -149,9 +154,8 @@ const Sign: FC<IProps> = ({ setOpen }) => {
             </div>
           </div>
 
-          <div>
+          <div className="my-2">
             <label
-              htmlFor="username"
               data-testid={"usernameLabel"}
               className="block text-sm text-gray-700 font-medium"
             >
@@ -172,7 +176,7 @@ const Sign: FC<IProps> = ({ setOpen }) => {
 
           <div className="hidden">
             <input
-              required
+              // required
               data-testid={"imgTest"}
               ref={inputRef}
               name="img"
@@ -199,12 +203,15 @@ const Sign: FC<IProps> = ({ setOpen }) => {
             </button>
           </div>
         </form>
-      </div>
-      <div className=" block  sm:flex items-center mt-4">
-        <h4>Do you have an account </h4>
-        <h1 onClick={changeOpen} className="text-blue-600 cursor-pointer pl-2">
-          Sign In
-        </h1>
+        <div className=" block  sm:flex items-center mt-4">
+          <h4>Do you have an account </h4>
+          <h1
+            onClick={changeOpen}
+            className="text-blue-600 cursor-pointer pl-2"
+          >
+            Sign In
+          </h1>
+        </div>
       </div>
     </div>
   );

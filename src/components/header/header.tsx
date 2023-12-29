@@ -2,11 +2,10 @@ import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 
 import { CgProfile } from "react-icons/cg";
 
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 
 import Navbar from "../navbar/navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { IProductData, productData } from "../../sataic/product.data";
 
 import CartProduct from "../cartOrder/cartOrder";
 import WhishList from "../whishlist/whishlist";
@@ -17,6 +16,7 @@ import {
   useAllRestaurantQuery,
 } from "../../redux/api/resturant.api";
 import { IResponseOrder, useAllOrdersQuery } from "../../redux/api/order.api";
+import { IStateRedux } from "../../redux/store";
 
 interface IProps {
   activeHeading: number;
@@ -54,8 +54,10 @@ const Header: FC<IProps> = ({ activeHeading }) => {
     setDataSearchRestaurant(filleter as IResponseRestaurant[]);
   };
 
-  const wishlist = useSelector((state: any) => state.wishlist.whishItem);
-  const cart = useSelector((state: any) => state.cart.cartItem);
+  const wishlist = useSelector(
+    (state: IStateRedux) => state.wishlist.whishItem
+  );
+  const cart = useSelector((state: IStateRedux) => state.cart.cartItem);
 
   const navigate = useNavigate();
 

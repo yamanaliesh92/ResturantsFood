@@ -2,18 +2,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { IResponseOrder } from "../api/order.api";
 
-interface IWishList {
+export interface IWishList {
   whishItem: IResponseOrder[];
 }
 
-const cartFromLocalStorage: IResponseOrder[] = window.localStorage.getItem(
+const wishFromLocalStorage: IResponseOrder[] = window.localStorage.getItem(
   "wishlistItems"
 )
   ? JSON.parse(window.localStorage.getItem("wishlistItems")!)
   : [];
 
 const init: IWishList = {
-  whishItem: cartFromLocalStorage,
+  whishItem: wishFromLocalStorage,
 };
 
 const whishListReduce = createSlice({

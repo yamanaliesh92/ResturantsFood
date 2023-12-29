@@ -1,18 +1,14 @@
 import { FC, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 import { IResponseOrder } from "../../redux/api/order.api";
 import { addToCart } from "../../redux/reducers/cart.reducer";
-import { addToWishlist } from "../../redux/reducers/wishlist.reducer";
-import { IProductData } from "../../sataic/product.data";
 
 interface IProps {
   data: IResponseOrder | undefined;
 }
 
-const ProductsDetails: FC<IProps> = ({ data }) => {
+const OrderDetails: FC<IProps> = ({ data }) => {
   const [count, setCount] = useState<number>(1);
 
   const dispatch = useDispatch();
@@ -107,4 +103,4 @@ const ProductsDetails: FC<IProps> = ({ data }) => {
   );
 };
 
-export default ProductsDetails;
+export default OrderDetails;

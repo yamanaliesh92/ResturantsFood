@@ -18,11 +18,9 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
   return (
     <div className="w-full bg-white h-full shadow-sm sticky z-10 left-0 top-0 overflow-y-scroll">
       <div className="w-full flex items-start flex-col sm:p-2 ">
-        <Link to={"/dashboard"} className="flex items-center sm:p-2 mb-3">
+        <Link to={"/dashboard"} className="flex items-center p-2 mb-3">
           <RxDashboard
-            className={` text-[14px] sm:text-[25px] ${
-              active === 1 ? "text-[red]" : "text-[#555]"
-            }`}
+            className={`  ${active === 1 ? "text-[red]" : "text-[#555]"}`}
           />
           <h3
             className={`${
@@ -33,14 +31,9 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
           </h3>
         </Link>
 
-        <Link
-          to={"/dashboard-allOrder"}
-          className="flex items-center sm:p-2 mb-3"
-        >
+        <Link to={"/dashboard-allOrder"} className="flex items-center p-2 mb-3">
           <FiShoppingBag
-            className={`text-[14px] sm:text-[25px] ${
-              active === 2 ? "text-[red]" : "text-[#555]"
-            }`}
+            className={` ${active === 2 ? "text-[red]" : "text-[#555]"}`}
           />
           <h3
             className={`${
@@ -62,7 +55,7 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
           <h3
             className={`${
               active === 4 ? "text-[red]" : "text-[#555]"
-            } text-[18px] text-bold ml-3`}
+            }  text-[12px] sm:text-[18px] text-bold ml-3`}
           >
             createOrder
           </h3>
