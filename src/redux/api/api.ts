@@ -7,7 +7,7 @@ const baseQuery = fetchBaseQuery({
     const token = getCookie("MyToken");
 
     if (token) {
-      headers.set("auth", token);
+      headers.set("authorization", token);
     }
     return headers;
   },

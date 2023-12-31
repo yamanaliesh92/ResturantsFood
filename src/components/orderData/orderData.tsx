@@ -126,7 +126,7 @@ const OrderData: FC<IProps> = ({ data }) => {
           </span>
         </div>
 
-        <div className="flex  items-center">
+        <div className="flex items-center">
           {click ? (
             <AiFillHeart
               size={22}
@@ -146,7 +146,7 @@ const OrderData: FC<IProps> = ({ data }) => {
           )}
 
           <AiOutlineShoppingCart
-            className="absolute right-1 top-16 cursor-pointer"
+            className="absolute right-1 top-10 cursor-pointer"
             size={22}
             color={"#444"}
             onClick={() => addCart(data)}
