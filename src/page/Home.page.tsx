@@ -1,4 +1,4 @@
-import BestDeals from "../components/bestDeals/bestDeals";
+import BestDeals from "../components/allOrder/allOrder";
 import Categorise from "../components/categorise/categorise";
 import Events from "../components/Events/events";
 

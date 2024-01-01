@@ -12,14 +12,11 @@ const Hero = () => {
           Best collection for <br /> Home Decoration
         </h1>
         <p className="p pt-5 text-[400] text-[#0000ba] text-[16px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam sunt
-          corporis quidem ex autem tenetur enim, aliquid labore? Sequi eum
-          similique consequuntur nisi placeat delectus iusto repellat quaerat
-          error? Porro.
+          welcome in restaurant application ,here you can order what you want
         </p>
 
         <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer">
-          <span className="text-[#fff] flex items-center">Shop Now</span>
+          <span className="text-[#fff] flex items-center">Order Now</span>
         </div>
       </div>
     </div>

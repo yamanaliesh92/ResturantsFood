@@ -1,22 +1,55 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getCookie } from "../../utils/cookie";
+import {
+  BaseQueryFn,
+  createApi,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from "@reduxjs/toolkit/query/react";
+import { getCookie, setCookie } from "../../utils/cookie";
+
+const baseQueryWithReauth: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args: any, api: any, extraOptions: any) => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  if (result.meta?.response?.headers?.get("new_token")) {
+    setCookie(
+      "MyToken",
+      result?.meta?.response?.headers?.get("new_token") as string
+    );
+  }
+
+  if (result.meta?.response?.headers?.get("new_refresh_token")) {
+    setCookie(
+      "MyRefreshToken",
+      result?.meta?.response?.headers?.get("new_token") as string
+    );
+  }
+
+  return result;
+};
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env["REACT_APP_SERVER"],
   prepareHeaders: (headers) => {
     const token = getCookie("MyToken");
 
-    if (token) {
+    const refreshToken = getCookie("MyRefreshToken");
+
+    if (token && refreshToken) {
       headers.set("authorization", token);
+      headers.set("refresh", refreshToken);
     }
+
     return headers;
   },
 });
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: baseQuery,
-
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["User", "Order", "Restaurant", "Event"],
   endpoints: (builder) => ({}),
 });

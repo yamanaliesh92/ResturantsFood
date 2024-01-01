@@ -25,7 +25,8 @@ export interface IPayloadUpdateUsernameUser {
 }
 
 export interface IResponseRegister {
-  acceesToken: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 export interface IPayloadChangePassword {

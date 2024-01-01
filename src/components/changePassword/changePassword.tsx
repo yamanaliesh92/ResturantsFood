@@ -31,10 +31,9 @@ const ChangePassword = () => {
 
   const SubmitEmail = () => {
     const email = dataMe.email;
-    console.log("element", { e: element.email });
+
     console.log("me", { email });
     if (element.email === email) {
-      console.log("email", email);
       setOpen((prev) => !prev);
     }
     toast.error("error try again");
@@ -78,7 +77,7 @@ const ChangePassword = () => {
         ) : (
           <>
             <button onClick={SubmitEmail} className="w-[100px] p-4 bg-red-400">
-              Donedd
+              Done
             </button>
             <input
               className="w-full relative h-full outline-none rounded-md p-2"

@@ -34,7 +34,7 @@ const OrderData: FC<IProps> = ({ data }) => {
   const [rtk] = useState(1);
 
   const [edit, setEdit] = useState({ id: 0, open: false });
-  const [mutate] = useDeleteOrderMutation();
+  const [mutate, { error, isLoading }] = useDeleteOrderMutation();
   const wishlist = useSelector((state: any) => state.wishlist.whishItem);
   const dispatch = useDispatch();
 
@@ -72,6 +72,13 @@ const OrderData: FC<IProps> = ({ data }) => {
 
   return (
     <div className="w-full h-[370px] bg-slate-100 shadow-sm p-3 relative cursor-pointer ">
+      {isLoading && <h1>Loading.....</h1>}
+
+      {error && (
+        <h1 className="text-[15px] text-red-400 my-2">
+          {JSON.stringify(error)}
+        </h1>
+      )}
       <div className="flex flex-col">
         <Link to={`/products/${data.id}`}>
           <img

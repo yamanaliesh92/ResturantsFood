@@ -16,7 +16,8 @@ const UpdateRestaurantInfo: FC<IProps> = ({ setEdit, data }) => {
     address: data?.address,
   };
   const [value, setValue] = useState(init);
-  const [mutate, { isSuccess, isLoading }] = useUpdateRestaurantInfoMutation();
+  const [mutate, { isSuccess, isLoading, error }] =
+    useUpdateRestaurantInfoMutation();
 
   if (isSuccess) {
     setEdit(false);
@@ -45,7 +46,12 @@ const UpdateRestaurantInfo: FC<IProps> = ({ setEdit, data }) => {
 
   return (
     <div className="w-[220px] sm:w-[500px] h-full bg-slate-100 shadow-md p-2 sm:p-5  flex flex-col rounded-md  mt-3">
-      {isLoading && <h1>Loading....</h1>}
+      {isLoading && <h1>Loading.....</h1>}
+      {error && (
+        <h1 className="text-[15px] text-red-400 my-2">
+          {JSON.stringify(error)}
+        </h1>
+      )}
       <h2 className="sm:text-center sm:text-2xl text-gray-900 font-extrabold">
         update Yore restaurant
       </h2>

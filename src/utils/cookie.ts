@@ -1,6 +1,6 @@
 import cookies from "js-cookie";
 
-type Cookies = "MyToken";
+type Cookies = "MyToken" | "MyRefreshToken";
 
 type RefreshCookie = "MyRefreshToken";
 

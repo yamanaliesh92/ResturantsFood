@@ -8,7 +8,7 @@ import dessert from "../../img/dessert.jpeg";
 const Categorise = () => {
   const navigate = useNavigate();
 
-  const { data } = useAllOrdersQuery({});
+  const { data, isLoading, error } = useAllOrdersQuery({});
 
   const categories = [...new Set(data && data?.map((ite) => ite.category))];
   console.log("cate", categories);
@@ -41,11 +41,18 @@ const Categorise = () => {
         <h1 className="t text-center font-bold my-2">
           Category is available now{" "}
         </h1>
+
+        {isLoading && <h1>loading....</h1>}
+
+        {error && (
+          <h1 className="text-[15px] text-red-400 my-2">
+            {JSON.stringify(error)}
+          </h1>
+        )}
         <div className="grid grid-cols-1 gap-[5px] md:grid-cols-2 grid-[10px] lg:grid-cols-4 grid-[20px] xl:grid-cols-5 xl:grid-[30px]">
           {categories.map((items) => {
             return (
               <div
-                // key={items.id}
                 onClick={() => handelSubmit(items)}
                 className="w-full h-[100px] flex items-center border border-gray-300 rounded-lg justify-between cursor-pointer overflow-hidden"
               >

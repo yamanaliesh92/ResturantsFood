@@ -34,7 +34,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [searchValue, setSearchValue] = useState<ISearch>(initSearch);
   const [data, setData] = useState<IResponseOrder[]>([]);
-  const { data: dataAllPsot, isLoading } = useAllOrdersQuery({});
+  const { data: dataAllOrder, isLoading } = useAllOrdersQuery({});
 
   const [dataSearchRestaurant, setDataSearchRestaurant] = useState<
     IResponseRestaurant[]
@@ -44,7 +44,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
 
   const [searchRestaurant, setSearchRestaurant] = useState("");
 
-  const { data: dataAllRestaurant } = useAllRestaurantQuery({});
+  const { data: dataAllRestaurant, error } = useAllRestaurantQuery({});
 
   const onChangeSearchRestaurant = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchRestaurant(e.target.value);
@@ -75,8 +75,8 @@ const Header: FC<IProps> = ({ activeHeading }) => {
   const search = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue({ text: e.target.value });
     const searchText =
-      dataAllPsot &&
-      dataAllPsot.filter((pr) =>
+      dataAllOrder &&
+      dataAllOrder.filter((pr) =>
         pr.name.toLowerCase().includes(searchValue.text)
       );
     if (!searchText) return;
@@ -94,6 +94,14 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               className="w-[60px] sm:w-[140px]"
             />
           </Link>
+
+          {isLoading && <h1>loading....</h1>}
+
+          {error && (
+            <h1 className="text-[15px] text-red-400 my-2">
+              {JSON.stringify(error)}
+            </h1>
+          )}
 
           <div className="w-[50%] relative">
             <input

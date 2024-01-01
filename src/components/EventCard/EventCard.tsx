@@ -23,17 +23,33 @@ const EventCard: FC<IProps> = ({ active, data }) => {
 
   const { data: dateMe } = useContext(contextUser);
 
-  const [mutate, { isLoading }] = useDeleteEventMutation();
+  const [mutate, { isLoading, error: errorDeleteEvent }] =
+    useDeleteEventMutation();
 
   const deleteEvent = async (id: number) => {
     await mutate({ id: id });
   };
 
-  const { data: dataAllRestaurant } = useAllRestaurantQuery({});
+  const {
+    data: dataAllRestaurant,
+    error,
+    isLoading: isLoadingGetAllResturant,
+  } = useAllRestaurantQuery({});
   return (
     <div className=" flex-col  flex sm:flex-row mt-2 w-full h-auto items-center bg-white rounded-lg">
-      {isLoading && <h2>loading...</h2>}
+      {isLoading && <h1>loading....</h1>}
+      {isLoadingGetAllResturant && <h1>loading....</h1>}
 
+      {errorDeleteEvent && (
+        <h1 className="text-[15px] text-red-400 my-2">
+          {JSON.stringify(error)}
+        </h1>
+      )}
+      {error && (
+        <h1 className="text-[15px] text-red-400 my-2">
+          {JSON.stringify(error)}
+        </h1>
+      )}
       <div className="w-full  sm:w-[40%] md:w-[70%] mr-2">
         <img src={data.imgOrder} alt="dd" className="w-[200px] h-[250px]" />
       </div>
@@ -89,7 +105,6 @@ const EventCard: FC<IProps> = ({ active, data }) => {
         </div>
         <CountDown data={data} />
       </div>
-
       {edit.open && edit.id === data.id ? (
         <UpdateEvent data={data} setOpen={setEdit} />
       ) : null}

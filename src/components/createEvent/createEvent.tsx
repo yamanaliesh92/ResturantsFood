@@ -33,7 +33,7 @@ const CreateEvent = () => {
   const [element, setElement] = useState<ICreateEvent>(init);
   const [restaurantId, setRestaurantId] = useState<number>(0);
 
-  const [mutate, { isLoading, isSuccess }] = useCreateEventMutation();
+  const [mutate, { isLoading, isSuccess, error }] = useCreateEventMutation();
 
   const navigate = useNavigate();
 
@@ -88,6 +88,13 @@ const CreateEvent = () => {
   return (
     <div className="w-[220px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center   h-[750px] rounded-[4px] bg-white p-2">
       <h1 className="sm:text-[20px] font-bold text-center">Create a Event</h1>
+      {isLoading && <h1>loading....</h1>}
+
+      {error && (
+        <h1 className="text-[15px] text-red-400 my-2">
+          {JSON.stringify(error)}
+        </h1>
+      )}
       <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
         <div className="flex flex-col my-2">
           <label className="text-[14px]">name of order:</label>
@@ -177,7 +184,6 @@ const CreateEvent = () => {
           <h4>img Product</h4>
         </div>
 
-        {isLoading && <h1>loading .....</h1>}
         <button
           data-testid={"submitTest"}
           className="w-[90px]  sm:w-[120px] md:w-[190px] flex items-center justify-center text-yellow-50 mt-4 bg-black h-[50px] my-3  rounded-xl cursor-pointer"

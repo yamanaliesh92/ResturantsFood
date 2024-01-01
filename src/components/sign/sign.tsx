@@ -43,7 +43,8 @@ const Sign: FC<IProps> = ({ setOpen }) => {
   };
 
   if (isSuccess) {
-    setCookie("MyToken", data?.acceesToken as string);
+    setCookie("MyToken", data?.accessToken as string);
+    setCookie("MyRefreshToken", data?.refreshToken as string);
     dispatch(login({ email: value.email }));
   }
 

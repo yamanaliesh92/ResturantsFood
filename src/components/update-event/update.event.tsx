@@ -42,9 +42,8 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
   const [element, setElement] = useState(init);
   const [file, setFile] = useState<File | null>(null);
   const [openUpdateImg, setOpenUpdateImg] = useState(false);
-  //   const [open, setOpen] = useState(false);
 
-  const [mutateUpdateImg, { isSuccess: isSuccessUpdateImg }] =
+  const [mutateUpdateImg, { isSuccess: isSuccessUpdateImg, isLoading, error }] =
     useUpdateEventImgMutation();
 
   const [date, setDate] = useState<Date | null>(null);
@@ -66,7 +65,8 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
     inputRef.current?.click();
   };
 
-  const [mutate, { isLoading, isSuccess }] = useUpdateEventMutation();
+  const [mutate, { error: errorUpdateEvent, isSuccess }] =
+    useUpdateEventMutation();
 
   if (isSuccessUpdateImg) {
     setOpen((prev) => ({ ...prev, open: !prev.open }));
@@ -116,6 +116,18 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
   return (
     <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
       <div className="bg  bg-white p-4 w-[270px]  sm:w-[500px] h-[460px] rounded-md shadow-sm flex flex-col relative ">
+        {isLoading && <h1>Loading.....</h1>}
+        {error && (
+          <h1 className="text-[15px] text-red-400 my-2">
+            {JSON.stringify(error)}
+          </h1>
+        )}
+        {errorUpdateEvent && (
+          <h1 className="text-[15px] text-red-400 my-2">
+            {JSON.stringify(error)}
+          </h1>
+        )}
+
         <div className="block sm:flex sm:justify-between mt-2">
           <h1 className="text-red-500 font-bold text-2xl">update your event</h1>
           <h1 onClick={close}>X</h1>

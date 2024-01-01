@@ -32,15 +32,16 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
   };
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [mutateUpdateImg, { isSuccess: isSuccessUpdateImg }] =
-    useUpdateOrderImgMutation();
+  const [
+    mutateUpdateImg,
+    { isSuccess: isSuccessUpdateImg, error: errorUpdateImg },
+  ] = useUpdateOrderImgMutation();
 
   const [update, setUpdate] = useState(init);
   const [updateImg, setUpdateImg] = useState<File | null>(null);
   const [openUpdateImg, setOpenUpdateImg] = useState(false);
-  const [openUpdateOrder, setOpenUpdateOrder] = useState(false);
 
-  const [mutate, { isLoading, isSuccess }] = useUpdateOrderMutation();
+  const [mutate, { isLoading, isSuccess, error }] = useUpdateOrderMutation();
 
   const onChangeImg = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -105,7 +106,18 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
       <div className="bg  bg-white p-4 w-[270px]  sm:w-[500px] h-[500px] rounded-md shadow-sm flex flex-col relative ">
         <h1 className="d text-center mt-2">update Order</h1>
         <form className="mt-4" onSubmit={submit}>
-          {isLoading && <h1>Loading....</h1>}
+          {isLoading && <h1>Loading.....</h1>}
+          {error && (
+            <h1 className="text-[15px] text-red-400 my-2">
+              {JSON.stringify(error)}
+            </h1>
+          )}
+
+          {errorUpdateImg && (
+            <h1 className="text-[15px] text-red-400 my-2">
+              {JSON.stringify(error)}
+            </h1>
+          )}
           <div className="mt-2">
             <input
               value={update.name}

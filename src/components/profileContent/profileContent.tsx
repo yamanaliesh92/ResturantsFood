@@ -1,13 +1,7 @@
 import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
-import woman from "../../img/woman.jpeg";
-import { MdAddAPhoto } from "react-icons/md";
-import AllOrder from "../AllOrders/AllOrder";
 
 import { contextUser } from "../../context/user.context";
-import {
-  useUpdateImgInfoMutation,
-  useUpdateUsernameInfoMutation,
-} from "../../redux/api/user.api";
+
 import { HiPhotograph } from "react-icons/hi";
 
 interface IProps {
@@ -56,8 +50,6 @@ const ProfileContent: FC<IProps> = ({ active, setEdit, setActive }) => {
           </div>
         </div>
       ) : null}
-
-      {active === 2 ? <AllOrder /> : null}
     </>
   );
 };

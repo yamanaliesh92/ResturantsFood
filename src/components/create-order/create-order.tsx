@@ -18,7 +18,7 @@ const CreateOrder = () => {
   const [element, setElement] = useState<ICreateOrder>(init);
   const [img, setImg] = useState<File | null>(null);
   const inputImgRef = useRef<HTMLInputElement>(null);
-  const [mutate, { isLoading, isSuccess }] = useCreateOrderMutation();
+  const [mutate, { isLoading, isSuccess, error }] = useCreateOrderMutation();
   const [restaurantId, setRestaurantId] = useState<number>(0);
 
   useEffect(() => {
@@ -73,6 +73,13 @@ const CreateOrder = () => {
   return (
     <div className="w-[200px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex  items-center  h-[550px] rounded-[4px] bg-white p-2">
       <h1 className="sm:text-[20px] font-bold text-center">Create a order</h1>
+      {isLoading && <h1>loading....</h1>}
+
+      {error && (
+        <h1 className="text-[15px] text-red-400 my-2">
+          {JSON.stringify(error)}
+        </h1>
+      )}
       <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
         <div className="flex flex-col mt-2">
           <label className="text-[14px]">name of order:</label>
@@ -137,7 +144,6 @@ const CreateOrder = () => {
           <h4>img Product</h4>
         </div>
 
-        {isLoading && <h1>loading .....</h1>}
         <button
           data-testid={"submitTest"}
           className="w-[90px]  sm:w-[120px] md:w-[190px] flex items-center justify-center text-yellow-50 mt-4 bg-black h-[50px] my-3  rounded-xl cursor-pointer"
