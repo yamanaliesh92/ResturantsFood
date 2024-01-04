@@ -71,7 +71,7 @@ const OrderData: FC<IProps> = ({ data }) => {
   };
 
   return (
-    <div className="w-full h-[370px] bg-slate-100 shadow-sm p-3 relative cursor-pointer ">
+    <div className="w-full h-[370px] bg-slate-100 dark:bg-[#252222] rounded-sm shadow-sm p-3 relative cursor-pointer ">
       {isLoading && <h1>Loading.....</h1>}
 
       {error && (
@@ -84,39 +84,37 @@ const OrderData: FC<IProps> = ({ data }) => {
           <img
             src={data.imgOrder}
             alt="dd"
-            className="w-[90vh] h-[120px] object-cover"
+            className="w-[90vh] h-[120px] rounded-[10px] my-2  dark:bg-black object-cover"
           />
-          <h5 className="pt-3 text-[15px] text-blue-400 pb-3">{data.name}</h5>
+          <h5 className="pt-3 text-[15px] rounded-[10px]  text-center text-black-400 dark:bg-white pb-3">
+            {data.name}
+          </h5>
         </Link>
-        <div className="flex items-center">
+        <div className="flex items-center mt-2">
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer"
-            color="f6ba00"
+            className="mr-2 cursor-pointer dark:text-white"
           />
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer"
-            color="f6ba00"
+            className="mr-2 cursor-pointer  dark:text-white"
           />
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer"
-            color="f6ba00"
+            className="mr-2 cursor-pointer  dark:text-white"
           />
           <AiOutlineStar
             size={20}
-            className="mr-2 cursor-pointer"
-            color="f6ba00"
+            className="mr-2 cursor-pointer dark:text-white"
           />
 
-          {data.userId === dateMe.id && (
+          {data.userId === dateMe?.id && (
             <div className=" flex items-center">
               <AiFillDelete onClick={() => deleteOrder(data.id)} />
               <AiFillEdit
                 size={20}
                 onClick={() => openEdit(data.id)}
-                className="ml-2 cursor-pointer"
+                className="ml-2 cursor-pointer dark:text-white"
               />
             </div>
           )}
@@ -124,14 +122,15 @@ const OrderData: FC<IProps> = ({ data }) => {
 
         <div className="py-2 mt-1 flex items-center justify-between">
           <div className="flex items-center">
-            <h5 className="font-bold text-[18px] text-[#333] font-Roboto">
+            <h5 className="font-bold text-[18px] dark:text-white text-[#333] font-Roboto">
               {data.price}$
             </h5>
           </div>
-          <span className="text-[17px] font-[400] text-[#68d284]">
-            {data.description}
-          </span>
         </div>
+
+        <span className="text-[17px] font-[400] dark:text-white text-[#333]">
+          {data.description}
+        </span>
 
         <div className="flex items-center">
           {click ? (
@@ -146,16 +145,15 @@ const OrderData: FC<IProps> = ({ data }) => {
             <AiOutlineHeart
               size={22}
               onClick={() => addToWishlistHandler(data)}
-              color={click ? "red" : "#333"}
-              className="absolute right-1 top-3 cursor-pointer"
+              color={click ? "red" : "#000"}
+              className="absolute right-[17px] top-5 cursor-pointer dark:text-white"
               title="Add to wishlist"
             />
           )}
 
           <AiOutlineShoppingCart
-            className="absolute right-1 top-10 cursor-pointer"
+            className="absolute right-[17px] top-12 cursor-pointer dark:text-white"
             size={22}
-            color={"#444"}
             onClick={() => addCart(data)}
             title="Add to Cart"
           />

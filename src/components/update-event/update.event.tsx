@@ -11,6 +11,7 @@ import {
   useUpdateEventImgMutation,
   useUpdateEventMutation,
 } from "../../redux/api/event.api";
+import Input from "../Input/input";
 interface IProps {
   data: IResponseEvent;
   setOpen: React.Dispatch<
@@ -134,27 +135,30 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
         </div>
         <form className="mt-4 flex flex-col" onSubmit={onSubmit}>
           <div className="mt-2">
-            <input
-              required
+            <Input
               onChange={(e) => onChange(e, "name", false)}
               value={element.name}
-              className="w-full block relative p-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              type="text"
+              label="Name"
+              name="name"
             />
           </div>
 
           <div className="mt-2 grid grid-cols-2 gap-2 relative">
-            <input
+            <Input
               value={element.oldPrice}
-              type={"number"}
               onChange={(e) => onChange(e, "oldPrice", true)}
-              className="w-[40%] block relative  p-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              type="number"
+              label="oldPrice"
+              name="oldPrice"
             />
 
-            <input
+            <Input
               value={element.newPrice}
-              type={"number"}
               onChange={(e) => onChange(e, "newPrice", true)}
-              className="w-[40%] block relative  p-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              type="number"
+              label="newPrice"
+              name="newPrice"
             />
           </div>
 
@@ -167,10 +171,12 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
           </div>
 
           <div className="mt-2">
-            <input
+            <Input
               onChange={(e) => onChange(e, "category", false)}
               value={element.category}
-              className="w-full block relative p-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              type="text"
+              label="Category"
+              name="category"
             />
           </div>
 

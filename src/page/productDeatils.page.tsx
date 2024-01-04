@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/header/header";
 
-import ProductsDetails from "../components/orderDetails/orderDetails";
-import SuggestProduct from "../components/suggestOrder/suggestOrder";
+import ProductsDetails from "../components/order-details/orderDetails";
+import SuggestProduct from "../components/suggest-order/suggestOrder";
 import Footer from "../layout/footer/footer";
 import {
   IResponseOrder,
@@ -38,7 +38,6 @@ const ProductDetailsPage = () => {
       <Header activeHeading={4} />
       <ProductsDetails data={dateGetOneProduct} />
       <SuggestProduct data={data} />
-      {/* <ProductDetailsInfo data={data} /> */}
 
       <Footer />
     </div>

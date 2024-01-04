@@ -8,6 +8,8 @@ import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 import "react-datetime-picker/dist/DateTimePicker.css";
 import { useCreateEventMutation } from "../../redux/api/event.api";
+import Button from "../button";
+import Input from "../Input/input";
 
 interface ICreateEvent {
   name: string;
@@ -88,14 +90,98 @@ const CreateEvent = () => {
   return (
     <div className="w-[220px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center   h-[750px] rounded-[4px] bg-white p-2">
       <h1 className="sm:text-[20px] font-bold text-center">Create a Event</h1>
-      {isLoading && <h1>loading....</h1>}
 
       {error && (
         <h1 className="text-[15px] text-red-400 my-2">
           {JSON.stringify(error)}
         </h1>
       )}
+
       <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
+        <div className="flex flex-col mt-2">
+          <Input
+            value={element.name}
+            onChange={(e) => onChange(e, false, "name")}
+            label="Name"
+            name="name"
+            type="text"
+          />
+        </div>
+        <div className="flex flex-col mt-3">
+          <Input
+            value={element.oldPrice}
+            onChange={(e) => onChange(e, true, "oldPrice")}
+            name="oldPrice"
+            type="number"
+            label="oldPrice of order"
+          />
+        </div>
+
+        <div className="flex flex-col mt-3">
+          <Input
+            value={element.newPrice}
+            onChange={(e) => onChange(e, true, "newPrice")}
+            name="newPrice"
+            type="number"
+            label="newPrice of order"
+          />
+        </div>
+
+        <div className="flex flex-col mt-3">
+          <Input
+            value={element.category}
+            onChange={(e) => onChange(e, false, "category")}
+            name="category"
+            type="text"
+            label="Category"
+          />
+        </div>
+
+        <div className="flex  flex-col w-[75%] mt-2">
+          <label className="text-[14px] mb-2">End of Event time</label>
+
+          <DateTimePicker
+            data-cy="dateInput"
+            onChange={setDate as any}
+            value={date}
+            required
+            className="text-[12px]  sm:text-[17px] overflow-x-auto sm:overflow-visible"
+          />
+        </div>
+
+        <div className="flex flex-col mt-3">
+          <textarea
+            value={element.description}
+            placeholder="Order Description"
+            onChange={(e) =>
+              setElement({ ...element, description: e.target.value })
+            }
+            rows={3}
+            className="w-[90%] mt-2  h-[55px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400  focus:border-blue-500 "
+          />
+        </div>
+
+        <div className="hidden flex-col mt-2 ">
+          <label className="text-[14px]">img of order</label>
+          <input
+            onChange={onChangeImg}
+            ref={inputImgRef}
+            type={"file"}
+            data-testid={"imgTest"}
+          />
+        </div>
+
+        <div
+          className="mt-4 flex items-center  cursor-pointer"
+          onClick={() => inputImgRef.current?.click()}
+        >
+          <HiPhotograph size={25} />
+          <h4 className="ml-4">photo</h4>
+        </div>
+
+        <Button> create</Button>
+      </form>
+      {/* <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
         <div className="flex flex-col my-2">
           <label className="text-[14px]">name of order:</label>
           <input
@@ -190,7 +276,7 @@ const CreateEvent = () => {
         >
           create
         </button>
-      </form>
+      </form> */}
     </div>
   );
 };

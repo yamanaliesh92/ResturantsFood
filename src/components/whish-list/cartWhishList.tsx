@@ -14,10 +14,10 @@ const CartWhishList: FC<IProps> = ({ data, remove }) => {
       <div className="flex items-center">
         <img src={data.imgOrder} alt="dd" className=" w-[80px] h-[80px]" />
 
-        <div className="flex items-center flex-col">
+        <div className="flex items-center flex-col dark:text-white">
           <h1>{data.name}</h1>
 
-          <h3 className="font-[600] text-[#d02222] text-[17px]">
+          <h3 className="font-[600] text-[#d02222] text-[17px] dark:text-white">
             ${data.price}
           </h3>
         </div>

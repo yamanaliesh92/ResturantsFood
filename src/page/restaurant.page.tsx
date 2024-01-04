@@ -5,8 +5,8 @@ import Footer from "../layout/footer/footer";
 import { useGetOneRestaurantQuery } from "../redux/api/resturant.api";
 
 import { useState } from "react";
-import EventCard from "../components/EventCard/EventCard";
-import OrderData from "../components/orderData/orderData";
+import EventCard from "../components/Event-card/EventCard";
+import OrderData from "../components/order-data/orderData";
 
 export default function RestaurantPage() {
   const { id } = useParams();

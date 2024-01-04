@@ -20,13 +20,7 @@ const ProfileContent: FC<IProps> = ({ active, setEdit, setActive }) => {
           <h1 className="t p-2  text-center font-bold">
             Welcome in your information page
           </h1>
-          <div className="flex items-center w-[150px] h-[150px] p-4  justify-center ">
-            <img
-              src={dataMe.img}
-              alt="ds"
-              className="w-full h-full rounded-full border border-b-gray-600"
-            />
-          </div>
+          <div className="flex items-center w-[150px] h-[150px] p-4  justify-center "></div>
           <div className="f flex mt-4  p-2 items-center">
             <h1 className="text-[13px]  sm:text-[18px]">
               your name in this application :

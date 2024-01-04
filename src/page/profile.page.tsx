@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ProfileContent from "../components/profileContent/profileContent";
-import ProfileSide from "../components/profileSide/profileSide";
+import ProfileContent from "../components/profile-content/profileContent";
+import ProfileSide from "../components/profile-side/profileSide";
 import UpdateInfo from "../components/update-info/updateInfo";
 
 const ProfilePage = () => {

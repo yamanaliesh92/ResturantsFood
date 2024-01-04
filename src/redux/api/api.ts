@@ -13,20 +13,23 @@ const baseQueryWithReauth: BaseQueryFn<
   FetchBaseQueryError
 > = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions);
+  console.log("hello", result?.meta?.response?.headers.get("new_token"));
 
-  if (result.meta?.response?.headers?.get("new_token")) {
-    setCookie(
-      "MyToken",
-      result?.meta?.response?.headers?.get("new_token") as string
-    );
+  const token = result.meta?.response?.headers?.get("new_token");
+  if (token) {
+    setCookie("MyToken", token);
   }
 
-  if (result.meta?.response?.headers?.get("new_refresh_token")) {
-    setCookie(
-      "MyRefreshToken",
-      result?.meta?.response?.headers?.get("new_token") as string
-    );
+  const refreshToken = result.meta?.response?.headers.get("new_refresh_token");
+  if (refreshToken) {
+    setCookie("MyRefreshToken", refreshToken);
   }
+
+  console.log("====================", {
+    token,
+    refreshToken,
+    result: result.meta,
+  });
 
   return result;
 };
@@ -35,13 +38,10 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env["REACT_APP_SERVER"],
   prepareHeaders: (headers) => {
     const token = getCookie("MyToken");
-
     const refreshToken = getCookie("MyRefreshToken");
 
-    if (token && refreshToken) {
-      headers.set("authorization", token);
-      headers.set("refresh", refreshToken);
-    }
+    token && headers.set("authorization", token);
+    refreshToken && headers.set("refresh", refreshToken);
 
     return headers;
   },

@@ -7,6 +7,7 @@ import {
   useUpdateOrderImgMutation,
   useUpdateOrderMutation,
 } from "../../redux/api/order.api";
+import Input from "../Input/input";
 
 interface IProps {
   data: IResponseOrder;
@@ -103,8 +104,8 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
 
   return (
     <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-      <div className="bg  bg-white p-4 w-[270px]  sm:w-[500px] h-[500px] rounded-md shadow-sm flex flex-col relative ">
-        <h1 className="d text-center mt-2">update Order</h1>
+      <div className="bg  bg-white dark:bg-black p-4 w-[270px]  sm:w-[500px] h-[500px] rounded-md shadow-sm flex flex-col relative ">
+        <h1 className="d text-center mt-2 dark:text-white">update Order</h1>
         <form className="mt-4" onSubmit={submit}>
           {isLoading && <h1>Loading.....</h1>}
           {error && (
@@ -119,25 +120,30 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
             </h1>
           )}
           <div className="mt-2">
-            <input
-              value={update.name}
+            <Input
+              value={update.name as string}
+              name="name"
+              label="Name"
+              type="text"
               onChange={(e) => onChange(e, false, "name")}
-              className="w-full block relative  px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
           <div className="mt-3 relative">
-            <input
-              value={update.category}
+            <Input
+              value={update.category as string}
+              name="name"
+              label="Category"
+              type="text"
               onChange={(e) => onChange(e, false, "category")}
-              className="w-full block relative  px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
           <div className="mt-3 relative">
-            <input
-              value={update.price}
-              type={"number"}
+            <Input
+              value={update.price as number}
+              type="number"
               onChange={(e) => onChange(e, true, "price")}
-              className="w-full block relative  px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              label="Price"
+              name="price"
             />
           </div>
           <div className="mt-3 relative">
@@ -155,11 +161,11 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
           </div>
 
           <div className="fle flex my-3 items-center p-3">
-            <h3 className="block text-sm my-3 mr-2 text-gray-700 font-medium">
+            <h3 className="block text-sm my-3 mr-2 text-gray-700 dark:text-white font-medium">
               click in icon to change your photo
             </h3>
 
-            <HiPhotograph onClick={openGallery} />
+            <HiPhotograph onClick={openGallery} className="dark:text-white" />
           </div>
           <div style={{ display: "none" }}>
             <input ref={inputRef} onChange={onChangeImg} type={"file"} />
@@ -167,13 +173,13 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
           <div className="mt-4 block sm:flex sm:justify-between">
             <button
               onClick={cancel}
-              className="w-fit mb-2 sm:mb-0 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
+              className="w-fit dark:bg-white dark:text-black mb-2 sm:mb-0 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
             >
               cancel
             </button>
 
             <button
-              className="w-fit mr-0 sm:mr-4 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
+              className="w-fit dark:bg-white dark:text-black mr-0 sm:mr-4 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
               type={"submit"}
             >
               update

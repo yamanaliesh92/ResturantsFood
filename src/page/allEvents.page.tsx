@@ -1,4 +1,4 @@
-import AllEvents from "../components/AllEvents/allEvents";
+import AllEvents from "../components/All-events/allEvents";
 
 import DashboardSideBar from "../components/dashboardSideBar/dashboradSideBar";
 const AllEventsPage = () => {

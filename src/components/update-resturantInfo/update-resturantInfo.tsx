@@ -4,6 +4,7 @@ import {
   IResponseRestaurant,
   useUpdateRestaurantInfoMutation,
 } from "../../redux/api/resturant.api";
+import Input from "../Input/input";
 
 interface IProps {
   data: IResponseRestaurant | undefined;
@@ -41,52 +42,35 @@ const UpdateRestaurantInfo: FC<IProps> = ({ setEdit, data }) => {
     });
   };
 
-  const styleInput =
-    "appearance-none w-[65%] rounded-md block relative  px-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
-
   return (
-    <div className="w-[220px] sm:w-[500px] h-full bg-slate-100 shadow-md p-2 sm:p-5  flex flex-col rounded-md  mt-3">
+    <div className="w-[220px] sm:w-[500px] h-full bg-slate-100 dark:bg-black shadow-md p-2 sm:p-5  flex flex-col rounded-md  mt-3">
       {isLoading && <h1>Loading.....</h1>}
       {error && (
         <h1 className="text-[15px] text-red-400 my-2">
           {JSON.stringify(error)}
         </h1>
       )}
-      <h2 className="sm:text-center sm:text-2xl text-gray-900 font-extrabold">
+      <h2 className="sm:text-center sm:text-2xl text-gray-900 dark:text-white font-extrabold">
         update Yore restaurant
       </h2>
 
       <form onSubmit={onSubmit}>
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm my-3 text-gray-700 font-medium"
-          >
-            name of Restaurant
-          </label>
-
-          <input
-            required
-            value={value.name}
+          <Input
+            value={value.name as string}
             onChange={onChange}
             name="name"
             type={"text"}
-            className={styleInput}
+            label="Name"
           />
 
           <div className="mt-4">
-            <label
-              htmlFor="address of restaurant"
-              className="block text-sm my-3 text-gray-700 font-medium"
-            >
-              address of restaurant
-            </label>
-
-            <input
-              value={value.address}
+            <Input
+              value={value.address as string}
               onChange={onChange}
               name="address"
-              className={styleInput}
+              label="Address"
+              type={"text"}
             />
           </div>
         </div>

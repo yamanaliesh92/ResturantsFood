@@ -36,7 +36,7 @@ const EventCard: FC<IProps> = ({ active, data }) => {
     isLoading: isLoadingGetAllResturant,
   } = useAllRestaurantQuery({});
   return (
-    <div className=" flex-col  flex sm:flex-row mt-2 w-full h-auto items-center bg-white rounded-lg">
+    <div className=" flex-col  flex sm:flex-row mt-2 w-full h-auto items-center bg-white dark:bg-[#252222] rounded-lg">
       {isLoading && <h1>loading....</h1>}
       {isLoadingGetAllResturant && <h1>loading....</h1>}
 
@@ -55,20 +55,21 @@ const EventCard: FC<IProps> = ({ active, data }) => {
       </div>
       <div className="w-full mt-2 sm:mt-0  flex flex-col">
         <div className="flex justify-between">
-          <h5 className="text-[16px] sm:text-[22px]  md:text-[25px] font-[600] font-Roboto text-[#333]">
+          <h5 className="text-[16px] sm:text-[22px]  md:text-[25px] font-[600] font-Roboto text-[#333] dark:text-white">
             {data.name}
           </h5>
-          {data.userId === dateMe.id && (
+          {data.userId === dateMe?.id && (
             <div className="flex  items-center">
               <AiFillEdit
-                size={15}
+                size={20}
                 cursor="pointer"
-                className="mr-4"
+                className="mr-4 text-black dark:text-white"
                 onClick={() => openEdit(data.id)}
               />
               <AiFillDelete
                 cursor="pointer"
-                size={15}
+                size={20}
+                className="mr-4 text-black dark:text-white"
                 onClick={() => deleteEvent(data.id)}
               />
             </div>
@@ -79,7 +80,7 @@ const EventCard: FC<IProps> = ({ active, data }) => {
             <>
               {data.restaurantId === item.id && (
                 <div className="my-1 flex items-center">
-                  <h3 className="text-[12px] sm:text-[19px]">
+                  <h3 className="text-[12px] sm:text-[19px] text-[#333] dark:text-white">
                     the event offers from:
                   </h3>
                   <h3 className="font-bold text-[12px] sm:text-[19px] ml-1 text-red-500">
@@ -89,17 +90,19 @@ const EventCard: FC<IProps> = ({ active, data }) => {
               )}
             </>
           ))}
-        <p className="h-[65px] my-2 overflow-auto">{data.description}</p>
+        <p className="h-[65px] my-2 overflow-auto dark:text-yellow-100">
+          {data.description}
+        </p>
         <div className="flex py-2 items-center justify-between">
           <div className="flex items-center">
             <h5 className="font-[500] text-[18px] text-[#d55b45] pr-3 line-through">
               {data.newPrice}
             </h5>
-            <h5 className="font-bold text-[20px] text-[#333] font-Roboto">
+            <h5 className="font-bold text-[20px] text-[#333]  dark:text-white font-Roboto">
               {data.oldPrice}
             </h5>
           </div>
-          <span className="pr-3 font-[400] text-[17px] text-[#44a55e]">
+          <span className="pr-3 font-[400] text-[17px] text-[#333] dark:text-white">
             {data.category}
           </span>
         </div>

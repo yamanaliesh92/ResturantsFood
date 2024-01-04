@@ -1,15 +1,10 @@
 import { FC } from "react";
 import { RxPerson } from "react-icons/rx";
-import {
-  AiOutlineMessage,
-  AiOutlineCreditCard,
-  AiOutlineLogout,
-} from "react-icons/ai";
-import { MdTrackChanges } from "react-icons/md";
-
-import { ImAddressBook } from "react-icons/im";
-
-import { HiOutlineShoppingBag, HiOutlineReceiptRefund } from "react-icons/hi";
+import { AiOutlineLogout } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/reducers/user.reducer";
+import { removeCookie } from "../../utils/cookie";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   active: number;
@@ -17,6 +12,18 @@ interface IProps {
 }
 
 const ProfileSide: FC<IProps> = ({ active, setActive }) => {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const logoutFn = () => {
+    setActive(2);
+    removeCookie("MyToken");
+    removeCookie("MyRefreshToken");
+    navigate("/auth");
+
+    dispatch(logout);
+  };
   return (
     <div className="w-[60px] sm:w-full bg-white shadow-sm rounded-[10px] p-4  ">
       <div
@@ -34,17 +41,17 @@ const ProfileSide: FC<IProps> = ({ active, setActive }) => {
       </div>
 
       <div
+        onClick={logoutFn}
         className="flex items-center cursor-pointer w-full mb-5"
-        onClick={() => setActive(2)}
       >
         <AiOutlineLogout
           size={20}
           color={active === 2 ? "red" : ""}
           className="mr-3"
         />
-        <span className={`hidden sm:block${active === 8 ? "text-[red]" : ""}`}>
+        <div className={`hidden sm:block${active === 8 ? "text-[red]" : ""}`}>
           Logout
-        </span>
+        </div>
       </div>
     </div>
   );

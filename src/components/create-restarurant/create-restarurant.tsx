@@ -1,10 +1,12 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   ICreateRestaurant,
   useCreateRestaurantMutation,
 } from "../../redux/api/resturant.api";
+import Button from "../button";
+import Input from "../Input/input";
 
 const init = {
   name: "",
@@ -26,26 +28,12 @@ const CreateRestaurant = () => {
     await mutate(body);
   };
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue((prev) => {
-      return {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
-
-  const navgite = useNavigate();
+  const navigate = useNavigate();
 
   if (isSuccess) {
     localStorage.setItem("id", JSON.stringify(data?.id));
-    navgite("/");
+    navigate("/");
   }
-
-  console.log("data", data);
-
-  const styleInput =
-    "appearance-none w-full block relative  px-3 py-4 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm";
 
   return (
     <div className="mt-20 w-[230px] sm:w-[400px] md:w-[500px]  mx-[20px]  sm:mx-auto">
@@ -59,58 +47,29 @@ const CreateRestaurant = () => {
           {JSON.stringify(error)}
         </h1>
       )}
-      <div className="bg-white py-8 px-4 sm:rounded-lg sm:px-10">
-        <form className="spec-y-6" onSubmit={onSubmit}>
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm text-gray-700 font-medium"
-            >
-              name of restaurant
-            </label>
-            <div className="mt-1">
-              <input
-                required
-                value={value.name}
-                onChange={onChange}
-                name="name"
-                type={"text"}
-                className={styleInput}
-              />
-            </div>
-          </div>
+      <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
+        <div className="flex flex-col mt-2">
+          <Input
+            value={value.name}
+            onChange={(e) => setValue({ ...value, name: e.target.value })}
+            label="Name of restaurant"
+            name="name"
+            type="text"
+          />
+        </div>
 
-          <div className="mt-4">
-            <label
-              htmlFor="address"
-              className="block text-sm text-gray-700 font-medium"
-            >
-              address your restaurant
-            </label>
-            <div className="mt-1 relative">
-              <input
-                required
-                value={value.address}
-                onChange={onChange}
-                name="address"
-                className={styleInput}
-              />
-            </div>
-          </div>
+        <div className="flex flex-col mt-2">
+          <Input
+            value={value.address}
+            onChange={(e) => setValue({ ...value, address: e.target.value })}
+            label="address of restaurant"
+            name="address"
+            type="text"
+          />
+        </div>
 
-          <div className="mt-4 flex items-center">
-            <button className="w-fit h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700">
-              Create Your restaurant
-            </button>
-            <Link
-              to={"/"}
-              className="w-fit ml-4  h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
-            >
-              Cancel
-            </Link>
-          </div>
-        </form>
-      </div>
+        <Button isLoading={isLoading}>Create</Button>
+      </form>
     </div>
   );
 };

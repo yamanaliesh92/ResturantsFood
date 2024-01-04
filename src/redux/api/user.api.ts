@@ -5,7 +5,6 @@ export interface IPayloadRegister {
   email: string;
   password: string;
   username: string;
-  img: string;
 }
 
 export interface IResponseUser {
@@ -13,7 +12,6 @@ export interface IResponseUser {
   password: string;
   email: string;
   id: number;
-  img: string;
 }
 
 export interface IPayloadUpdateImgUser {

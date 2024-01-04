@@ -1,5 +1,5 @@
 import Header from "../components/header/header";
-import OrderData from "../components/orderData/orderData";
+import OrderData from "../components/order-data/orderData";
 import { useAllOrdersQuery } from "../redux/api/order.api";
 
 const OrdersPage = () => {

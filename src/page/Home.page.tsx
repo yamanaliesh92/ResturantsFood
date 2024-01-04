@@ -1,4 +1,4 @@
-import BestDeals from "../components/allOrder/allOrder";
+import BestDeals from "../components/all-order/allOrder";
 import Categorise from "../components/categorise/categorise";
 import Events from "../components/Events/events";
 
@@ -8,7 +8,7 @@ import Footer from "../layout/footer/footer";
 
 const Homepage = () => {
   return (
-    <>
+    <div className=" dark:bg-black">
       <Header activeHeading={1} />
       <Hero />
       <Categorise />
@@ -16,7 +16,7 @@ const Homepage = () => {
       <Events />
 
       <Footer />
-    </>
+    </div>
   );
 };
 

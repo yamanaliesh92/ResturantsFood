@@ -15,9 +15,6 @@ import Homepage from "../page/Home.page";
 import ProductDetailsPage from "../page/productDeatils.page";
 import ProfilePage from "../page/profile.page";
 
-import ShopDashboardPage from "../page/DashboradPage";
-
-import ChangePasswordPage from "../page/changePassword.page";
 import AuthPage from "../page/auth.page";
 import PublicRouter from "./public.router";
 import PrivateRouter from "./private.router";
@@ -85,19 +82,10 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/events",
+    path: "/dashboard/events",
     element: (
       <PrivateRouter>
-        <EventPage />,
-      </PrivateRouter>
-    ),
-  },
-
-  {
-    path: "/products/:id",
-    element: (
-      <PrivateRouter>
-        <ProductDetailsPage />,
+        <AllEventsPage />,
       </PrivateRouter>
     ),
   },
@@ -121,14 +109,6 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/dashboard",
-    element: (
-      <OwnerRouter>
-        <ShopDashboardPage />,
-      </OwnerRouter>
-    ),
-  },
-  {
     path: "/dashboard/resInfo",
     element: (
       <OwnerRouter>
@@ -138,7 +118,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/dashboard-allOrder",
+    path: "/dashboard/orders",
     element: (
       <OwnerRouter>
         <MyOrdersPage />,
@@ -147,7 +127,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/dashboard-createProduct",
+    path: "/dashboard/products/new",
     element: (
       <OwnerRouter>
         <CreateOrderPage />,
@@ -156,7 +136,15 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/dashboard-createEvent",
+    path: "/products/:id",
+    element: (
+      <PrivateRouter>
+        <ProductDetailsPage />,
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: "/dashboard/events/new",
     element: (
       <OwnerRouter>
         <CreateEventPage />,
@@ -164,20 +152,11 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/dashboard-allEvents",
+    path: "/events",
     element: (
       <OwnerRouter>
-        <AllEventsPage />,
+        <EventPage />
       </OwnerRouter>
-    ),
-  },
-
-  {
-    path: "/dashboard-changePassword",
-    element: (
-      <PrivateRouter>
-        <ChangePasswordPage />,
-      </PrivateRouter>
     ),
   },
 

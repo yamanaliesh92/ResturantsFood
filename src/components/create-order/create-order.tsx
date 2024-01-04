@@ -1,10 +1,13 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { HiPhotograph } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   ICreateOrder,
   useCreateOrderMutation,
 } from "../../redux/api/order.api";
+import Button from "../button";
+import Input from "../Input/input";
 
 const init: ICreateOrder = {
   name: "",
@@ -20,6 +23,12 @@ const CreateOrder = () => {
   const inputImgRef = useRef<HTMLInputElement>(null);
   const [mutate, { isLoading, isSuccess, error }] = useCreateOrderMutation();
   const [restaurantId, setRestaurantId] = useState<number>(0);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Something went wrong, Please reload the page");
+    }
+  }, [error]);
 
   useEffect(() => {
     const id = localStorage.getItem("id")
@@ -72,51 +81,43 @@ const CreateOrder = () => {
 
   return (
     <div className="w-[200px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex  items-center  h-[550px] rounded-[4px] bg-white p-2">
-      <h1 className="sm:text-[20px] font-bold text-center">Create a order</h1>
-      {isLoading && <h1>loading....</h1>}
+      <h1 className="sm:text-[20px] font-bold text-center">New Order</h1>
 
-      {error && (
-        <h1 className="text-[15px] text-red-400 my-2">
-          {JSON.stringify(error)}
-        </h1>
-      )}
       <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
         <div className="flex flex-col mt-2">
-          <label className="text-[14px]">name of order:</label>
-          <input
-            data-testid={"nameTest"}
+          <Input
             value={element.name}
             onChange={(e) => onChange(e, false, "name")}
-            type={"text"}
-            className="w-[75%] mt-2  h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
-          />
-        </div>
-
-        <div className="flex flex-col mt-2">
-          <label htmlFor="name">price of order</label>
-          <input
-            data-testid={"nameTest"}
-            value={element.price}
-            onChange={(e) => onChange(e, true, "price")}
-            type={"number"}
-            className="w-[75%]  mt-2  h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
-          />
-        </div>
-
-        <div className="flex flex-col mt-2">
-          <label className="text-[14px]">category:</label>
-          <input
-            value={element.category}
-            onChange={(e) => onChange(e, false, "category")}
-            type={"text"}
-            className="w-[75%]  mt-2  h-[35px] p-4 outline-0  border border-gray-300   rounded-[3px] placeholder-gray-400 "
+            label="Name"
+            name="name"
+            type="text"
           />
         </div>
 
         <div className="flex flex-col mt-3">
-          <label className="text-[14px]">description:</label>
+          <Input
+            value={element.price}
+            onChange={(e) => onChange(e, true, "price")}
+            name="price"
+            type="number"
+            label="Price"
+          />
+        </div>
+
+        <div className="flex flex-col mt-3">
+          <Input
+            value={element.category}
+            onChange={(e) => onChange(e, false, "category")}
+            name="category"
+            type="text"
+            label="Category"
+          />
+        </div>
+
+        <div className="flex flex-col mt-3">
           <textarea
             value={element.description}
+            placeholder="Order Description"
             onChange={(e) =>
               setElement({ ...element, description: e.target.value })
             }
@@ -136,20 +137,14 @@ const CreateOrder = () => {
         </div>
 
         <div
-          className="mt-4 flex flex-col cursor-pointer"
+          className="mt-4 flex items-center  cursor-pointer"
           onClick={() => inputImgRef.current?.click()}
-          data-testid={"GallaryTest"}
         >
           <HiPhotograph size={25} />
-          <h4>img Product</h4>
+          <h4 className="ml-4">photo</h4>
         </div>
 
-        <button
-          data-testid={"submitTest"}
-          className="w-[90px]  sm:w-[120px] md:w-[190px] flex items-center justify-center text-yellow-50 mt-4 bg-black h-[50px] my-3  rounded-xl cursor-pointer"
-        >
-          create
-        </button>
+        <Button isLoading={isLoading}>Create</Button>
       </form>
     </div>
   );

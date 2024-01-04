@@ -1,13 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { api } from "./api/api";
 import cartReduce, { ICart } from "./reducers/cart.reducer";
+import themeSlice, { IMode } from "./reducers/theme.reducer";
 import userReducer, { Init } from "./reducers/user.reducer";
+
 import whishListReduce, { IWishList } from "./reducers/wishlist.reducer";
 
 export interface IStateRedux {
   user: Init;
   cart: ICart;
   wishlist: IWishList;
+  theme: IMode;
 }
 
 const Store = configureStore({
@@ -15,6 +18,7 @@ const Store = configureStore({
     cart: cartReduce,
     wishlist: whishListReduce,
     user: userReducer,
+    theme: themeSlice,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>

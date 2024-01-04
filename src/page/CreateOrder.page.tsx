@@ -8,7 +8,7 @@ const CreateOrderPage = () => {
     <div>
       <div className="flex w-full items-center justify-between">
         <div className=" w-[130px] sm:w-[330px] h-screen">
-          <DashboardSideBar active={4} />
+          <DashboardSideBar active={3} />
         </div>
         <div className="w-full flex items-center justify-center ">
           <CreateOrder />

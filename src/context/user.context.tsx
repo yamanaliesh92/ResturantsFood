@@ -19,7 +19,6 @@ const initUser: IResponseUser = {
   password: "",
   username: "",
   id: 0,
-  img: "",
 };
 
 const init: IUser = {

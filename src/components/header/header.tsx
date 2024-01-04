@@ -7,8 +7,8 @@ import { ChangeEvent, FC, useState } from "react";
 import Navbar from "../navbar/navbar";
 import { Link, useNavigate } from "react-router-dom";
 
-import CartProduct from "../cartOrder/cartOrder";
-import WhishList from "../whishlist/whishlist";
+import CartProduct from "../cart-order/cartOrder";
+import WhishList from "../whish-list/whishlist";
 import { useSelector } from "react-redux";
 import { RxHamburgerMenu } from "react-icons/rx";
 import {
@@ -36,23 +36,8 @@ const Header: FC<IProps> = ({ activeHeading }) => {
   const [data, setData] = useState<IResponseOrder[]>([]);
   const { data: dataAllOrder, isLoading } = useAllOrdersQuery({});
 
-  const [dataSearchRestaurant, setDataSearchRestaurant] = useState<
-    IResponseRestaurant[]
-  >([]);
   const [openWhishList, setOpenWhishList] = useState<boolean>(false);
   const [openCart, setOpenCart] = useState<boolean>(false);
-
-  const [searchRestaurant, setSearchRestaurant] = useState("");
-
-  const { data: dataAllRestaurant, error } = useAllRestaurantQuery({});
-
-  const onChangeSearchRestaurant = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchRestaurant(e.target.value);
-    const filleter = dataAllRestaurant?.filter((item) =>
-      item.name.toLocaleUpperCase().includes(searchRestaurant)
-    );
-    setDataSearchRestaurant(filleter as IResponseRestaurant[]);
-  };
 
   const wishlist = useSelector(
     (state: IStateRedux) => state.wishlist.whishItem
@@ -85,8 +70,8 @@ const Header: FC<IProps> = ({ activeHeading }) => {
 
   return (
     <>
-      <div className="w-11/12 mx-auto my-auto">
-        <div className="h-[50px] my-[20px]  flex items-center justify-between">
+      <div className="w-full  mx-auto  dark:bg-white">
+        <div className="h-[50px] my-[20px] dark:mt-[20px] dark:my-0 p-3  flex items-center justify-between">
           <Link to={"/"}>
             <img
               src={"https://shopo.quomodothemes.website/assets/images/logo.svg"}
@@ -97,57 +82,23 @@ const Header: FC<IProps> = ({ activeHeading }) => {
 
           {isLoading && <h1>loading....</h1>}
 
-          {error && (
-            <h1 className="text-[15px] text-red-400 my-2">
-              {JSON.stringify(error)}
-            </h1>
-          )}
-
-          <div className="w-[50%] relative">
+          <div className="w-[30%] relative">
             <input
               type={"text"}
               value={searchValue.text}
               onChange={search}
-              placeholder="search product..."
-              className="h-[40px] placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-[#3957db] border-[2px] rounded-md"
+              placeholder="Order name..."
+              className="h-[40px] dark:bg-gray-700 dark:text-white dark:placeholder-white  placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-[#3957db] dark:border-gray-700 border-[2px] rounded-md ml-2 pl-2"
             />
             {data && data.length !== 0 && searchValue.text ? (
-              <div className="absolute h-auto bg-slate-200 p-4 z-10 shadow-sm">
+              <div
+                className="absolute w-[100%]
+               h-auto bg-slate-200 p-4 z-10 shadow-sm"
+              >
                 {data.map((item) => {
                   return (
                     <Link to={`/products/${item.id}`}>
-                      <div className="w-full flex items-center  py-3">
-                        <img
-                          src={item.imgOrder}
-                          alt="dd"
-                          className="mr-2 rounded-full h-[45px] w-[45px]"
-                        />
-                        <h1>{item.name}</h1>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            ) : null}
-          </div>
-
-          <div className="w-[50%] ml-4 relative">
-            <input
-              type={"text"}
-              value={searchRestaurant}
-              onChange={onChangeSearchRestaurant}
-              placeholder="search restaurant..."
-              className="h-[40px] placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-[#3957db] border-[2px] rounded-md"
-            />
-            {dataSearchRestaurant && dataSearchRestaurant.length !== 0 ? (
-              <div className="absolute h-auto bg-slate-200 p-4 z-10 shadow-sm">
-                {dataSearchRestaurant.map((item) => {
-                  return (
-                    <Link to={`/restaurant/${item.id}`}>
-                      <div
-                        className="w-full flex items-center py-3"
-                        onClick={() => setDataSearchRestaurant([])}
-                      >
+                      <div className="w-full hover:bg-sky-700 flex items-center  py-3">
                         <h1>{item.name}</h1>
                       </div>
                     </Link>
@@ -159,7 +110,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
         </div>
       </div>
 
-      <div className="transition flex items-center justify-between h-[70px] w-full bg-[#3321c8]">
+      <div className="transition flex items-center justify-between h-[70px] w-full bg-[#3321c8] dark:bg-white dark:text-black">
         <div className="w-11/12 mx-auto my-auto flex items-center justify-between">
           <div className=" hidden sm:flex sm:items-center">
             <Navbar active={activeHeading} />
@@ -167,7 +118,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
           <RxHamburgerMenu
             size={20}
             cursor="pointer"
-            className="block sm:hidden"
+            className="block sm:hidden  text-white dark:text-black"
             onClick={() => setOpenMenu((prev) => !prev)}
           />
 
@@ -177,7 +128,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
                 <AiOutlineHeart
                   size={30}
                   onClick={changeOpenWhishList}
-                  color="rgb(255,255,255/83%)"
+                  className="cursor-pointer text-white dark:text-black"
                 />
                 <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-white bg-[#3bc177] w-4 h-4 top right p-0 m-0">
                   {wishlist.length}
@@ -185,11 +136,11 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               </div>
             </div>
             <div className="flex items-center">
-              <div className="r relative cursor-pointer ml-[15px]">
+              <div className="relative cursor-pointer ml-[15px]">
                 <AiOutlineShoppingCart
                   onClick={changeOpenCart}
+                  className="cursor-pointer text-white dark:text-black"
                   size={30}
-                  color="rgb(255,255,255/83%)"
                 />
                 <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-white bg-[#3bc177] w-4 h-4 top right p-0 m-0">
                   {cart.length}
@@ -201,8 +152,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               <div className="relative cursor-pointer ml-[15px]">
                 <CgProfile
                   size={30}
-                  color="rgb(255,255,255/83%)"
-                  className="cursor-pointer"
+                  className="cursor-pointer text-white dark:text-black"
                   onClick={() => navigate("/profile")}
                 />
 

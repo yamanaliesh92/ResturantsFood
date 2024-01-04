@@ -11,7 +11,7 @@ import {
 
 const Footer = () => {
   return (
-    <div className="d bg-[#000] text-white mt-4">
+    <div className="bg-[#000] text-white mt-4">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 sm:px-7 px-5 py-18 gap-3">
         <ul className="px-5  flex flex-col items-start sm:text-start">
           <img
@@ -34,7 +34,7 @@ const Footer = () => {
           </div>
         </ul>
         <ul className="text-center  sm:text-start">
-          <h1 className="mb-1 font-bold mt-5 text-[22px]">company</h1>
+          <h1 className="mb-1 font-bold mt-5  text-[22px]">company</h1>
 
           {footerProductLinks.map((item) => {
             return (
