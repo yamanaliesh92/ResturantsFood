@@ -46,7 +46,7 @@ const UpdateInfo: FC<IProps> = ({ setEdit }) => {
       <form onSubmit={onSubmit}>
         <Input
           value={username}
-          onChange={(e) => setUserName(e.target.value)}
+          // onChange={(e) => setUserName(e.target.value)}
           name="username"
           type="text"
           label="User Name"

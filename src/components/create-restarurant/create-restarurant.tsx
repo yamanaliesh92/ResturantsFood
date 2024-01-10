@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,22 +9,24 @@ import {
 import Button from "../button";
 import Input from "../Input/input";
 
-const init = {
-  name: "",
-  address: "",
-};
-
 const CreateRestaurant = () => {
-  const [value, setValue] = useState<ICreateRestaurant>(init);
-
   const [mutate, { isLoading, data, isSuccess, error }] =
     useCreateRestaurantMutation();
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      address: "",
+    },
+  });
+  const { register, handleSubmit, formState } = form;
+
+  const { errors } = formState;
+
+  const onSubmit = async (data: ICreateRestaurant) => {
     const body: ICreateRestaurant = {
-      address: value.address,
-      name: value.name,
+      address: data.address,
+      name: data.name,
     };
     await mutate(body);
   };
@@ -36,34 +39,47 @@ const CreateRestaurant = () => {
   }
 
   return (
-    <div className="mt-20 w-[230px] sm:w-[400px] md:w-[500px]  mx-[20px]  sm:mx-auto">
-      <h2 className="text-center text-3xl text-gray-900 font-extrabold">
+    <div className="mt-20 w-[230px] sm:w-[400px] md:w-[500px] bg-blue-950 dark:bg-white  mx-[20px]  sm:mx-auto">
+      <h2 className="text-center text-3xl text-white dark:text-blue-950 font-extrabold">
         create Your restaurant
       </h2>
-      {isLoading && <h1>loading....</h1>}
 
       {error && (
-        <h1 className="text-[15px] text-red-400 my-2">
+        <h1 className="text-[15px] text-red-500 my-2">
           {JSON.stringify(error)}
         </h1>
       )}
-      <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
+      <form
+        className="p-2 w-full flex flex-col"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="flex flex-col mt-2">
+          <p className="text-[15px] my-1  text-red-500">
+            {errors.name?.message}
+          </p>
           <Input
-            value={value.name}
-            onChange={(e) => setValue({ ...value, name: e.target.value })}
+            placeholder={"enter restaurant name"}
+            {...register("name", {
+              required: { value: true, message: "restaurant name is required" },
+            })}
             label="Name of restaurant"
-            name="name"
             type="text"
           />
         </div>
 
         <div className="flex flex-col mt-2">
+          <p className="text-[15px] my-1  text-red-500">
+            {errors.address?.message}
+          </p>
           <Input
-            value={value.address}
-            onChange={(e) => setValue({ ...value, address: e.target.value })}
-            label="address of restaurant"
-            name="address"
+            placeholder={"enter restaurant address"}
+            {...register("name", {
+              required: {
+                value: true,
+                message: "restaurant address is required",
+              },
+            })}
+            label="Address of restaurant"
             type="text"
           />
         </div>

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { IResponseOrder } from "../../redux/api/order.api";
 import { addToCart } from "../../redux/reducers/cart.reducer";
+import Button from "../button";
 
 interface IProps {
   data: IResponseOrder | undefined;
@@ -51,29 +52,29 @@ const OrderDetails: FC<IProps> = ({ data }) => {
   return (
     <>
       {data && (
-        <div className=" bg-white my-4 block sm:flex i sm:justify-between w-11/12 mx-auto sm:w-[80%]">
+        <div className=" dark:bg-white bg-blue-950 my-4 block sm:flex i sm:justify-between w-11/12 mx-auto sm:w-[80%]">
           <div className="flex flex-col w-[43%] p-3 ">
             <img
               src={data?.imgOrder}
-              className="w-[70%] h-[270px] mt-4"
+              className="w-[70%] rounded-md h-[270px] mt-4"
               alt="dd"
             />
           </div>
           <div className="flex w-[70%] flex-col p-2 mt-3">
             <div className="flex justify-between">
-              <h2 className="font-bold text-[18px] mt-1 ml-2  text-[#333] font-Roboto">
+              <h2 className="font-bold text-[18px] text-white dark:text-blue-950 mt-1 ml-2">
                 {data?.name}
               </h2>
-              <h2 className="font-bold text-[18px] mt-1  text-[#333] font-Roboto">
+              <h2 className="font-bold text-[18px] mt-1 text-white dark:text-blue-950 mr-3">
                 {data?.price}
               </h2>
             </div>
-            <p className="text-[16px] p-4 my-4 h-[120px] overflow-auto  text-red-400">
+            <p className="text-[16px] p-4 my-4 h-[120px] overflow-auto text-white dark:text-blue-950 mt">
               {data?.description}
             </p>
             <div className="flex items-center mt-12  pr-3">
               <button
-                className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                className="text-white font-bold rounded-l px-4 py-2 dark:bg-gray-500 bg-yellow-300 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
                 onClick={decrementCount}
               >
                 -
@@ -82,19 +83,14 @@ const OrderDetails: FC<IProps> = ({ data }) => {
                 {count}
               </span>
               <button
-                className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                className=" dark:bg-gray-500 bg-yellow-300  text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
                 onClick={incrementCount}
               >
                 +
               </button>
             </div>
             <div className="flex items-center mt-4">
-              <button
-                className="w-[150px]  bg-black text-white h-[50px]  rounded-xl cursor-pointer"
-                onClick={() => addCart(data)}
-              >
-                Add to Cart
-              </button>
+              <Button onClick={() => addCart(data)}>Add to Cart</Button>
             </div>
           </div>
         </div>

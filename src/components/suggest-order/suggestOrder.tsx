@@ -9,19 +9,23 @@ interface IProps {
 const SuggestOrder: FC<IProps> = ({ data }) => {
   return (
     <div>
-      {data ? (
-        <div className=" bg-white dark:bg-black my-4 p-4 flex flex-col w-11/12 mx-auto 800px:w-[80%] h-[30%]">
-          <h2 className="text-[27px] text-center text-black dark:text-white md:text-start font-[600] font-Roboto pb-[20px]">
-            Related Product
+      {data && (
+        <div className="w-11/12 mx-auto sm:w-[80%] dark:bg-white bg-blue-950  my-4 p-4 flex flex-col h-[30%]">
+          <h2 className="text-[27px] text-center text-white dark:text-blue-950 md:text-start font-[600] font-Roboto pb-[20px]">
+            Related Order
           </h2>
-          <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2 grid-[22px] lg:grid-cols-4 grid-[26px] xl:grid-cols-5 xl:grid-[30px]">
+          <div className="grid grid-cols-1  gap-[18px] md:grid-cols-2 grid-[22px] lg:grid-cols-4 grid-[26px] xl:grid-cols-5 xl:grid-[30px]">
             {data.map((item) => {
               return <OrderData data={item} />;
             })}
           </div>
+          {data?.length === 0 && (
+            <h1 className=" text-white dark:text-blue-950 ">
+              {" "}
+              there is no any SuggestOrder for this order
+            </h1>
+          )}
         </div>
-      ) : (
-        <h1>there no any SuggestOrder for this order</h1>
       )}
     </div>
   );

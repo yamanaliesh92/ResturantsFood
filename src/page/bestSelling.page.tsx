@@ -5,7 +5,7 @@ import { useAllOrdersQuery } from "../redux/api/order.api";
 const OrdersPage = () => {
   const { data, isLoading } = useAllOrdersQuery({});
   return (
-    <div>
+    <div className="bg-white dark:bg-blue-950">
       <Header activeHeading={2} />
       <div className="w-11/12 mx-auto">
         {isLoading && <h1>loading....</h1>}

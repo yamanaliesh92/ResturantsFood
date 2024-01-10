@@ -27,10 +27,10 @@ const userSlice = createSlice({
   name: "user",
   initialState: initState,
   reducers: {
-    login: (state: Init, action: ILogin) => {
+    login: (state: Init) => {
       return {
         ...state,
-        email: action.payload.email,
+
         authorization: true,
         isLoading: false,
       };

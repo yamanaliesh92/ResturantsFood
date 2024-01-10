@@ -11,7 +11,7 @@ interface IProps {
 
 const CartSingle: FC<IProps> = ({ data, remove, decrease, addCart }) => {
   return (
-    <div className="flex items-center justify-between p-2 ">
+    <div className="flex bg-blue-950 dark:bg-white  items-center justify-between p-2 ">
       <div className="flex flex-col items-center">
         <span
           onClick={() => addCart(data)}
@@ -19,7 +19,7 @@ const CartSingle: FC<IProps> = ({ data, remove, decrease, addCart }) => {
         >
           +
         </span>
-        {data.cartQuantity}
+        <h1 className="text-white dark:text-blue-950">{data.cartQuantity} </h1>
         <span
           onClick={() => decrease(data.id)}
           className="bg-[#a7abb14f] mt-1 cursor-pointer w-[25px] h-[25px] flex items-center justify-center rounded-full"
@@ -29,12 +29,17 @@ const CartSingle: FC<IProps> = ({ data, remove, decrease, addCart }) => {
       </div>
       <img src={data.imgOrder} alt="dd" className=" w-[80px] h-[80px]" />
       <div className="flex items-center flex-col">
-        <h1>{data.name}</h1>
-        <h3 className="font-[400] text-[15px] text-blue-400">
+        <h1 className="text-white dark:text-blue-950">{data.name}</h1>
+        <h3 className="font-[400] text-[15px] dark:text-blue-950 text-white">
           {data.price * data.cartQuantity} $
         </h3>{" "}
       </div>
-      <button onClick={() => remove(data.id)}>X</button>
+      <h2
+        className="text-white dark:text-blue-950"
+        onClick={() => remove(data.id)}
+      >
+        X
+      </h2>
     </div>
   );
 };

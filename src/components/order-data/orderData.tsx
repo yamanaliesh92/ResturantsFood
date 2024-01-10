@@ -24,6 +24,7 @@ import {
   removeFromWishlist,
 } from "../../redux/reducers/wishlist.reducer";
 import { addToCart } from "../../redux/reducers/cart.reducer";
+import { IStateRedux } from "@/src/redux/store";
 
 interface IProps {
   data: IResponseOrder;
@@ -35,7 +36,12 @@ const OrderData: FC<IProps> = ({ data }) => {
 
   const [edit, setEdit] = useState({ id: 0, open: false });
   const [mutate, { error, isLoading }] = useDeleteOrderMutation();
-  const wishlist = useSelector((state: any) => state.wishlist.whishItem);
+  const wishlist = useSelector(
+    (state: IStateRedux) => state.wishlist.whishItem
+  );
+
+  const mode = useSelector((state: IStateRedux) => state.theme.mode);
+
   const dispatch = useDispatch();
 
   const { data: dateMe } = useContext(contextUser);
@@ -71,7 +77,7 @@ const OrderData: FC<IProps> = ({ data }) => {
   };
 
   return (
-    <div className="w-full h-[370px] bg-slate-100 dark:bg-[#252222] rounded-sm shadow-sm p-3 relative cursor-pointer ">
+    <div className="w-full text-bg-950 dark:text-white h-[370px] rounded-lg bg-blue-950  dark:bg-white  shadow-sm p-3 relative cursor-pointer ">
       {isLoading && <h1>Loading.....</h1>}
 
       {error && (
@@ -84,37 +90,42 @@ const OrderData: FC<IProps> = ({ data }) => {
           <img
             src={data.imgOrder}
             alt="dd"
-            className="w-[90vh] h-[120px] rounded-[10px] my-2  dark:bg-black object-cover"
+            className="w-[90vh] h-[120px] rounded-[10px] my-2  dark:bg-white object-cover"
           />
-          <h5 className="pt-3 text-[15px] rounded-[10px]  text-center text-black-400 dark:bg-white pb-3">
+          <h5 className="pt-3 text-[15px] rounded-[10px]  text-center  dark:text-white text-blue-950 bg-white dark:bg-blue-950 pb-3">
             {data.name}
           </h5>
         </Link>
         <div className="flex items-center mt-2">
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer dark:text-white"
+            className="mr-2 cursor-pointer  text-white dark:text-blue-950"
           />
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer  dark:text-white"
+            className="mr-2 cursor-pointer   text-white dark:text-blue-950"
           />
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer  dark:text-white"
+            className="mr-2 cursor-pointer   text-white dark:text-blue-950"
           />
           <AiOutlineStar
             size={20}
-            className="mr-2 cursor-pointer dark:text-white"
+            className="mr-2 cursor-pointer  text-white dark:text-blue-950"
           />
 
           {data.userId === dateMe?.id && (
             <div className=" flex items-center">
-              <AiFillDelete onClick={() => deleteOrder(data.id)} />
+              <AiFillDelete
+                color={!mode ? "white" : "blue"}
+                className=" cursor-pointer "
+                onClick={() => deleteOrder(data.id)}
+              />
               <AiFillEdit
                 size={20}
+                color={!mode ? "white" : "blue"}
                 onClick={() => openEdit(data.id)}
-                className="ml-2 cursor-pointer dark:text-white"
+                className="ml-2  cursor-pointer "
               />
             </div>
           )}
@@ -122,13 +133,13 @@ const OrderData: FC<IProps> = ({ data }) => {
 
         <div className="py-2 mt-1 flex items-center justify-between">
           <div className="flex items-center">
-            <h5 className="font-bold text-[18px] dark:text-white text-[#333] font-Roboto">
-              {data.price}$
+            <h5 className="font-bold text-[18px]  text-white dark:text-blue-950 ">
+              {data.price} $
             </h5>
           </div>
         </div>
 
-        <span className="text-[17px] font-[400] dark:text-white text-[#333]">
+        <span className="text-[17px] font-[400] text-white dark:text-blue-950">
           {data.description}
         </span>
 
@@ -145,7 +156,7 @@ const OrderData: FC<IProps> = ({ data }) => {
             <AiOutlineHeart
               size={22}
               onClick={() => addToWishlistHandler(data)}
-              color={click ? "red" : "#000"}
+              color={click ? "red" : !mode ? "white" : "blue"}
               className="absolute right-[17px] top-5 cursor-pointer dark:text-white"
               title="Add to wishlist"
             />
@@ -154,6 +165,7 @@ const OrderData: FC<IProps> = ({ data }) => {
           <AiOutlineShoppingCart
             className="absolute right-[17px] top-12 cursor-pointer dark:text-white"
             size={22}
+            color={!mode ? "white" : "blue"}
             onClick={() => addCart(data)}
             title="Add to Cart"
           />

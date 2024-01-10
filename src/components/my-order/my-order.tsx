@@ -5,11 +5,15 @@ export default function MyOrders() {
   const { data, isLoading, error } = useGetAllOrdersByUserIdQuery({});
 
   return (
-    <div className="flex flex-col p-4 w-[100%]">
+    <div className="flex flex-col p-4 w-[100%] bg-white dark:bg-blue-950">
       {!isLoading && data?.length !== 0 && (
-        <h1 className="text-2xl text-center text-gray-500 ">
-          welcome in all your orders{" "}
+        <h1 className="text-[18px] my-1 text-center text-blue-950 dark:text-white ">
+          Welcome in all your orders{" "}
         </h1>
+      )}
+
+      {error && (
+        <h1 className="text-center text-red-500">{JSON.stringify(error)}</h1>
       )}
 
       {!data?.length && !isLoading && (

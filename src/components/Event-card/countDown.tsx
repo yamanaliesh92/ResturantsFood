@@ -24,15 +24,15 @@ export default function CountDown({ data }: IProps) {
   }, [data.date]);
 
   return (
-    <div className="flex items-center text-[#333] dark:text-white font-bold">
-      <h1 className="text-[#333] dark:text-white font-[19px]">
+    <div className="flex items-center font-bold">
+      <h1 className="text-white dark:text-blue-950 font-[19px]">
         the rest time to event:
       </h1>
-      <h4 className="font-bold  sm:text-[10px] ml-1 text-red-500">
+      <h4 className=" font-[19px] sm:text-[11px] ml-1 text-red-500">
         {(hours === 0 && minutes === 0 && days === 0 && seconds === 0) ||
         (hours < 0 && minutes < 0 && days < 0 && seconds < 0) ? (
           <>
-            <h1 className="text-[18px]">{data.name} event is over </h1>
+            <h1 className="font-[19px]">{data.name} event is over </h1>
           </>
         ) : (
           <>

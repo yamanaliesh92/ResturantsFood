@@ -44,18 +44,24 @@ const CartOrder: FC<IProps> = ({ setOpenCart }) => {
   };
 
   return (
-    <div className="fixed top-0 right-0 overflow-y-scroll  bg-white w-[25%] sm:w-[35%] z-10 min-h-screen">
+    <div className="fixed top-0 right-0 overflow-y-scroll  bg-white dark:bg-blue-950 w-[25%] sm:w-[35%] z-10 min-h-screen">
       <div className="flex flex-col ">
         <div className="flex justify-end p-4">
-          <RxCross1 size={25} onClick={() => setOpenCart(false)} />
+          <RxCross1
+            className="dark:text-white text-blue-950"
+            size={25}
+            onClick={() => setOpenCart(false)}
+          />
         </div>
         <div className="flex items-center p-2">
-          <BsBagDash size={20} />
-          <h2 className="pl-2 text-[20px] font-bold">{cart.length} items</h2>
+          <BsBagDash className="dark:text-white text-blue-950" size={20} />
+          <h2 className="pl-2 text-[20px] font-bold text-blue-950 dark:text-white">
+            {cart.length} Items
+          </h2>
         </div>
         {cart.map((item) => {
           return (
-            <div className="border-t">
+            <div className="border-t dark:border-t-blue-950">
               <CartSingle
                 data={item}
                 remove={removeFromCartHandler}
@@ -66,8 +72,10 @@ const CartOrder: FC<IProps> = ({ setOpenCart }) => {
           );
         })}
       </div>
-      <div className="mb-3 mt-2 flex items-center justify-center p-2 bg-[#d02222] h-[40px] w-full rounded-[5px]">
-        <h1 className="font-[600] text-[15px] text-white">{cartTotalAmount}</h1>
+      <div className="mb-3 mt-2 flex items-center justify-center p-2 bg-blue-950 text-white dark:bg-white dark:text-blue-950 h-[40px] w-full rounded-[5px]">
+        <h1 className="font-[600] text-[15px] text-white dark:text-blue-950">
+          {cartTotalAmount}
+        </h1>
       </div>
     </div>
   );

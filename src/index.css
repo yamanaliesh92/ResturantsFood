@@ -8,6 +8,10 @@
     -webkit-appearance: none;
   }
 
+  .title {
+    @apply font-bold text-[20px] my-2  dark:text-white text-blue-950;
+  }
+
   input::placeholder,
   input {
     font: 0.75rem/3 sans-serif;

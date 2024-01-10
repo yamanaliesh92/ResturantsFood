@@ -33,7 +33,7 @@ export const ProviderContext: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (data) {
-      dispatchRedux(login({ email: data.email }));
+      dispatchRedux(login());
     }
     if (error) {
       dispatchRedux(logout());

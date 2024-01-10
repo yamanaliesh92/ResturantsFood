@@ -18,8 +18,8 @@ const AllEvents: FC<IProps> = ({ owner }) => {
   return (
     <div className="w-full flex-col flex">
       {owner && (
-        <h1 className=" text-center text-gray-400 font-bold p-3">
-          welcome in your event mr {dateMe.username}
+        <h1 className=" text-center text-blue-950 dark:text-white font-bold p-3">
+          Welcome in your event mr {dateMe.username}
         </h1>
       )}
 

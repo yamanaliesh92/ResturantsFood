@@ -6,8 +6,8 @@ import DashboardSideBar from "../components/dashboardSideBar/dashboradSideBar";
 const CreateEventPage = () => {
   return (
     <div>
-      <div className="flex w-full  justify-between">
-        <div className=" w-[120px] sm:w-[330px] h-screen">
+      <div className="flex w-full  justify-between bg-white dark:bg-blue-950">
+        <div className=" w-[120px]  sm:w-[330px] h-screen">
           <DashboardSideBar active={5} />
         </div>
         <div className="w-full flex items-center justify-center ">

@@ -41,8 +41,8 @@ const Navbar: FC<IProps> = ({ active }) => {
               to={it.url}
               className={`${
                 active === index + 1
-                  ? "text-gray-800"
-                  : "text-[#fff] dark:text-black"
+                  ? "text-red-400"
+                  : "text-blue-950 dark:text-white"
               } font-[500] sm:text-[13px] md:text-[16px] ml-1 cursor-pointer sm:px-1 md:px-3 `}
             >
               {it.title}
@@ -53,7 +53,7 @@ const Navbar: FC<IProps> = ({ active }) => {
 
       {restaurantId === 0 ? (
         <Link
-          className="font-[500] sm:text-[12px] md:text-[14px] text-[#fff] dark:text-black ml-1 cursor-pointer sm:px-1 md:px-3"
+          className="font-[500] sm:text-[12px] md:text-[14px] text-blue-950 dark:text-white ml-1 cursor-pointer sm:px-1 md:px-3"
           to={"/create-restaurant"}
         >
           Become seller
@@ -61,13 +61,13 @@ const Navbar: FC<IProps> = ({ active }) => {
       ) : (
         <div className="flex flex-col mt-3 sm:mt-0 mr-0 sm:mr-2  sm:flex-row items-center ">
           <Link
-            className="font-[500] mx-0 sm:mx-2 sm:text-[12px] md:text-[14px] text-[#fff]  dark:text-black cursor-pointer sm:px-1 md:px-3"
+            className="font-[500] mx-0 sm:mx-2 sm:text-[12px] md:text-[14px]  text-blue-950 dark:text-white cursor-pointer sm:px-1 md:px-3"
             to={"/dashboard/products/new"}
           >
             Create Order
           </Link>
           <Link
-            className="font-[500] mt-10 sm:mt-0 sm:text-[12px] md:text-[14px] text-[#fff]  dark:text-black  cursor-pointer sm:px-1 md:px-3"
+            className="font-[500] mt-10 sm:mt-0 sm:text-[12px] md:text-[14px]  text-blue-950 dark:text-white  cursor-pointer sm:px-1 md:px-3"
             to={"/dashboard/orders"}
           >
             To Dashboard
@@ -76,9 +76,19 @@ const Navbar: FC<IProps> = ({ active }) => {
       )}
       <button data-cy="darkModeButton" onClick={() => dispatch(toggle())}>
         {mode ? (
-          <BsFillSunFill data-cy="lightMode" cursor={"pointer"} size={20} />
+          <BsFillSunFill
+            data-cy="lightMode"
+            cursor={"pointer"}
+            size={20}
+            color="white"
+          />
         ) : (
-          <MdDarkMode data-cy="darkMode" cursor={"pointer"} size={20} />
+          <MdDarkMode
+            color="blue"
+            data-cy="darkMode"
+            cursor={"pointer"}
+            size={20}
+          />
         )}
       </button>
     </div>

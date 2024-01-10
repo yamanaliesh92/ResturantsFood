@@ -17,12 +17,10 @@ const Categorise = () => {
   };
   return (
     <div
-      className="w-full mx-auto my-auto  bg-white dark:bg-black p-6 rounded-lg mb-12"
+      className="w-full mx-auto my-auto bg-white  dark:bg-blue-950  p-6 rounded-lg mb-12"
       id="categorise"
     >
-      <h1 className="text-center font-bold my-2 dark:text-white">
-        Category is available now{" "}
-      </h1>
+      <h1 className="title ml-3">Category is available now:</h1>
 
       {isLoading && <h1>loading....</h1>}
 
@@ -31,14 +29,14 @@ const Categorise = () => {
           {JSON.stringify(error)}
         </h1>
       )}
-      <div className="grid gap-3 grid-cols-1 md:grid-cols-2  lg:grid-cols-4  xl:grid-cols-5 ">
+      <div className="grid gap-2 grid-cols-1  sm:grid-cols-2 md:grid-cols-3   ">
         {categories.map((items) => {
           return (
             <div
               onClick={() => handelSubmit(items)}
-              className="w-full h-[100px] flex ml-4 items-center dark:bg-[#252222] border dark:border-[#252222] b border-gray-300 rounded-lg justify-between cursor-pointer overflow-hidden"
+              className="w-[80%] h-[100px] flex ml-4 bg-blue-950 dark:bg-white items-center  border dark:border-white border-blue-950 b  rounded-lg justify-between cursor-pointer overflow-hidden"
             >
-              <h5 className="text-[15px] uppercase ml-2 dark:text-white">
+              <h5 className="text-[15px] uppercase ml-2 text-white dark:text-blue-950">
                 {items}
               </h5>
 

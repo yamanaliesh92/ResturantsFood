@@ -8,7 +8,7 @@ import Footer from "../layout/footer/footer";
 
 const Homepage = () => {
   return (
-    <div className=" dark:bg-black">
+    <div className="  dark:bg-blue-950 bg-white">
       <Header activeHeading={1} />
       <Hero />
       <Categorise />

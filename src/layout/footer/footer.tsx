@@ -11,7 +11,7 @@ import {
 
 const Footer = () => {
   return (
-    <div className="bg-[#000] text-white mt-4">
+    <div className=" bg-white text-blue-950 dark:bg-blue-950 dark:text-white mt-4">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 sm:px-7 px-5 py-18 gap-3">
         <ul className="px-5  flex flex-col items-start sm:text-start">
           <img

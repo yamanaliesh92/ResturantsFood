@@ -35,7 +35,7 @@ const ScrollToTop = () => {
       {visible && (
         <div
           onClick={scrollToTops}
-          className=" bg-black  text-white dark:bg-white dark:text-black rounded-md flex items-center justify-center w-[50px] h-[50px]"
+          className=" dark:bg-white bg-blue-950 text-white  dark:text-blue-950 rounded-md flex items-center justify-center w-[50px] h-[50px]"
         >
           <AiOutlineArrowUp size={25} />
         </div>

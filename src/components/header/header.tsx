@@ -11,10 +11,7 @@ import CartProduct from "../cart-order/cartOrder";
 import WhishList from "../whish-list/whishlist";
 import { useSelector } from "react-redux";
 import { RxHamburgerMenu } from "react-icons/rx";
-import {
-  IResponseRestaurant,
-  useAllRestaurantQuery,
-} from "../../redux/api/resturant.api";
+
 import { IResponseOrder, useAllOrdersQuery } from "../../redux/api/order.api";
 import { IStateRedux } from "../../redux/store";
 
@@ -70,13 +67,13 @@ const Header: FC<IProps> = ({ activeHeading }) => {
 
   return (
     <>
-      <div className="w-full  mx-auto  dark:bg-white">
-        <div className="h-[50px] my-[20px] dark:mt-[20px] dark:my-0 p-3  flex items-center justify-between">
+      <div className="w-full p-4  mx-auto  dark:bg-blue-950  bg-white">
+        <div className="h-[50px] p-5  flex items-center justify-between">
           <Link to={"/"}>
             <img
               src={"https://shopo.quomodothemes.website/assets/images/logo.svg"}
               alt="logo"
-              className="w-[60px] sm:w-[140px]"
+              className="w-[60px] dark:bg-white p-1 rounded-md sm:w-[140px]"
             />
           </Link>
 
@@ -88,7 +85,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               value={searchValue.text}
               onChange={search}
               placeholder="Order name..."
-              className="h-[40px] dark:bg-gray-700 dark:text-white dark:placeholder-white  placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-[#3957db] dark:border-gray-700 border-[2px] rounded-md ml-2 pl-2"
+              className="h-[40px] dark:bg-white dark:text-blue-950  bg-blue-950 text-white placeholder-white dark:placeholder-blue-950  placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-white dark:border-blue-950 border-[2px] rounded-md ml-2 pl-2"
             />
             {data && data.length !== 0 && searchValue.text ? (
               <div
@@ -110,7 +107,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
         </div>
       </div>
 
-      <div className="transition flex items-center justify-between h-[70px] w-full bg-[#3321c8] dark:bg-white dark:text-black">
+      <div className="transition flex items-center justify-between h-[70px] w-full  dark:bg-blue-950 bg-white">
         <div className="w-11/12 mx-auto my-auto flex items-center justify-between">
           <div className=" hidden sm:flex sm:items-center">
             <Navbar active={activeHeading} />
@@ -128,9 +125,9 @@ const Header: FC<IProps> = ({ activeHeading }) => {
                 <AiOutlineHeart
                   size={30}
                   onClick={changeOpenWhishList}
-                  className="cursor-pointer text-white dark:text-black"
+                  className="cursor-pointer  dark:text-white text-blue-950"
                 />
-                <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-white bg-[#3bc177] w-4 h-4 top right p-0 m-0">
+                <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-blue-950 bg-white dark:text-white dark:bg-blue-950 w-4 h-4 top right p-0 m-0">
                   {wishlist.length}
                 </span>
               </div>
@@ -139,10 +136,10 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               <div className="relative cursor-pointer ml-[15px]">
                 <AiOutlineShoppingCart
                   onClick={changeOpenCart}
-                  className="cursor-pointer text-white dark:text-black"
+                  className="cursor-pointer dark:text-white text-blue-950"
                   size={30}
                 />
-                <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-white bg-[#3bc177] w-4 h-4 top right p-0 m-0">
+                <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-blue-950 bg-white dark:text-white dark:bg-blue-950  w-4 h-4 top right p-0 m-0">
                   {cart.length}
                 </span>
               </div>
@@ -152,7 +149,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               <div className="relative cursor-pointer ml-[15px]">
                 <CgProfile
                   size={30}
-                  className="cursor-pointer text-white dark:text-black"
+                  className="cursor-pointer  dark:text-white text-blue-950"
                   onClick={() => navigate("/profile")}
                 />
 

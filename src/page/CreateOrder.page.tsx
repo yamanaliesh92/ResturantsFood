@@ -6,7 +6,7 @@ import DashboardSideBar from "../components/dashboardSideBar/dashboradSideBar";
 const CreateOrderPage = () => {
   return (
     <div>
-      <div className="flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between bg-white dark:bg-blue-950">
         <div className=" w-[130px] sm:w-[330px] h-screen">
           <DashboardSideBar active={3} />
         </div>

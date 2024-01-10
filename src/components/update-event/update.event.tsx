@@ -12,6 +12,8 @@ import {
   useUpdateEventMutation,
 } from "../../redux/api/event.api";
 import Input from "../Input/input";
+import { useForm } from "react-hook-form";
+import Button from "../button";
 interface IProps {
   data: IResponseEvent;
   setOpen: React.Dispatch<
@@ -22,15 +24,14 @@ interface IProps {
   >;
 }
 
-interface IPayloadUpdateEvent {
+interface IUpdate {
   name: string;
   oldPrice: number;
-  date: Date;
   newPrice: number;
-  description: string;
+  id: number;
   category: string;
+  description: string;
 }
-
 const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
   const init = {
     name: data.name,
@@ -52,6 +53,18 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
   const close = () => {
     setOpen((prev) => ({ id: 0, open: false }));
   };
+
+  const form = useForm({
+    defaultValues: {
+      name: data.name,
+      newPrice: data.newPrice,
+      oldPrice: data.oldPrice,
+      category: data.category,
+      description: data.description,
+      id: data.id,
+    },
+  });
+  const { register, handleSubmit } = form;
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -77,9 +90,7 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
     close();
   }
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: IUpdate) => {
     const body = {
       name: element.name,
       newPrice: element.newPrice,
@@ -98,26 +109,11 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
       (await mutateUpdateImg({ id: data.id, img: formData as any }));
   };
 
-  const onChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    key: keyof IPayloadUpdateEvent,
-    isNumber: boolean
-  ) => {
-    const value = isNumber ? e.target.valueAsNumber : e.target.value;
-    setElement((prev) => {
-      return {
-        ...prev,
-        [key]: value,
-      };
-    });
-  };
-
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-      <div className="bg  bg-white p-4 w-[270px]  sm:w-[500px] h-[460px] rounded-md shadow-sm flex flex-col relative ">
-        {isLoading && <h1>Loading.....</h1>}
+    <div className="fixed w-full h-screen top-0  left-0 bg-white dark:bg-blue-950 z-50 flex items-center justify-center">
+      <div className="bg-blue-950  mt-1 dark:bg-white mb-1 h-[545px] overflow-y-auto  text-white dark:text-blue-950 p-2 w-[300px]  sm:w-[500px]  rounded-md shadow-sm flex flex-col relative ">
         {error && (
           <h1 className="text-[15px] text-red-400 my-2">
             {JSON.stringify(error)}
@@ -129,65 +125,52 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
           </h1>
         )}
 
-        <div className="block sm:flex sm:justify-between mt-2">
-          <h1 className="text-red-500 font-bold text-2xl">update your event</h1>
+        <div className="p-2 flex justify-between mt-1">
+          <h1 className="font-bold text-[18px] dark:text-blue-950 text-white">
+            update your event
+          </h1>
           <h1 onClick={close}>X</h1>
         </div>
-        <form className="mt-4 flex flex-col" onSubmit={onSubmit}>
-          <div className="mt-2">
-            <Input
-              onChange={(e) => onChange(e, "name", false)}
-              value={element.name}
-              type="text"
-              label="Name"
-              name="name"
-            />
+        <form
+          className="p-2 w-full  flex flex-col"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className="mt-2 flex flex-col">
+            <Input {...register("name")} label="Name" type="text" />
           </div>
 
           <div className="mt-2 grid grid-cols-2 gap-2 relative">
-            <Input
-              value={element.oldPrice}
-              onChange={(e) => onChange(e, "oldPrice", true)}
-              type="number"
-              label="oldPrice"
-              name="oldPrice"
-            />
-
-            <Input
-              value={element.newPrice}
-              onChange={(e) => onChange(e, "newPrice", true)}
-              type="number"
-              label="newPrice"
-              name="newPrice"
-            />
+            <div className="mt-2 flex flex-col">
+              <Input {...register("oldPrice")} label="OldPrice" type="number" />
+            </div>
+            <div className="mt-2 flex flex-col">
+              <Input {...register("newPrice")} label="NewPrice" type="number" />
+            </div>
           </div>
 
-          <div className="mt-2">
+          <div className="mt-2 flex flex-col">
             <DateTimePicker
               data-cy="dateInput"
               onChange={setDate as any}
+              className=" sm:w-[75%] bg-white text-blue-950 dark:bg-white dark:text-blue-950  mt-1  h-[55px] outline-0 text-sm  p-2 rounded-md placeholder-gray-400 "
               value={data.date}
             />
           </div>
 
-          <div className="mt-2">
+          <div className="mt-2 flex flex-col">
             <Input
-              onChange={(e) => onChange(e, "category", false)}
-              value={element.category}
+              {...register("category")}
               type="text"
               label="Category"
               name="category"
             />
           </div>
 
-          <div className="mt-2 relative">
+          <div className="mt-2 flex flex-col">
             <textarea
-              value={element.description}
               rows={3}
-              onChange={(e) =>
-                setElement({ ...element, description: e.target.value })
-              }
-              className="w-full block relative  p-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              {...register("description")}
+              className=" sm:w-[75%] bg-white text-blue-950 dark:bg-white dark:text-blue-950  mt-1  h-[55px] outline-0 text-sm  p-2 rounded-md placeholder-gray-400 "
             />
           </div>
           <div className="none">
@@ -207,22 +190,10 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
             <HiPhotograph size={25} onClick={openGallery} />
           </div>
 
-          {isLoading && <h1>loading.....</h1>}
+          <div className="mt-2 block sm:flex sm:justify-between">
+            <Button onClick={close}>cancel</Button>
 
-          <div className="mt-4 block sm:flex sm:justify-between">
-            <button
-              onClick={close}
-              className="w-fit mb-2 sm:mb-0 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
-            >
-              cancel
-            </button>
-
-            <button
-              className="w-fit mr-0 sm:mr-4 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
-              type={"submit"}
-            >
-              update
-            </button>
+            <Button isLoading={isLoading}>update</Button>
           </div>
         </form>
       </div>

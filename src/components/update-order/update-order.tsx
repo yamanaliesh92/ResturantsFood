@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FC, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { HiPhotograph } from "react-icons/hi";
 
 import {
@@ -7,6 +8,7 @@ import {
   useUpdateOrderImgMutation,
   useUpdateOrderMutation,
 } from "../../redux/api/order.api";
+import Button from "../button";
 import Input from "../Input/input";
 
 interface IProps {
@@ -23,14 +25,14 @@ interface IProps {
     }>
   >;
 }
-
-const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
-  const init: IUpdateOrder = {
-    category: data.category,
-    description: data.description,
-    name: data.name,
-    price: data.price,
-  };
+interface IUpdate {
+  name: string;
+  price: number;
+  id: number;
+  category: string;
+  description: string;
+}
+const UpdateOrderModal: FC<IProps> = ({ data, setOpen }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [
@@ -38,7 +40,6 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
     { isSuccess: isSuccessUpdateImg, error: errorUpdateImg },
   ] = useUpdateOrderImgMutation();
 
-  const [update, setUpdate] = useState(init);
   const [updateImg, setUpdateImg] = useState<File | null>(null);
   const [openUpdateImg, setOpenUpdateImg] = useState(false);
 
@@ -50,33 +51,27 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
     setUpdateImg(value);
   };
 
-  const onChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    isNumber: boolean,
-    key: keyof IUpdateOrder
-  ) => {
-    const value = isNumber ? e.target.valueAsNumber : e.target.value;
-
-    setUpdate((prev) => {
-      return {
-        ...prev,
-        [key]: value,
-      };
-    });
-  };
+  const form = useForm({
+    defaultValues: {
+      name: data.name,
+      price: data.price,
+      category: data.category,
+      description: data.description,
+      id: data.id,
+    },
+  });
+  const { register, handleSubmit } = form;
 
   if (isSuccess) {
     setOpen((prev) => ({ id: 0, open: false }));
   }
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const submit = async (data: IUpdate) => {
     const body: IUpdateOrder = {
-      category: update.category,
-      description: update.description,
-      name: update.name,
-      price: update.price,
+      category: data.category,
+      description: data.description,
+      name: data.name,
+      price: Number(data.price),
     };
     await mutate({ id: data.id, payload: body });
 
@@ -103,10 +98,20 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
   };
 
   return (
-    <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-      <div className="bg  bg-white dark:bg-black p-4 w-[270px]  sm:w-[500px] h-[500px] rounded-md shadow-sm flex flex-col relative ">
-        <h1 className="d text-center mt-2 dark:text-white">update Order</h1>
-        <form className="mt-4" onSubmit={submit}>
+    <div className="fixed w-full h-screen top-0  left-0 bg-white dark:bg-blue-950 z-50 flex items-center justify-center">
+      <div className="bg-blue-950  mt-1 dark:bg-white mb-2 h-[530px] overflow-y-auto  text-white dark:text-blue-950 p-2 w-[300px]  sm:w-[500px]  rounded-md shadow-sm flex flex-col relative ">
+        <div className="p-2 flex justify-between mt-1">
+          <h1 className="font-bold text-[18px] dark:text-blue-950 text-white">
+            update your event
+          </h1>
+          <h1 onClick={() => setOpen((prev) => ({ id: 0, open: !prev.open }))}>
+            X
+          </h1>
+        </div>
+        <form
+          className="p-4 w-full  flex flex-col"
+          onSubmit={handleSubmit(submit)}
+        >
           {isLoading && <h1>Loading.....</h1>}
           {error && (
             <h1 className="text-[15px] text-red-400 my-2">
@@ -119,71 +124,53 @@ const UpdateOrderModal: FC<IProps> = ({ open, data, setOpen }) => {
               {JSON.stringify(error)}
             </h1>
           )}
-          <div className="mt-2">
-            <Input
-              value={update.name as string}
-              name="name"
-              label="Name"
-              type="text"
-              onChange={(e) => onChange(e, false, "name")}
-            />
+          <div className="mt-2 flex flex-col ">
+            <Input {...register("name")} label="Name" type="text" />
           </div>
-          <div className="mt-3 relative">
+          <div className="flex flex-col mt-2">
             <Input
-              value={update.category as string}
-              name="name"
+              {...register("category")}
+              name="category"
               label="Category"
               type="text"
-              onChange={(e) => onChange(e, false, "category")}
             />
           </div>
-          <div className="mt-3 relative">
+          <div className="flex flex-col mt-2">
             <Input
-              value={update.price as number}
+              {...register("price")}
               type="number"
-              onChange={(e) => onChange(e, true, "price")}
               label="Price"
               name="price"
             />
           </div>
-          <div className="mt-3 relative">
+          <div className="flex flex-col mt-2">
+            <label className="mt-2">description</label>
             <textarea
-              value={update.description}
-              onChange={(e) =>
-                setUpdate({
-                  ...update,
-                  description: e.target.value,
-                })
-              }
+              {...register("description")}
+              name="description"
               rows={3}
-              className="w-full block relative  px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="w-[75%] bg-white text-blue-950 dark:bg-white dark:text-blue-950  mt-1  h-[55px] outline-0 text-sm  p-2 rounded-md placeholder-gray-400 "
             />
           </div>
 
           <div className="fle flex my-3 items-center p-3">
-            <h3 className="block text-sm my-3 mr-2 text-gray-700 dark:text-white font-medium">
+            <h3 className="block text-sm my-3 mr-2 dark:text-blue-900 text-white font-medium">
               click in icon to change your photo
             </h3>
 
-            <HiPhotograph onClick={openGallery} className="dark:text-white" />
+            <HiPhotograph
+              onClick={openGallery}
+              size={20}
+              className="dark:text-blue-950"
+            />
           </div>
           <div style={{ display: "none" }}>
             <input ref={inputRef} onChange={onChangeImg} type={"file"} />
           </div>
           <div className="mt-4 block sm:flex sm:justify-between">
-            <button
-              onClick={cancel}
-              className="w-fit dark:bg-white dark:text-black mb-2 sm:mb-0 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
-            >
-              cancel
-            </button>
+            <Button onClick={cancel}>cancel</Button>
 
-            <button
-              className="w-fit dark:bg-white dark:text-black mr-0 sm:mr-4 h-[40px] py-2 px-4 flex justify-center border border-transparent font-medium text-white rounded-md bg-blue-500 hover:bg-blue-700"
-              type={"submit"}
-            >
-              update
-            </button>
+            <Button isLoading={isLoading}>update</Button>
           </div>
         </form>
       </div>

@@ -7,9 +7,9 @@ const Events = () => {
 
   console.log("date", data);
   return (
-    <div className="w-full dark:bg-black mx-auto my-auto">
+    <div className="w-full bg-white  dark:bg-blue-950 mx-auto my-auto">
       <div className="text-[27px] mt-3 text-center md:text-start font-[600]  pb-[20px]">
-        <h1 className="text-center text-black dark:text-white">Event</h1>
+        <h1 className="title ml-7">All Event:</h1>
       </div>
       {isLoading && <h1>loading....</h1>}
 

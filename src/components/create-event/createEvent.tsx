@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { HiPhotograph } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { useCreateOrderMutation } from "../../redux/api/order.api";
 import DateTimePicker from "react-datetime-picker";
 
 import "react-calendar/dist/Calendar.css";
@@ -10,58 +9,62 @@ import "react-datetime-picker/dist/DateTimePicker.css";
 import { useCreateEventMutation } from "../../redux/api/event.api";
 import Button from "../button";
 import Input from "../Input/input";
+import { useForm } from "react-hook-form";
 
 interface ICreateEvent {
   name: string;
-  newPrice: number;
-  oldPrice: number;
+  newPrice: string;
+  oldPrice: string;
   description: string;
   category: string;
-
-  imgOrder: string;
 }
-const init: ICreateEvent = {
-  name: "",
-  description: "",
-  oldPrice: 0,
-  newPrice: 0,
-  imgOrder: "",
-  category: "",
-};
+
 const CreateEvent = () => {
   const [img, setImg] = useState<File | null>(null);
   const inputImgRef = useRef<HTMLInputElement>(null);
   const [date, setDate] = useState<Date>(new Date());
-  const [element, setElement] = useState<ICreateEvent>(init);
+
   const [restaurantId, setRestaurantId] = useState<number>(0);
 
   const [mutate, { isLoading, isSuccess, error }] = useCreateEventMutation();
 
   const navigate = useNavigate();
 
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      oldPrice: "",
+      newPrice: "",
+      category: "",
+      description: "",
+    },
+  });
+  const { register, handleSubmit, formState } = form;
+
+  const { errors } = formState;
+
   if (isSuccess) {
     navigate("/");
   }
 
   useEffect(() => {
-    const id = localStorage.getItem("id")
-      ? JSON.parse(localStorage.getItem("id") as any)
+    const id: number = localStorage.getItem("id")
+      ? JSON.parse(localStorage.getItem("id") as string)
       : 0;
     setRestaurantId(id);
   }, []);
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: ICreateEvent) => {
     if (!img) return;
     const fromDate = new FormData();
-    fromDate.append("name", element.name);
-    fromDate.append("oldPrice", String(element.newPrice));
-    fromDate.append("newPrice", String(element.oldPrice));
+    fromDate.append("name", data.name);
+    fromDate.append("oldPrice", String(data.newPrice));
+    fromDate.append("newPrice", String(data.oldPrice));
     fromDate.append("imgOrder", img);
     fromDate.append("date", date.toISOString());
-    fromDate.append("description", element.description);
-    fromDate.append("category", element.category);
-    fromDate.append("restaurantId", restaurantId as any);
+    fromDate.append("description", data.description);
+    fromDate.append("category", data.category);
+    fromDate.append("restaurantId", String(restaurantId));
 
     await mutate(fromDate as any);
   };
@@ -74,209 +77,121 @@ const CreateEvent = () => {
     setImg(value);
   };
 
-  const onChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    isNumber: boolean,
-    key: keyof ICreateEvent
-  ) => {
-    const value = isNumber ? e.target.valueAsNumber : e.target.value;
-    setElement((prev) => {
-      return {
-        ...prev,
-        [key]: value,
-      };
-    });
-  };
   return (
-    <div className="w-[220px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center   h-[750px] rounded-[4px] bg-white p-2">
-      <h1 className="sm:text-[20px] font-bold text-center">Create a Event</h1>
+    <div className="w-[220px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center h-fit rounded-[14px] bg-blue-950 dark:bg-white p-2">
+      <h1 className="sm:text-[20px] text-white dark:text-blue-950 font-bold text-center">
+        Create a Event
+      </h1>
 
       {error && (
-        <h1 className="text-[15px] text-red-400 my-2">
+        <h1 className="text-[15px] text-red-500 mb-1">
           {JSON.stringify(error)}
         </h1>
       )}
 
-      <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
-        <div className="flex flex-col mt-2">
+      <form className="w-full flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col">
+          <p className="text-[15px] my-1  text-red-500">
+            {errors.name?.message}
+          </p>
           <Input
-            value={element.name}
-            onChange={(e) => onChange(e, false, "name")}
+            placeholder={"Enter your name"}
+            {...register("name", {
+              required: { value: true, message: "name is required" },
+            })}
             label="Name"
-            name="name"
             type="text"
           />
         </div>
-        <div className="flex flex-col mt-3">
+        <div className="flex flex-col ">
+          <p className="text-[15px] my-1  text-red-500">
+            {errors.newPrice?.message}
+          </p>
           <Input
-            value={element.oldPrice}
-            onChange={(e) => onChange(e, true, "oldPrice")}
-            name="oldPrice"
+            placeholder={"Enter your newPrice"}
+            {...register("newPrice", {
+              required: { value: true, message: "newPrice is required" },
+            })}
+            label="NewPrice"
             type="number"
-            label="oldPrice of order"
           />
         </div>
 
-        <div className="flex flex-col mt-3">
+        <div className="flex flex-col ">
+          <p className="text-[15px] my-1  text-red-500">
+            {errors.oldPrice?.message}
+          </p>
           <Input
-            value={element.newPrice}
-            onChange={(e) => onChange(e, true, "newPrice")}
-            name="newPrice"
+            placeholder={"Enter your oldPrice"}
+            {...register("oldPrice", {
+              required: { value: true, message: "oldPrice is required" },
+            })}
+            label="oldPrice"
             type="number"
-            label="newPrice of order"
           />
         </div>
 
-        <div className="flex flex-col mt-3">
+        <div className="flex flex-col">
+          <p className="text-[15px] my-1  text-red-500">
+            {errors.category?.message}
+          </p>
           <Input
-            value={element.category}
-            onChange={(e) => onChange(e, false, "category")}
-            name="category"
+            placeholder={"Enter your category"}
+            {...register("category", {
+              required: { value: true, message: "category is required" },
+            })}
             type="text"
             label="Category"
           />
         </div>
+        <label className="text-[14px] text-white dark:text-blue-950  my-1">
+          End of Event time
+        </label>
 
-        <div className="flex  flex-col w-[75%] mt-2">
-          <label className="text-[14px] mb-2">End of Event time</label>
-
+        <div className="flex  flex-col w-[75%] items-center justify-center  mt-1  h-[55px] outline-0 text-sm bg-white text-blue-950 dark:bg-white dark:text-blue-950   border border-white dark:border-blue-950  rounded-md ">
           <DateTimePicker
             data-cy="dateInput"
             onChange={setDate as any}
             value={date}
             required
-            className="text-[12px]  sm:text-[17px] overflow-x-auto sm:overflow-visible"
+            className="text-[12px] w-full h-full rounded-md outline-0 text-sm bg-white text-blue-950 dark:bg-white dark:text-blue-950   border border-white dark:border-blue-950  border-none  sm:text-[17px] overflow-x-auto sm:overflow-visible"
           />
         </div>
 
-        <div className="flex flex-col mt-3">
+        <div className="flex flex-col mt-1">
+          <p className="text-[15px] my-1  text-red-500">
+            {errors.description?.message}
+          </p>
+          <label className="text-[14px] text-white dark:text-blue-950">
+            Description
+          </label>
           <textarea
-            value={element.description}
-            placeholder="Order Description"
-            onChange={(e) =>
-              setElement({ ...element, description: e.target.value })
-            }
-            rows={3}
-            className="w-[90%] mt-2  h-[55px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400  focus:border-blue-500 "
+            {...register("description", {
+              required: { value: true, message: "description is required" },
+            })}
+            placeholder="Enter your description"
+            rows={2}
+            className="w-[75%] mt-1  h-[55px] outline-0 text-sm bg-white text-blue-950 dark:bg-white dark:text-blue-950   border border-white dark:border-blue-950 p-2 rounded-md placeholder:text-blue-950"
           />
         </div>
 
-        <div className="hidden flex-col mt-2 ">
-          <label className="text-[14px]">img of order</label>
-          <input
-            onChange={onChangeImg}
-            ref={inputImgRef}
-            type={"file"}
-            data-testid={"imgTest"}
-          />
+        <div className="hidden flex-col mt-1 ">
+          <label className="text-[14px] text-white dark:text-blue-950">
+            img of order
+          </label>
+          <input onChange={onChangeImg} ref={inputImgRef} type={"file"} />
         </div>
 
         <div
-          className="mt-4 flex items-center  cursor-pointer"
+          className="mt-2 flex items-center  cursor-pointer"
           onClick={() => inputImgRef.current?.click()}
         >
-          <HiPhotograph size={25} />
-          <h4 className="ml-4">photo</h4>
+          <HiPhotograph className="text-white dark:text-blue-950" size={25} />
+          <h4 className="ml-4 text-white dark:text-blue-950">photo</h4>
         </div>
 
-        <Button> create</Button>
+        <Button isLoading={isLoading}> create</Button>
       </form>
-      {/* <form className="p-2 w-full flex flex-col" onSubmit={onSubmit}>
-        <div className="flex flex-col my-2">
-          <label className="text-[14px]">name of order:</label>
-          <input
-            data-testid={"nameTest"}
-            value={element.name}
-            onChange={(e) => onChange(e, false, "name")}
-            type={"text"}
-            className="w-[75%]   h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-2">
-          <div className="flex flex-col">
-            <label className="sm:text-[14px]">old price</label>
-            <input
-              data-testid={"nameTest"}
-              value={element.oldPrice}
-              onChange={(e) => onChange(e, true, "oldPrice")}
-              type={"number"}
-              className="w-full    h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-[14px]">new price: </label>
-            <input
-              data-testid={"nameTest"}
-              value={element.newPrice}
-              onChange={(e) => onChange(e, true, "newPrice")}
-              type={"number"}
-              className="w-full   h-[35px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400 "
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-col mt-2">
-          <label className="text-[14px]">category:</label>
-          <input
-            data-testid={"nameTest"}
-            value={element.category}
-            onChange={(e) => onChange(e, false, "category")}
-            type={"text"}
-            className="w-[75%]    h-[35px] p-4 outline-0  border border-gray-300   rounded-[3px] placeholder-gray-400 "
-          />
-        </div>
-
-        <div className="flex  flex-col w-[75%] mt-2">
-          <label className="text-[14px] mb-2">End of Event time</label>
-
-          <DateTimePicker
-            data-cy="dateInput"
-            onChange={setDate as any}
-            value={date}
-            required
-            className="text-[12px]  sm:text-[17px] overflow-x-auto sm:overflow-visible"
-          />
-        </div>
-
-        <div className="flex flex-col mt-3">
-          <label className="text-[14px]">description:</label>
-          <textarea
-            value={element.description}
-            onChange={(e) =>
-              setElement({ ...element, description: e.target.value })
-            }
-            rows={3}
-            className="w-[90%]   h-[55px] outline-0  border border-gray-300 p-2  rounded-[3px] placeholder-gray-400  focus:border-blue-500 "
-          />
-        </div>
-
-        <div className="hidden flex-col mt-2 ">
-          <label className="text-[14px]">img of order:</label>
-          <input
-            onChange={onChangeImg}
-            ref={inputImgRef}
-            type={"file"}
-            data-testid={"imgTest"}
-          />
-        </div>
-
-        <div
-          className="mt-4 flex flex-col cursor-pointer"
-          onClick={() => inputImgRef.current?.click()}
-          data-testid={"GallaryTest"}
-        >
-          <HiPhotograph size={25} />
-          <h4>img Product</h4>
-        </div>
-
-        <button
-          data-testid={"submitTest"}
-          className="w-[90px]  sm:w-[120px] md:w-[190px] flex items-center justify-center text-yellow-50 mt-4 bg-black h-[50px] my-3  rounded-xl cursor-pointer"
-        >
-          create
-        </button>
-      </form> */}
     </div>
   );
 };

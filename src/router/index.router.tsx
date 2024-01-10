@@ -12,7 +12,6 @@ import EventPage from "../page/event.page";
 
 import Homepage from "../page/Home.page";
 
-import ProductDetailsPage from "../page/productDeatils.page";
 import ProfilePage from "../page/profile.page";
 
 import AuthPage from "../page/auth.page";
@@ -27,6 +26,7 @@ import RestaurantInfoPage from "../page/restuarantInfo.page";
 import OwnerRouter from "./owner.router";
 import CreateOrderPage from "../page/CreateOrder.page";
 import OrdersPage from "../page/bestSelling.page";
+import OrderDetailsPage from "../page/orderDeatils.page";
 
 const router = createBrowserRouter([
   {
@@ -109,15 +109,6 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/dashboard/resInfo",
-    element: (
-      <OwnerRouter>
-        <RestaurantInfoPage />,
-      </OwnerRouter>
-    ),
-  },
-
-  {
     path: "/dashboard/orders",
     element: (
       <OwnerRouter>
@@ -139,7 +130,7 @@ const router = createBrowserRouter([
     path: "/products/:id",
     element: (
       <PrivateRouter>
-        <ProductDetailsPage />,
+        <OrderDetailsPage />,
       </PrivateRouter>
     ),
   },
@@ -151,11 +142,21 @@ const router = createBrowserRouter([
       </OwnerRouter>
     ),
   },
+
   {
     path: "/events",
     element: (
       <OwnerRouter>
         <EventPage />
+      </OwnerRouter>
+    ),
+  },
+
+  {
+    path: "/dashboard/resInfo",
+    element: (
+      <OwnerRouter>
+        <RestaurantInfoPage />,
       </OwnerRouter>
     ),
   },

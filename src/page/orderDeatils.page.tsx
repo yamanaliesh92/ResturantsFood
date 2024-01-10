@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../components/header/header";
+import OrderDetails from "../components/order-details/orderDetails";
 
-import ProductsDetails from "../components/order-details/orderDetails";
 import SuggestProduct from "../components/suggest-order/suggestOrder";
 import Footer from "../layout/footer/footer";
 import {
@@ -11,7 +11,7 @@ import {
   useGetOrderByCategoryQuery,
 } from "../redux/api/order.api";
 
-const ProductDetailsPage = () => {
+const OrderDetailsPage = () => {
   const { id } = useParams();
 
   const [data, setData] = useState<IResponseOrder[]>([]);
@@ -33,15 +33,17 @@ const ProductDetailsPage = () => {
   }, [dataGetByCategory, dateGetOneProduct?.id]);
 
   return (
-    <div>
+    <div className="bg-white dark:bg-blue-950">
       {isLoading && <h1>loading...</h1>}
       <Header activeHeading={4} />
-      <ProductsDetails data={dateGetOneProduct} />
-      <SuggestProduct data={data} />
+      <div className="flex flex-col">
+        <OrderDetails data={dateGetOneProduct} />
+        <SuggestProduct data={data} />
+      </div>
 
       <Footer />
     </div>
   );
 };
 
-export default ProductDetailsPage;
+export default OrderDetailsPage;
