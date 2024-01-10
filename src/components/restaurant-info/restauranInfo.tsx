@@ -21,7 +21,7 @@ const RestaurantInfo: FC<IProps> = ({ data, setEdit }) => {
         <h1 className="text-[15px]  text-white dark:text-blue-950 ">
           Restaurant name:
         </h1>
-        <h1 className="text-[15px]  ml-1 sm:ml-2 text-red-500 dark:text-gray-400">
+        <h1 className="text-[15px]  ml-1 sm:ml-2 text-red-500 ">
           {data?.name}
         </h1>
       </div>
@@ -29,7 +29,7 @@ const RestaurantInfo: FC<IProps> = ({ data, setEdit }) => {
         <h1 className="text-[15px]  text-white dark:text-blue-950">
           Restaurant address:
         </h1>
-        <h1 className="text-[15px] ml-1  sm:ml-2 text-red-500 dark:text-gray-400">
+        <h1 className="text-[15px] ml-1  sm:ml-2 text-red-500">
           {data?.address}
         </h1>
       </div>
