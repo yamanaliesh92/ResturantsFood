@@ -14,6 +14,7 @@ import {
 import Input from "../Input/input";
 import { useForm } from "react-hook-form";
 import Button from "../button";
+import { SerializedError } from "@reduxjs/toolkit";
 interface IProps {
   data: IResponseEvent;
   setOpen: React.Dispatch<
@@ -112,11 +113,11 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div className="fixed w-full h-screen top-0  left-0 bg-white dark:bg-blue-950 z-50 flex items-center justify-center">
-      <div className="bg-blue-950  mt-1 dark:bg-white mb-1 h-[545px] overflow-y-auto  text-white dark:text-blue-950 p-2 w-[300px]  sm:w-[500px]  rounded-md shadow-sm flex flex-col relative ">
+    <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm  h-screen top-0   left-0 flex items-center justify-center">
+      <div className="bg-dark  mt-1 dark:bg-white mb-1 h-fit   text-white dark:text-dark p-2 w-[300px]  sm:w-[500px]  rounded-md shadow-sm flex flex-col relative ">
         {error && (
           <h1 className="text-[15px] text-red-400 my-2">
-            {JSON.stringify(error)}
+            {(error as SerializedError).message}
           </h1>
         )}
         {errorUpdateEvent && (
@@ -125,12 +126,10 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
           </h1>
         )}
 
-        <div className="p-2 flex justify-between mt-1">
-          <h1 className="font-bold text-[18px] dark:text-blue-950 text-white">
-            update your event
-          </h1>
-          <h1 onClick={close}>X</h1>
-        </div>
+        <h1 className="text-end text-2xl mr-2" onClick={close}>
+          X
+        </h1>
+
         <form
           className="p-2 w-full  flex flex-col"
           onSubmit={handleSubmit(onSubmit)}
@@ -139,7 +138,7 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
             <Input {...register("name")} label="Name" type="text" />
           </div>
 
-          <div className="mt-2 grid grid-cols-2 gap-2 relative">
+          <div className="mt-2 flex items-center  relative">
             <div className="mt-2 flex flex-col">
               <Input {...register("oldPrice")} label="OldPrice" type="number" />
             </div>
@@ -149,10 +148,11 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
           </div>
 
           <div className="mt-2 flex flex-col">
+            <h1>End Time of event</h1>
             <DateTimePicker
               data-cy="dateInput"
               onChange={setDate as any}
-              className=" sm:w-[75%] bg-white text-blue-950 dark:bg-white dark:text-blue-950  mt-1  h-[55px] outline-0 text-sm  p-2 rounded-md placeholder-gray-400 "
+              className=" sm:w-[75%] bg-white text-dark dark:bg-white dark:text-dark  mt-1  h-[55px] outline-0 text-sm  p-2 rounded-md placeholder-gray-400 "
               value={data.date}
             />
           </div>
@@ -167,10 +167,11 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
           </div>
 
           <div className="mt-2 flex flex-col">
+            <h1>Description</h1>
             <textarea
               rows={3}
               {...register("description")}
-              className=" sm:w-[75%] bg-white text-blue-950 dark:bg-white dark:text-blue-950  mt-1  h-[55px] outline-0 text-sm  p-2 rounded-md placeholder-gray-400 "
+              className=" sm:w-[75%] bg-white text-dark dark:bg-white dark:text-dark  mt-1  h-[55px] outline-0 text-sm  p-2 rounded-md placeholder-gray-400 "
             />
           </div>
           <div className="none">
@@ -183,18 +184,14 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
             />
           </div>
 
-          <div className="my-2 items-center flex">
+          <div className="mt-4 items-center flex">
             <h1 className="text-[15px] font-bold mr-3">
               click here to change your img Event
             </h1>
             <HiPhotograph size={25} onClick={openGallery} />
           </div>
 
-          <div className="mt-2 block sm:flex sm:justify-between">
-            <Button onClick={close}>cancel</Button>
-
-            <Button isLoading={isLoading}>update</Button>
-          </div>
+          <Button isLoading={isLoading}>update</Button>
         </form>
       </div>
     </div>

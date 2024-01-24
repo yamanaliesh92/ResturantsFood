@@ -67,7 +67,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
 
   return (
     <>
-      <div className="w-full p-4  mx-auto  dark:bg-blue-950  bg-white">
+      <div className="w-full p-4  mx-auto  dark:bg-dark  bg-white">
         <div className="h-[50px] p-5  flex items-center justify-between">
           <Link to={"/"}>
             <img
@@ -85,7 +85,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               value={searchValue.text}
               onChange={search}
               placeholder="Order name..."
-              className="h-[40px] dark:bg-white dark:text-blue-950  bg-blue-950 text-white placeholder-white dark:placeholder-blue-950  placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-white dark:border-blue-950 border-[2px] rounded-md ml-2 pl-2"
+              className="h-[40px] dark:bg-white dark:text-dark  bg-dark text-white placeholder-gray-500  placeholder:text-[13px] sm:placeholder:text-[17px] outline-none border-none w-full border-white dark:border-dark border-[2px] rounded-md ml-2 pl-2"
             />
             {data && data.length !== 0 && searchValue.text ? (
               <div
@@ -107,7 +107,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
         </div>
       </div>
 
-      <div className="transition flex items-center justify-between h-[70px] w-full  dark:bg-blue-950 bg-white">
+      <div className="transition flex items-center justify-between h-[70px] w-full  dark:bg-dark bg-white">
         <div className="w-11/12 mx-auto my-auto flex items-center justify-between">
           <div className=" hidden sm:flex sm:items-center">
             <Navbar active={activeHeading} />
@@ -125,9 +125,9 @@ const Header: FC<IProps> = ({ activeHeading }) => {
                 <AiOutlineHeart
                   size={30}
                   onClick={changeOpenWhishList}
-                  className="cursor-pointer  dark:text-white text-blue-950"
+                  className="cursor-pointer  dark:text-white text-dark"
                 />
-                <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-blue-950 bg-white dark:text-white dark:bg-blue-950 w-4 h-4 top right p-0 m-0">
+                <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-dark bg-white dark:text-white dark:bg-dark w-4 h-4 top right p-0 m-0">
                   {wishlist.length}
                 </span>
               </div>
@@ -136,10 +136,10 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               <div className="relative cursor-pointer ml-[15px]">
                 <AiOutlineShoppingCart
                   onClick={changeOpenCart}
-                  className="cursor-pointer dark:text-white text-blue-950"
+                  className="cursor-pointer dark:text-white text-dark"
                   size={30}
                 />
-                <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-blue-950 bg-white dark:text-white dark:bg-blue-950  w-4 h-4 top right p-0 m-0">
+                <span className="flex items-center justify-center absolute right-0 top-0 rounded-full text-dark bg-white dark:text-white dark:bg-dark  w-4 h-4 top right p-0 m-0">
                   {cart.length}
                 </span>
               </div>
@@ -149,7 +149,7 @@ const Header: FC<IProps> = ({ activeHeading }) => {
               <div className="relative cursor-pointer ml-[15px]">
                 <CgProfile
                   size={30}
-                  className="cursor-pointer  dark:text-white text-blue-950"
+                  className="cursor-pointer  dark:text-white text-dark"
                   onClick={() => navigate("/profile")}
                 />
 

@@ -1,4 +1,6 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import { api } from "./api";
+import { IError } from "./api.common";
 import { IResponseEvent } from "./event.api";
 import { IResponseOrder } from "./order.api";
 
@@ -43,6 +45,11 @@ const Restaurant = api.injectEndpoints({
         url: "/api/restaurant/create",
         body: body,
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
       invalidatesTags: [{ id: "LIST", type: "Restaurant" }],
     }),
     AllRestaurant: builder.query<IResponseRestaurant[], any>({
@@ -50,6 +57,11 @@ const Restaurant = api.injectEndpoints({
         method: "GET",
         url: "api/restaurants/all",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
     }),
 
     updateRestaurantInfo: builder.mutation<boolean, IUpdateRestaurant>({
@@ -58,6 +70,11 @@ const Restaurant = api.injectEndpoints({
         body: body.payload,
         url: `/api/restaurant/update/${body.id}`,
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
 
       invalidatesTags: [{ id: "LIST", type: "Restaurant" }],
     }),
@@ -70,6 +87,11 @@ const Restaurant = api.injectEndpoints({
         method: "GET",
         url: `/api/auth/restaurant/${body.id}`,
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
     }),
   }),
 });

@@ -1,4 +1,5 @@
 import { IStateRedux } from "@/src/redux/store";
+import { SerializedError } from "@reduxjs/toolkit";
 import { FC, useContext, useState } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -18,6 +19,10 @@ interface IProps {
 
 const EventCard: FC<IProps> = ({ active, data }) => {
   const [edit, setEdit] = useState({ id: 0, open: false });
+  const [openDeleteModel, setOpemDeleteModel] = useState({
+    id: 0,
+    open: false,
+  });
 
   const openEdit = (id: number) => {
     setEdit((prev) => ({ id: id, open: !prev.open }));
@@ -40,26 +45,24 @@ const EventCard: FC<IProps> = ({ active, data }) => {
     isLoading: isLoadingGetAllResturant,
   } = useAllRestaurantQuery({});
   return (
-    <div className=" flex-col  flex sm:flex-row mt-2 w-full h-auto items-center dark:bg-white bg-blue-950 rounded-lg">
+    <div className=" flex-col w-[500px] p-3 sm:p-0  flex sm:flex-row mt-2 sm:w-full h-auto items-center dark:bg-white bg-dark rounded-lg">
       {isLoading && <h1>loading....</h1>}
       {isLoadingGetAllResturant && <h1>loading....</h1>}
 
       {errorDeleteEvent && (
-        <h1 className="text-[15px] text-red-400 my-2">
-          {JSON.stringify(error)}
-        </h1>
+        <h1 className="error">{(error as SerializedError).message}</h1>
       )}
-      {error && (
-        <h1 className="text-[15px] text-red-400 my-2">
-          {JSON.stringify(error)}
-        </h1>
-      )}
-      <div className="w-full  sm:w-[40%] md:w-[70%] mr-2">
-        <img src={data.imgOrder} alt="dd" className="w-[200px] h-[250px]" />
+
+      <div className="w-full my-2 ml-1 mr-3   sm:w-[40%] md:w-[70%] ">
+        <img
+          src={data.imgOrder}
+          alt="dd"
+          className="w-[200px] rounded-md h-[250px]"
+        />
       </div>
-      <div className="w-full mt-2 sm:mt-0  flex flex-col">
+      <div className="w-full mr-2 sm:ml-0 mt-2 sm:mt-0  flex flex-col">
         <div className="flex justify-between">
-          <h5 className="text-[16px] sm:text-[22px]  md:text-[25px]  text-white dark:text-blue-950">
+          <h5 className="text-[16px] sm:text-[22px]  md:text-[25px]  text-white dark:text-dark">
             {data.name}
           </h5>
           {data.userId === dateMe?.id && (
@@ -86,7 +89,7 @@ const EventCard: FC<IProps> = ({ active, data }) => {
             <>
               {data.restaurantId === item.id && (
                 <div className="my-1 flex items-center">
-                  <h3 className="text-[12px] sm:text-[19px] text-white dark:text-blue-950">
+                  <h3 className="text-[12px] sm:text-[19px] text-white dark:text-dark">
                     the event offers from:
                   </h3>
                   <h3 className="font-bold text-[12px] sm:text-[19px] ml-1 text-red-500">
@@ -96,21 +99,21 @@ const EventCard: FC<IProps> = ({ active, data }) => {
               )}
             </>
           ))}
-        <p className="h-[65px] my-2 overflow-auto text-white dark:text-blue-950">
+        <p className="h-[65px] my-2 overflow-auto text-white dark:text-dark">
           {data.description}
         </p>
-        <div className="flex py-2 items-center justify-between">
+        <div className="flex py-2 items-center">
           <div className="flex items-center">
             <h5 className="font-[500] text-[18px] text-[#d55b45] pr-3 line-through">
               {data.newPrice}
             </h5>
-            <h5 className="font-bold text-[20px] text-white dark:text-blue-950">
+            <h5 className="font-bold text-[20px] text-white dark:text-dark">
               {data.oldPrice}
             </h5>
           </div>
-          <span className="pr-3 font-[400] text-[17px] text-white dark:text-blue-950">
-            {data.category}
-          </span>
+          <div className=" ml-10 w-[70px] bg-white dark:bg-dark flex items-center justify-center p-2  rounded-md font-[400] text-[17px] dark:text-white text-dark">
+            <h1>{data.category}</h1>
+          </div>
         </div>
         <CountDown data={data} />
       </div>

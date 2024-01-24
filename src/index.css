@@ -9,7 +9,11 @@
   }
 
   .title {
-    @apply font-bold text-[20px] my-2  dark:text-white text-blue-950;
+    @apply font-bold text-[20px] my-2  dark:text-white text-blue-900;
+  }
+
+  .error {
+    @apply text-dangerous text-start text-[12px] sm:text-center sm:text-[14px]  my-1;
   }
 
   input::placeholder,

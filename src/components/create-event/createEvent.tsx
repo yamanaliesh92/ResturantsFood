@@ -10,6 +10,7 @@ import { useCreateEventMutation } from "../../redux/api/event.api";
 import Button from "../button";
 import Input from "../Input/input";
 import { useForm } from "react-hook-form";
+import { SerializedError } from "@reduxjs/toolkit";
 
 interface ICreateEvent {
   name: string;
@@ -78,22 +79,16 @@ const CreateEvent = () => {
   };
 
   return (
-    <div className="w-[220px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center h-fit rounded-[14px] bg-blue-950 dark:bg-white p-2">
-      <h1 className="sm:text-[20px] text-white dark:text-blue-950 font-bold text-center">
+    <div className="w-[220px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center h-fit rounded-[14px] bg-dark dark:bg-white p-2">
+      <h1 className="sm:text-[20px] text-white dark:text-dark font-bold text-center">
         Create a Event
       </h1>
 
-      {error && (
-        <h1 className="text-[15px] text-red-500 mb-1">
-          {JSON.stringify(error)}
-        </h1>
-      )}
+      {error && <h1 className="error">{(error as SerializedError).message}</h1>}
 
       <form className="w-full flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.name?.message}
-          </p>
+          <p className="error">{errors.name?.message}</p>
           <Input
             placeholder={"Enter your name"}
             {...register("name", {
@@ -104,9 +99,7 @@ const CreateEvent = () => {
           />
         </div>
         <div className="flex flex-col ">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.newPrice?.message}
-          </p>
+          <p className="error">{errors.newPrice?.message}</p>
           <Input
             placeholder={"Enter your newPrice"}
             {...register("newPrice", {
@@ -118,9 +111,7 @@ const CreateEvent = () => {
         </div>
 
         <div className="flex flex-col ">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.oldPrice?.message}
-          </p>
+          <p className="error">{errors.oldPrice?.message}</p>
           <Input
             placeholder={"Enter your oldPrice"}
             {...register("oldPrice", {
@@ -132,9 +123,7 @@ const CreateEvent = () => {
         </div>
 
         <div className="flex flex-col">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.category?.message}
-          </p>
+          <p className="error">{errors.category?.message}</p>
           <Input
             placeholder={"Enter your category"}
             {...register("category", {
@@ -144,25 +133,23 @@ const CreateEvent = () => {
             label="Category"
           />
         </div>
-        <label className="text-[14px] text-white dark:text-blue-950  my-1">
+        <label className="text-[14px] text-white dark:text-dark  my-1">
           End of Event time
         </label>
 
-        <div className="flex  flex-col w-[75%] items-center justify-center  mt-1  h-[55px] outline-0 text-sm bg-white text-blue-950 dark:bg-white dark:text-blue-950   border border-white dark:border-blue-950  rounded-md ">
+        <div className="flex  flex-col w-[75%] items-center justify-center  mt-1  h-[55px] outline-0 text-sm bg-white text-dark dark:bg-white dark:text-dark   border border-white dark:border-dark  rounded-md ">
           <DateTimePicker
             data-cy="dateInput"
             onChange={setDate as any}
             value={date}
             required
-            className="text-[12px] w-full h-full rounded-md outline-0 text-sm bg-white text-blue-950 dark:bg-white dark:text-blue-950   border border-white dark:border-blue-950  border-none  sm:text-[17px] overflow-x-auto sm:overflow-visible"
+            className="text-[12px] w-full h-full rounded-md outline-0 text-sm bg-white text-dark dark:bg-white dark:text-dark   border border-white dark:border-dark  border-none  sm:text-[17px] overflow-x-auto sm:overflow-visible"
           />
         </div>
 
         <div className="flex flex-col mt-1">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.description?.message}
-          </p>
-          <label className="text-[14px] text-white dark:text-blue-950">
+          <p className="error">{errors.description?.message}</p>
+          <label className="text-[14px] text-white dark:text-dark">
             Description
           </label>
           <textarea
@@ -171,12 +158,12 @@ const CreateEvent = () => {
             })}
             placeholder="Enter your description"
             rows={2}
-            className="w-[75%] mt-1  h-[55px] outline-0 text-sm bg-white text-blue-950 dark:bg-white dark:text-blue-950   border border-white dark:border-blue-950 p-2 rounded-md placeholder:text-blue-950"
+            className="w-[75%] mt-1  h-[55px] outline-0 text-sm bg-white text-dark dark:bg-white dark:text-dark   border border-white dark:border-dark p-2 rounded-md placeholder:text-dark"
           />
         </div>
 
         <div className="hidden flex-col mt-1 ">
-          <label className="text-[14px] text-white dark:text-blue-950">
+          <label className="text-[14px] text-white dark:text-dark">
             img of order
           </label>
           <input onChange={onChangeImg} ref={inputImgRef} type={"file"} />
@@ -186,8 +173,8 @@ const CreateEvent = () => {
           className="mt-2 flex items-center  cursor-pointer"
           onClick={() => inputImgRef.current?.click()}
         >
-          <HiPhotograph className="text-white dark:text-blue-950" size={25} />
-          <h4 className="ml-4 text-white dark:text-blue-950">photo</h4>
+          <HiPhotograph className="text-white dark:text-dark" size={25} />
+          <h4 className="ml-4 text-white dark:text-dark">photo</h4>
         </div>
 
         <Button isLoading={isLoading}> create</Button>

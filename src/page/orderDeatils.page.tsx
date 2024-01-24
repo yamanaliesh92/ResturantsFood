@@ -33,7 +33,7 @@ const OrderDetailsPage = () => {
   }, [dataGetByCategory, dateGetOneProduct?.id]);
 
   return (
-    <div className="bg-white dark:bg-blue-950">
+    <div className="bg-white dark:bg-dark">
       {isLoading && <h1>loading...</h1>}
       <Header activeHeading={4} />
       <div className="flex flex-col">

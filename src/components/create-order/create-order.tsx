@@ -1,3 +1,4 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiPhotograph } from "react-icons/hi";
@@ -65,12 +66,15 @@ const CreateOrder = () => {
   }
 
   return (
-    <div className="w-[200px] sm:w-[350px]   md:w-[550px] my-1 shadow-md overflow-y-auto flex-col flex  items-center h-fit rounded-[14px] bg-blue-950 dark:bg-white p-2">
-      <h1 className="sm:text-[20px] text-white dark:text-blue-950 font-bold text-center">
+    <div className="w-[200px] sm:w-[350px]   md:w-[550px] my-1 shadow-md overflow-y-auto flex-col flex  items-center h-fit rounded-[14px] bg-dark dark:bg-white p-2">
+      <h1 className="sm:text-[20px] text-white dark:text-dark font-bold text-center">
         New Order
       </h1>
       {error && (
-        <h1 className="text-center text-red-500"> {JSON.stringify(error)}</h1>
+        <h1 className="error">
+          {" "}
+          <h1 className="error">{(error as SerializedError).message}</h1>
+        </h1>
       )}
 
       <form
@@ -78,9 +82,7 @@ const CreateOrder = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col mt-2">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.name?.message}
-          </p>
+          <p className="error">{errors.name?.message}</p>
           <Input
             placeholder={"Enter your name"}
             {...register("name", {
@@ -92,9 +94,7 @@ const CreateOrder = () => {
         </div>
 
         <div className="flex flex-col mt-2">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.price?.message}
-          </p>
+          <p className="error">{errors.price?.message}</p>
           <Input
             placeholder={"Enter your price"}
             {...register("price", {
@@ -107,9 +107,7 @@ const CreateOrder = () => {
         </div>
 
         <div className="flex flex-col mt-2">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.category?.message}
-          </p>
+          <p className="error">{errors.category?.message}</p>
           <Input
             placeholder={"Enter your category"}
             {...register("category", {
@@ -124,7 +122,7 @@ const CreateOrder = () => {
           <p className="text-[15px] my-1  text-red-500">
             {errors.description?.message}
           </p>
-          <label className="text-[14px] text-white dark:text-blue-950">
+          <label className="text-[14px] text-white dark:text-dark">
             Description
           </label>
           <textarea
@@ -133,7 +131,7 @@ const CreateOrder = () => {
             })}
             placeholder="Enter your description"
             rows={3}
-            className="w-[75%] mt-1  h-[55px] outline-0 text-sm bg-white text-blue-950 dark:bg-white dark:text-blue-950   border border-white dark:border-blue-950 p-2 rounded-md placeholder:text-blue-950   "
+            className="w-[75%] mt-1  h-[55px] outline-0 text-sm bg-white text-dark dark:bg-white dark:text-dark   border border-white dark:border-dark p-2 rounded-md placeholder:text-dark   "
           />
         </div>
 
@@ -145,10 +143,8 @@ const CreateOrder = () => {
           className="mt-2 flex items-center  cursor-pointer"
           onClick={() => inputImgRef.current?.click()}
         >
-          <HiPhotograph size={25} className="text-white dark:text-blue-950" />
-          <h4 className="ml-4 text-[14px] text-white dark:text-blue-950">
-            photo
-          </h4>
+          <HiPhotograph size={25} className="text-white dark:text-dark" />
+          <h4 className="ml-4 text-[14px] text-white dark:text-dark">photo</h4>
         </div>
 
         <Button isLoading={isLoading}>Create</Button>

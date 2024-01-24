@@ -1,4 +1,5 @@
 import { DevTool } from "@hookform/devtools";
+import { SerializedError } from "@reduxjs/toolkit";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -50,16 +51,16 @@ const Login: FC<IProps> = ({ setOpen }) => {
 
   return (
     <div className="mt-12 w-[230px] sm:w-[400px] md:w-[500px]   mx-[20px]  sm:mx-auto">
-      {error && <h1>{JSON.stringify(error)}</h1>}
+      {error && (
+        <h1 className="error"> {(error as SerializedError).message}</h1>
+      )}
       <div className="bg-white py-8 px-4 sm:rounded-lg sm:px-10">
         <form
           className="p-2 w-full flex flex-col"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex flex-col mt-2">
-            <p className="text-[15px] my-2  text-red-400">
-              {errors.email?.message}
-            </p>
+            <p className="error">{errors.email?.message}</p>
             <Input
               placeholder={"Enter your  email"}
               {...register("email", {
@@ -70,9 +71,7 @@ const Login: FC<IProps> = ({ setOpen }) => {
             />
           </div>
           <div className="flex flex-col mt-3 relative">
-            <p className="text-[15px] my-2  text-red-400">
-              {errors.password?.message}
-            </p>
+            <p className="error">{errors.password?.message}</p>
             <Input
               id="password"
               placeholder={"Enter your password"}
@@ -80,7 +79,7 @@ const Login: FC<IProps> = ({ setOpen }) => {
                 required: { value: true, message: "password is required" },
               })}
               type={visible ? "text" : "password"}
-              label="password"
+              label="Password"
             />
             {visible ? (
               <AiOutlineEye
@@ -106,7 +105,7 @@ const Login: FC<IProps> = ({ setOpen }) => {
             don't have account{" "}
           </h1>
           <h1
-            className="text-gray-700 text-[13px]  sm:text-[15px] underline cursor-pointer"
+            className="text-secondly text-[13px]  sm:text-[15px] underline cursor-pointer"
             onClick={() => setOpen((prev) => !prev)}
           >
             Create a new account

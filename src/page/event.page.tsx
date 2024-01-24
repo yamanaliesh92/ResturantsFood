@@ -4,7 +4,7 @@ import Header from "../components/header/header";
 
 const EventPage = () => {
   return (
-    <div className="bg-white dark:bg-blue-950">
+    <div className="bg-white dark:bg-dark">
       <Header activeHeading={4} />
       <div className="w-full  mx-auto mt-5">
         <Events />

@@ -1,3 +1,4 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import { useAllOrdersQuery } from "../../redux/api/order.api";
 import OrderData from "../order-data/orderData";
 
@@ -5,12 +6,8 @@ const BestDeals = () => {
   const { data, isLoading, error } = useAllOrdersQuery({});
 
   return (
-    <div className="w-full bg-white  dark:bg-blue-950">
-      {error && (
-        <h1 className="text-[15px] text-red-400 my-2">
-          {JSON.stringify(error)}
-        </h1>
-      )}
+    <div className="w-full bg-white  dark:bg-dark">
+      {error && <h1 className="error">{(error as SerializedError).message}</h1>}
 
       {isLoading && <h1>loading....</h1>}
 

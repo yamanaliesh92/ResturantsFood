@@ -9,7 +9,6 @@ const ProfilePage = () => {
   return (
     <div className="flex w-full  justify-between">
       <div className="w-[150px] flex items-center justify-center p-5 sm:w-[330px]">
-        {/* 800px:w-[100px] */}
         <ProfileSide active={active} setActive={setActive} />
       </div>
       <div className="w-full p-10 flex items-center justify-center  h-[450px]">

@@ -9,7 +9,7 @@ interface IProps {
 }
 const CartWhishList: FC<IProps> = ({ data, remove }) => {
   return (
-    <div className="flex items-center bg-blue-950 dark:bg-white justify-between  p-2">
+    <div className="flex items-center bg-dark dark:bg-white justify-between  p-2">
       <div className="flex items-center">
         <img
           src={data.imgOrder}
@@ -17,7 +17,7 @@ const CartWhishList: FC<IProps> = ({ data, remove }) => {
           className=" w-[80px] rounded-md mr-2 h-[80px]"
         />
 
-        <div className="flex items-center flex-col text-white dark:text-blue-950">
+        <div className="flex items-center flex-col text-white dark:text-dark">
           <h1>{data.name}</h1>
 
           <h3 className="font-[600] text-white dark:text-[#d02222] text-[17px]">
@@ -27,7 +27,7 @@ const CartWhishList: FC<IProps> = ({ data, remove }) => {
       </div>
 
       <RxCross1
-        className="text-white mb-6   dark:text-blue-950"
+        className="text-white mb-6   dark:text-dark"
         title="remove form wishlist"
         size={20}
         onClick={() => remove(data.id)}

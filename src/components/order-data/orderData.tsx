@@ -25,6 +25,8 @@ import {
 } from "../../redux/reducers/wishlist.reducer";
 import { addToCart } from "../../redux/reducers/cart.reducer";
 import { IStateRedux } from "@/src/redux/store";
+import DeleteItemModel from "../delete-item/delete-item";
+import { SerializedError } from "@reduxjs/toolkit";
 
 interface IProps {
   data: IResponseOrder;
@@ -35,6 +37,10 @@ const OrderData: FC<IProps> = ({ data }) => {
   const [rtk] = useState(1);
 
   const [edit, setEdit] = useState({ id: 0, open: false });
+  const [openModelDelete, setOpenModelDelete] = useState({
+    id: 0,
+    open: false,
+  });
   const [mutate, { error, isLoading }] = useDeleteOrderMutation();
   const wishlist = useSelector(
     (state: IStateRedux) => state.wishlist.whishItem
@@ -48,6 +54,10 @@ const OrderData: FC<IProps> = ({ data }) => {
 
   const openEdit = (id: number) => {
     setEdit((prev) => ({ id: id, open: !prev.open }));
+  };
+
+  const changeOpenModelDelete = (id: number) => {
+    setOpenModelDelete((prev) => ({ id: id, open: !prev.open }));
   };
 
   const removeFromWishlistHandler = (id: number) => {
@@ -77,14 +87,10 @@ const OrderData: FC<IProps> = ({ data }) => {
   };
 
   return (
-    <div className="w-full text-bg-950 dark:text-white h-[370px] rounded-lg bg-blue-950  dark:bg-white  shadow-sm p-3 relative cursor-pointer ">
+    <div className="w-full text-bg-950 dark:text-white h-[370px] rounded-lg bg-dark  dark:bg-white  shadow-sm p-3 relative cursor-pointer ">
       {isLoading && <h1>Loading.....</h1>}
 
-      {error && (
-        <h1 className="text-[15px] text-red-400 my-2">
-          {JSON.stringify(error)}
-        </h1>
-      )}
+      {error && <h1 className="error">{(error as SerializedError).message}</h1>}
       <div className="flex flex-col">
         <Link to={`/products/${data.id}`}>
           <img
@@ -92,34 +98,34 @@ const OrderData: FC<IProps> = ({ data }) => {
             alt="dd"
             className="w-[90vh] h-[120px] rounded-[10px] my-2  dark:bg-white object-cover"
           />
-          <h5 className="pt-3 text-[15px] rounded-[10px]  text-center  dark:text-white text-blue-950 bg-white dark:bg-blue-950 pb-3">
+          <h5 className="pt-3 text-[15px] rounded-[10px]  text-center  dark:text-white text-dark bg-white dark:bg-dark pb-3">
             {data.name}
           </h5>
         </Link>
         <div className="flex items-center mt-2">
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer  text-white dark:text-blue-950"
+            className="mr-2 cursor-pointer  text-white dark:text-dark"
           />
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer   text-white dark:text-blue-950"
+            className="mr-2 cursor-pointer   text-white dark:text-dark"
           />
           <AiFillStar
             size={20}
-            className="mr-2 cursor-pointer   text-white dark:text-blue-950"
+            className="mr-2 cursor-pointer   text-white dark:text-dark"
           />
           <AiOutlineStar
             size={20}
-            className="mr-2 cursor-pointer  text-white dark:text-blue-950"
+            className="mr-2 cursor-pointer  text-white dark:text-dark"
           />
 
-          {data.userId === dateMe?.id && (
+          {data.userId !== dateMe?.id && (
             <div className=" flex items-center">
               <AiFillDelete
                 color={!mode ? "white" : "blue"}
                 className=" cursor-pointer "
-                onClick={() => deleteOrder(data.id)}
+                onClick={() => changeOpenModelDelete(data.id)}
               />
               <AiFillEdit
                 size={20}
@@ -133,13 +139,13 @@ const OrderData: FC<IProps> = ({ data }) => {
 
         <div className="py-2 mt-1 flex items-center justify-between">
           <div className="flex items-center">
-            <h5 className="font-bold text-[18px]  text-white dark:text-blue-950 ">
+            <h5 className="font-bold text-[18px]  text-white dark:text-dark ">
               {data.price} $
             </h5>
           </div>
         </div>
 
-        <span className="text-[17px] font-[400] text-white dark:text-blue-950">
+        <span className="text-[17px] font-[400] text-white dark:text-dark">
           {data.description}
         </span>
 
@@ -176,6 +182,14 @@ const OrderData: FC<IProps> = ({ data }) => {
               data={data}
               open={edit}
               setOpen={setEdit}
+            />
+          ) : null}
+
+          {openModelDelete.open && openModelDelete.id === data.id ? (
+            <DeleteItemModel
+              id={data.id}
+              close={setOpenModelDelete}
+              deleteItem={deleteOrder}
             />
           ) : null}
         </div>

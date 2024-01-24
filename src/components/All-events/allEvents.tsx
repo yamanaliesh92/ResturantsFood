@@ -1,3 +1,4 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import React, { FC, useContext } from "react";
 import { Link } from "react-router-dom";
 import { contextUser } from "../../context/user.context";
@@ -13,23 +14,17 @@ const AllEvents: FC<IProps> = ({ owner }) => {
 
   const { data: dateMe } = useContext(contextUser);
 
-  console.log("dat", data);
-
   return (
     <div className="w-full flex-col flex">
       {owner && (
-        <h1 className=" text-center text-blue-950 dark:text-white font-bold p-3">
+        <h1 className=" text-center text-dark dark:text-white font-bold p-3">
           Welcome in your event mr {dateMe.username}
         </h1>
       )}
 
       {isLoading && <h1>loading....</h1>}
 
-      {error && (
-        <h1 className="text-[15px] text-red-400 my-2">
-          {JSON.stringify(error)}
-        </h1>
-      )}
+      {error && <h1 className="error">{(error as SerializedError).message}</h1>}
 
       <div className="w w-full">
         {data && data.map((item) => <EventCard data={item} />)}

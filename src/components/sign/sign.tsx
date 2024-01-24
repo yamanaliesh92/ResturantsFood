@@ -12,6 +12,7 @@ import Button from "../button";
 import Input from "../Input/input";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { SerializedError } from "@reduxjs/toolkit";
 
 const init = {
   email: "",
@@ -64,30 +65,26 @@ const Sign: FC<IProps> = ({ setOpen }) => {
   };
 
   const styleVisible =
-    "absolute left-[112px] sm:left-[277px] top-[50px] cursor-pointer";
+    "absolute left-[112px] sm:left-[200px] md:left-[277px] top-[50px] cursor-pointer";
 
   return (
     <div className="mt-10 w-[230px] sm:w-[400px] md:w-[500px]  mx-[20px]  sm:mx-auto   ">
-      <h2 className="mt-3 text-center text-3xl text-gray-900 dark:text-white font-extrabold">
+      <h2 className="mt-3 mb-1 text-white dark:text-blue-900 text-center text-3xl t  font-extrabold">
         Welcome in food app
       </h2>
 
-      <div className="bg-white dark:bg-black py-8 px-4 s sm:rounded-lg sm:px-10">
+      <div className="bg-white py-8 px-4 s sm:rounded-lg sm:px-10">
         <form
           className="p-2 w-full  flex-col"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
           {error && (
-            <h1 className="text-start text-[12px] sm:text-center sm:text-[14px] text-red-400 my-2">
-              {JSON.stringify(error)}
-            </h1>
+            <h1 className="error"> {(error as SerializedError).message}</h1>
           )}
 
           <div className="flex flex-col items-start mt-2">
-            <p className="text-[15px] my-2  text-red-400">
-              {errors.email?.message}
-            </p>
+            <p className="error">{errors.email?.message}</p>
 
             <Input
               placeholder={"Enter your  email"}
@@ -99,9 +96,7 @@ const Sign: FC<IProps> = ({ setOpen }) => {
             />
           </div>
           <div className="flex flex-col mt-3 relative">
-            <p className="text-[15px] my-2  text-red-400">
-              {errors.password?.message}
-            </p>
+            <p className="error">{errors.password?.message}</p>
             <Input
               id="password"
               placeholder={"Enter your password"}
@@ -128,9 +123,7 @@ const Sign: FC<IProps> = ({ setOpen }) => {
             )}
           </div>
           <div className="flex flex-col my-3">
-            <p className="text-[15px] my-2  text-red-400">
-              {errors.username?.message}
-            </p>
+            <p className="error">{errors.username?.message}</p>
             <Input
               placeholder={"Enter your name"}
               {...register("username", {
@@ -143,11 +136,11 @@ const Sign: FC<IProps> = ({ setOpen }) => {
 
           <Button isLoading={isLoading}>sign up</Button>
         </form>
-        <div className=" block  sm:flex items-center mt-4">
+        <div className=" block  sm:flex items-center">
           <h4>Do you have an account </h4>
           <h1
             onClick={changeOpen}
-            className="text-blue-600 cursor-pointer pl-2"
+            className="text-secondly underline cursor-pointer pl-2"
           >
             Sign In
           </h1>

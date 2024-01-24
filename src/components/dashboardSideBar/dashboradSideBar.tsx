@@ -14,7 +14,7 @@ interface IProps {
 
 const DashboardSideBar: FC<IProps> = ({ active }) => {
   return (
-    <div className="w-full bg-white text-blue-950 dark:bg-blue-950 dark:text-white h-full shadow-sm sticky z-10 left-0 top-0 ">
+    <div className="w-full bg-white text-dark dark:bg-dark dark:text-white h-full shadow-sm sticky z-10 left-0 top-0 ">
       <div className="w-full flex items-start flex-col sm:p-2 ">
         <SideBarItem
           link="/dashboard/orders"
@@ -23,7 +23,7 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
           icon={
             <FiShoppingBag
               className={`${
-                active === 2 ? "text-[red]" : "text-blue-950 dark:text-white  "
+                active === 2 ? "text-[red]" : "text-dark dark:text-white  "
               }`}
             />
           }
@@ -36,7 +36,7 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
           icon={
             <AiOutlineFolderAdd
               className={`${
-                active === 3 ? "text-[red]" : "text-blue-950 dark:text-white"
+                active === 3 ? "text-[red]" : "text-dark dark:text-white"
               }`}
             />
           }
@@ -49,7 +49,7 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
           icon={
             <AiOutlineFolderAdd
               className={`${
-                active === 4 ? "text-[red]" : "text-blue-950 dark:text-white "
+                active === 4 ? "text-[red]" : "text-dark dark:text-white "
               }`}
             />
           }
@@ -62,7 +62,7 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
           icon={
             <MdOutlineLocalOffer
               className={`${
-                active === 5 ? "text-[red]" : "text-blue-950 dark:text-white "
+                active === 5 ? "text-[red]" : "text-dark dark:text-white "
               }`}
             />
           }
@@ -75,7 +75,7 @@ const DashboardSideBar: FC<IProps> = ({ active }) => {
           icon={
             <IoIosRestaurant
               className={`${
-                active === 6 ? "text-[red]" : "text-blue-950 dark:text-white "
+                active === 6 ? "text-[red]" : "text-dark dark:text-white "
               }`}
             />
           }

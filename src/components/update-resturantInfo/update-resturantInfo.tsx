@@ -1,3 +1,4 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 
@@ -43,13 +44,13 @@ const UpdateRestaurantInfo: FC<IProps> = ({ setEdit, data }) => {
   };
 
   return (
-    <div className="w-[190px] sm:w-[500px] mt-5 h-[350px] dark:bg-white bg-blue-950 shadow-md p-0 sm:p-5  flex flex-col rounded-md">
+    <div className="w-[190px] sm:w-[500px] mt-5 h-[350px] dark:bg-white bg-dark shadow-md p-0 sm:p-5  flex flex-col rounded-md">
       {error && (
         <h1 className="text-[15px] text-red-500 my-2">
-          {JSON.stringify(error)}
+          {(error as SerializedError).message}
         </h1>
       )}
-      <h2 className="sm:text-center text-[18px] text-white dark:text-blue-950 ">
+      <h2 className="sm:text-center text-[18px] text-white dark:text-dark ">
         Update your restaurant information
       </h2>
 

@@ -1,8 +1,6 @@
-import React, { ChangeEvent, FC, useContext, useRef, useState } from "react";
+import React, { FC, useContext } from "react";
 
 import { contextUser } from "../../context/user.context";
-
-import { HiPhotograph } from "react-icons/hi";
 
 interface IProps {
   active: number;

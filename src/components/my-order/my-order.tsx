@@ -1,3 +1,4 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
 import { useGetAllOrdersByUserIdQuery } from "../../redux/api/order.api";
 import OrderData from "../order-data/orderData";
@@ -5,16 +6,14 @@ export default function MyOrders() {
   const { data, isLoading, error } = useGetAllOrdersByUserIdQuery({});
 
   return (
-    <div className="flex flex-col p-4 w-[100%] bg-white dark:bg-blue-950">
+    <div className="flex flex-col p-4 w-[100%] bg-white dark:bg-dark">
       {!isLoading && data?.length !== 0 && (
-        <h1 className="text-[18px] my-1 text-center text-blue-950 dark:text-white ">
+        <h1 className="text-[18px] my-1 text-center text-dark dark:text-white ">
           Welcome in all your orders{" "}
         </h1>
       )}
 
-      {error && (
-        <h1 className="text-center text-red-500">{JSON.stringify(error)}</h1>
-      )}
+      {error && <h1 className="error">{(error as SerializedError).message}</h1>}
 
       {!data?.length && !isLoading && (
         <div className="flex flex-col mt-6  items-center justify-center p-2 ">

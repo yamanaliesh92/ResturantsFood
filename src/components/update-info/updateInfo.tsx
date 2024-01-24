@@ -1,3 +1,4 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import React, { FC, useContext, useRef, useState } from "react";
 import { contextUser } from "../../context/user.context";
 
@@ -35,7 +36,7 @@ const UpdateInfo: FC<IProps> = ({ setEdit }) => {
       {isLoading && <h1>Loading.....</h1>}
       {error && (
         <h1 className="text-[15px] text-red-400 my-2">
-          {JSON.stringify(error)}
+          {(error as SerializedError).message}
         </h1>
       )}
 

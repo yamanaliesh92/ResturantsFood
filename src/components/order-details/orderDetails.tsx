@@ -52,7 +52,7 @@ const OrderDetails: FC<IProps> = ({ data }) => {
   return (
     <>
       {data && (
-        <div className=" dark:bg-white bg-blue-950 my-4 block sm:flex i sm:justify-between w-11/12 mx-auto sm:w-[80%]">
+        <div className=" dark:bg-white bg-dark my-4 block sm:flex i sm:justify-between w-11/12 mx-auto sm:w-[80%]">
           <div className="flex flex-col w-[43%] p-3 ">
             <img
               src={data?.imgOrder}
@@ -62,14 +62,14 @@ const OrderDetails: FC<IProps> = ({ data }) => {
           </div>
           <div className="flex w-[70%] flex-col p-2 mt-3">
             <div className="flex justify-between">
-              <h2 className="font-bold text-[18px] text-white dark:text-blue-950 mt-1 ml-2">
+              <h2 className="font-bold text-[18px] text-white dark:text-dark mt-1 ml-2">
                 {data?.name}
               </h2>
-              <h2 className="font-bold text-[18px] mt-1 text-white dark:text-blue-950 mr-3">
+              <h2 className="font-bold text-[18px] mt-1 text-white dark:text-dark mr-3">
                 {data?.price}
               </h2>
             </div>
-            <p className="text-[16px] p-4 my-4 h-[120px] overflow-auto text-white dark:text-blue-950 mt">
+            <p className="text-[16px] p-4 my-4 h-[120px] overflow-auto text-white dark:text-dark mt">
               {data?.description}
             </p>
             <div className="flex items-center mt-12  pr-3">

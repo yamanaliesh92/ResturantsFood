@@ -36,6 +36,7 @@ const baseQueryWithReauth: BaseQueryFn<
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env["REACT_APP_SERVER"],
+
   prepareHeaders: (headers) => {
     const token = getCookie("MyToken");
     const refreshToken = getCookie("MyRefreshToken");

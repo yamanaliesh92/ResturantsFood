@@ -1,4 +1,6 @@
 import { api } from "./api";
+import { SerializedError } from "@reduxjs/toolkit";
+import { IError } from "./api.common";
 
 export interface ICreateOrder {
   name: string;
@@ -76,6 +78,11 @@ const product = api.injectEndpoints({
         url: "api/order/create",
         body: body,
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as { message: string })?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
       invalidatesTags: [{ id: "LIST", type: "Order" }],
     }),
 
@@ -84,6 +91,11 @@ const product = api.injectEndpoints({
         method: "GEt",
         url: "api/order/all",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as { message: string })?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
       providesTags: (result) =>
         result
           ? [
@@ -101,6 +113,12 @@ const product = api.injectEndpoints({
         url: `/api/order/${body.id}`,
         method: "DELETE",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as { message: string })?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
+
       invalidatesTags: [{ id: "LIST", type: "Order" }],
     }),
 
@@ -110,6 +128,11 @@ const product = api.injectEndpoints({
         url: `/api/order/update/${body.id}`,
         body: body.payload,
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as { message: string })?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
       invalidatesTags: [{ id: "LIST", type: "Order" }],
     }),
 
@@ -119,6 +142,11 @@ const product = api.injectEndpoints({
         url: `/api/order/update/img/${body.id}`,
         body: body.img,
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as { message: string })?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
       invalidatesTags: [{ id: "LIST", type: "Order" }],
     }),
 
@@ -127,6 +155,11 @@ const product = api.injectEndpoints({
         method: "GET",
         url: `/api/order/get/${body.id}`,
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as { message: string })?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
     }),
 
     getOrderByCategory: builder.query<IResponseOrder[], { category: string }>({
@@ -134,6 +167,11 @@ const product = api.injectEndpoints({
         method: "GET",
         url: `/api/order?category=${body.category}`,
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as { message: string })?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
     }),
 
     getAllOrdersByUserId: builder.query<IResponseOrder[], any>({
@@ -141,6 +179,11 @@ const product = api.injectEndpoints({
         method: "GET",
         url: "api/order/userId",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as { message: string })?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
     }),
   }),
 });

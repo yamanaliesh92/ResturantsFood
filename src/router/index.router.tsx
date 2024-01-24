@@ -27,6 +27,7 @@ import OwnerRouter from "./owner.router";
 import CreateOrderPage from "../page/CreateOrder.page";
 import OrdersPage from "../page/bestSelling.page";
 import OrderDetailsPage from "../page/orderDeatils.page";
+import CheckoutPage from "../page/checkout.page";
 
 const router = createBrowserRouter([
   {
@@ -158,6 +159,15 @@ const router = createBrowserRouter([
       <OwnerRouter>
         <RestaurantInfoPage />,
       </OwnerRouter>
+    ),
+  },
+
+  {
+    path: "/checkout",
+    element: (
+      <PrivateRouter>
+        <CheckoutPage />,
+      </PrivateRouter>
     ),
   },
 

@@ -20,11 +20,11 @@ const RestaurantInfoPage = () => {
 
   return (
     <div>
-      <div className="flex w-full  justify-between bg-white dark:bg-blue-950">
+      <div className="flex w-full  justify-between bg-white dark:bg-dark">
         <div className="w-[150px] h-screen sm:w-[330px]">
           <DashboardSideBar active={6} />
         </div>
-        <div className="w-full flex justify-center bg-white dark:bg-blue-950   h-[450px]">
+        <div className="w-full flex justify-center bg-white dark:bg-dark   h-[450px]">
           {!edit ? (
             <RestaurantInfo data={data} setEdit={setEdit} />
           ) : (

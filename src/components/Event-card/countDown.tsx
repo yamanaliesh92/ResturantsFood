@@ -25,7 +25,7 @@ export default function CountDown({ data }: IProps) {
 
   return (
     <div className="flex items-center font-bold">
-      <h1 className="text-white dark:text-blue-950 font-[19px]">
+      <h1 className="text-white dark:text-dark font-[19px]">
         the rest time to event:
       </h1>
       <h4 className=" font-[19px] sm:text-[11px] ml-1 text-red-500">

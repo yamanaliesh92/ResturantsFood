@@ -14,7 +14,7 @@ const SideBarItem: FC<ISideBarItemProp> = ({ icon, isActive, label, link }) => {
       {icon}
       <h3
         className={`${
-          isActive ? "text-[red]" : "text-blue-950 dark:text-white"
+          isActive ? "text-[red]" : "text-dark dark:text-white"
         } text-[12px] sm:text-[18px] font-bold text-bold ml-3`}
       >
         {label}

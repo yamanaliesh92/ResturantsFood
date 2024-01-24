@@ -1,3 +1,4 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -39,24 +40,18 @@ const CreateRestaurant = () => {
   }
 
   return (
-    <div className="mt-20 w-[230px] sm:w-[400px] md:w-[500px] bg-blue-950 dark:bg-white  mx-[20px]  sm:mx-auto">
-      <h2 className="text-center text-3xl text-white dark:text-blue-950 font-extrabold">
+    <div className="mt-20 w-[230px] sm:w-[400px] md:w-[500px] bg-dark dark:bg-white  mx-[20px]  sm:mx-auto">
+      <h2 className="text-center text-3xl text-white dark:text-dark font-extrabold">
         create Your restaurant
       </h2>
 
-      {error && (
-        <h1 className="text-[15px] text-red-500 my-2">
-          {JSON.stringify(error)}
-        </h1>
-      )}
+      {error && <h1 className="error">{(error as SerializedError).message}</h1>}
       <form
         className="p-2 w-full flex flex-col"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col mt-2">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.name?.message}
-          </p>
+          <p className="error">{errors.name?.message}</p>
           <Input
             placeholder={"enter restaurant name"}
             {...register("name", {
@@ -68,9 +63,7 @@ const CreateRestaurant = () => {
         </div>
 
         <div className="flex flex-col mt-2">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.address?.message}
-          </p>
+          <p className="error">{errors.address?.message}</p>
           <Input
             placeholder={"enter restaurant address"}
             {...register("name", {

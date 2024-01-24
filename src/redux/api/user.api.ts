@@ -1,3 +1,4 @@
+import { SerializedError } from "@reduxjs/toolkit";
 import { api } from "./api";
 import { IError } from "./api.common";
 
@@ -18,6 +19,10 @@ export interface IPayloadUpdateImgUser {
   img: string;
 }
 
+export interface IPayloadPayment {
+  amount: number;
+}
+
 export interface IPayloadUpdateUsernameUser {
   username: string;
 }
@@ -25,6 +30,15 @@ export interface IPayloadUpdateUsernameUser {
 export interface IResponseRegister {
   accessToken: string;
   refreshToken: string;
+}
+
+export interface IResponsePayment {
+  data: {
+    id: number;
+    object: string;
+    amount: number;
+    client_secret: string;
+  };
 }
 
 export interface IPayloadChangePassword {
@@ -47,6 +61,24 @@ const user = api.injectEndpoints({
         url: "/api/auth/user/create",
         method: "POST",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
+    }),
+
+    createPayment: builder.mutation<IResponsePayment, IPayloadPayment>({
+      query: (body) => ({
+        body: body,
+        url: "/api/auth/pay/checkout",
+        method: "POST",
+      }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
     }),
 
     changePassword: builder.mutation<void, IPayloadChangePassword>({
@@ -55,6 +87,11 @@ const user = api.injectEndpoints({
         body: body,
         url: "/auth/changePassword",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
     }),
 
     updateImgInfo: builder.mutation<boolean, IPayloadUpdateImgUser>({
@@ -63,6 +100,11 @@ const user = api.injectEndpoints({
         body: body,
         url: "/api/auth/user/update/img",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
       invalidatesTags: ["User"],
     }),
 
@@ -81,12 +123,22 @@ const user = api.injectEndpoints({
         method: "POST",
         url: "/api/auth/user/login",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
     }),
     getMe: builder.query<IResponseUser, any>({
       query: () => ({
         method: "GET",
         url: "api/auth/user/me",
       }),
+      transformErrorResponse: (err): SerializedError => {
+        return (err.data as IError)?.message
+          ? { message: (err.data as IError)?.message }
+          : { message: "default" };
+      },
       providesTags: (result) =>
         result
           ? [{ type: "User", id: "LIST" }]
@@ -99,6 +151,7 @@ export const {
   useCreateUserMutation,
   useLoginUserMutation,
   useUpdateUsernameInfoMutation,
+  useCreatePaymentMutation,
   useUpdateImgInfoMutation,
   useGetMeQuery,
   useChangePasswordMutation,

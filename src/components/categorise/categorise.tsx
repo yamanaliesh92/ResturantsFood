@@ -4,6 +4,7 @@ import juice from "../../img/juicie.jpeg";
 import lance from "../../img/lanchh.jpeg";
 import breakFast from "../../img/break.jpeg";
 import dessert from "../../img/dessert.jpeg";
+import { SerializedError } from "@reduxjs/toolkit";
 const Categorise = () => {
   const navigate = useNavigate();
 
@@ -17,26 +18,22 @@ const Categorise = () => {
   };
   return (
     <div
-      className="w-full mx-auto my-auto bg-white  dark:bg-blue-950  p-6 rounded-lg mb-12"
+      className="w-full mx-auto my-auto bg-white  dark:bg-dark  p-6 rounded-lg mb-12"
       id="categorise"
     >
       <h1 className="title ml-3">Category is available now:</h1>
 
       {isLoading && <h1>loading....</h1>}
 
-      {error && (
-        <h1 className="text-[15px] text-red-400 my-2">
-          {JSON.stringify(error)}
-        </h1>
-      )}
+      {error && <h1 className="error">{(error as SerializedError).message}</h1>}
       <div className="grid gap-2 grid-cols-1  sm:grid-cols-2 md:grid-cols-3   ">
         {categories.map((items) => {
           return (
             <div
               onClick={() => handelSubmit(items)}
-              className="w-[80%] h-[100px] flex ml-4 bg-blue-950 dark:bg-white items-center  border dark:border-white border-blue-950 b  rounded-lg justify-between cursor-pointer overflow-hidden"
+              className="w-[80%] h-[100px] flex ml-4 bg-dark dark:bg-white items-center  border dark:border-white border-dark b  rounded-lg justify-between cursor-pointer overflow-hidden"
             >
-              <h5 className="text-[15px] uppercase ml-2 text-white dark:text-blue-950">
+              <h5 className="text-[15px] uppercase ml-2 text-white dark:text-dark">
                 {items}
               </h5>
 
@@ -57,6 +54,7 @@ const Categorise = () => {
                   src={dessert}
                   className="w-[120px] object-cover"
                   alt="ds"
+                  blue-950
                 />
               )}
 
