@@ -11,9 +11,12 @@
   .title {
     @apply font-bold text-[20px] my-2  dark:text-white text-blue-900;
   }
+  .styleVisible {
+    @apply absolute left-[112px] sm:left-[200px] md:left-[277px] top-[40px] cursor-pointer;
+  }
 
   .error {
-    @apply text-dangerous text-start text-[12px] sm:text-center sm:text-[14px]  my-1;
+    @apply text-dangerous text-start text-[10px] sm:text-center sm:text-[14px] absolute top-[-0.35rem] right-[0.25rem] md:right-[7.25rem]  my-1;
   }
 
   input::placeholder,

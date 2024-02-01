@@ -1,8 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SerializedError } from "@reduxjs/toolkit";
-import React from "react";
 import { useForm } from "react-hook-form";
 
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 import {
   ICreateRestaurant,
   useCreateRestaurantMutation,
@@ -14,17 +15,35 @@ const CreateRestaurant = () => {
   const [mutate, { isLoading, data, isSuccess, error }] =
     useCreateRestaurantMutation();
 
-  const form = useForm({
-    defaultValues: {
-      name: "",
-      address: "",
-    },
+  const schema = z.object({
+    name: z
+      .string({
+        required_error: "Name is required",
+        invalid_type_error: "Name must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Name cannot be an empty string",
+      }),
+
+    address: z
+      .string({
+        required_error: "Address is required",
+        invalid_type_error: "Address must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Address cannot be an empty string",
+      }),
   });
-  const { register, handleSubmit, formState } = form;
+
+  type Schema = z.infer<typeof schema>;
+
+  const { register, handleSubmit, formState } = useForm<Schema>({
+    resolver: zodResolver(schema),
+  });
 
   const { errors } = formState;
 
-  const onSubmit = async (data: ICreateRestaurant) => {
+  const onSubmit = async (data: Schema) => {
     const body: ICreateRestaurant = {
       address: data.address,
       name: data.name,
@@ -50,28 +69,21 @@ const CreateRestaurant = () => {
         className="p-2 w-full flex flex-col"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col mt-2">
+        <div className="flex flex-col mt-2 relative">
           <p className="error">{errors.name?.message}</p>
           <Input
             placeholder={"enter restaurant name"}
-            {...register("name", {
-              required: { value: true, message: "restaurant name is required" },
-            })}
+            {...register("name")}
             label="Name of restaurant"
             type="text"
           />
         </div>
 
-        <div className="flex flex-col mt-2">
+        <div className="flex flex-col mt-2 relative">
           <p className="error">{errors.address?.message}</p>
           <Input
             placeholder={"enter restaurant address"}
-            {...register("name", {
-              required: {
-                value: true,
-                message: "restaurant address is required",
-              },
-            })}
+            {...register("name")}
             label="Address of restaurant"
             type="text"
           />

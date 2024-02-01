@@ -15,6 +15,8 @@ import Input from "../Input/input";
 import { useForm } from "react-hook-form";
 import Button from "../button";
 import { SerializedError } from "@reduxjs/toolkit";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 interface IProps {
   data: IResponseEvent;
   setOpen: React.Dispatch<
@@ -55,17 +57,64 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
     setOpen((prev) => ({ id: 0, open: false }));
   };
 
-  const form = useForm({
+  const schema = z.object({
+    name: z
+      .string({
+        required_error: "Name is required",
+        invalid_type_error: "Name must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Name cannot be an empty string",
+      }),
+    newPrice: z.coerce
+      .number({
+        required_error: "NewPrice is required",
+        invalid_type_error: "NewPrice must be a number",
+      })
+      .int()
+      .gte(1)
+      .lte(99999),
+    oldPrice: z.coerce
+      .number({
+        required_error: "OldPrice is required",
+        invalid_type_error: "OldPrice must be a number",
+      })
+      .int()
+      .gte(1)
+      .lte(99999),
+    category: z
+      .string({
+        required_error: "Category is required",
+        invalid_type_error: "Category must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Category cannot be an empty string",
+      }),
+
+    description: z
+      .string({
+        required_error: "Description is required",
+        invalid_type_error: "Description must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Description cannot be an empty string",
+      }),
+  });
+
+  type Schema = z.infer<typeof schema>;
+
+  const { register, handleSubmit, formState } = useForm<Schema>({
+    resolver: zodResolver(schema),
     defaultValues: {
       name: data.name,
       newPrice: data.newPrice,
       oldPrice: data.oldPrice,
       category: data.category,
       description: data.description,
-      id: data.id,
     },
   });
-  const { register, handleSubmit } = form;
+
+  const { errors } = formState;
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
@@ -91,13 +140,13 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
     close();
   }
 
-  const onSubmit = async (data: IUpdate) => {
-    const body = {
-      name: element.name,
-      newPrice: element.newPrice,
-      oldPrice: element.oldPrice,
-      category: element.category,
-      description: element.description,
+  const onSubmit = async (body: Schema) => {
+    const dto = {
+      name: body.name,
+      newPrice: body.newPrice,
+      oldPrice: body.oldPrice,
+      category: body.category,
+      description: body.description,
       date: date && date.toISOString(),
     };
 
@@ -116,15 +165,9 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
     <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-sm  h-screen top-0   left-0 flex items-center justify-center">
       <div className="bg-dark  mt-1 dark:bg-white mb-1 h-fit   text-white dark:text-dark p-2 w-[300px]  sm:w-[500px]  rounded-md shadow-sm flex flex-col relative ">
         {error && (
-          <h1 className="text-[15px] text-red-400 my-2">
-            {(error as SerializedError).message}
-          </h1>
+          <h1 className="error">{(error as SerializedError).message}</h1>
         )}
-        {errorUpdateEvent && (
-          <h1 className="text-[15px] text-red-400 my-2">
-            {JSON.stringify(error)}
-          </h1>
-        )}
+        {errorUpdateEvent && <h1 className="error">{JSON.stringify(error)}</h1>}
 
         <h1 className="text-end text-2xl mr-2" onClick={close}>
           X
@@ -134,20 +177,23 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
           className="p-2 w-full  flex flex-col"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="mt-2 flex flex-col">
+          <div className="mt-2 flex flex-col relative">
+            <h1 className="error">{errors.name?.message}</h1>
             <Input {...register("name")} label="Name" type="text" />
           </div>
 
           <div className="mt-2 flex items-center  relative">
-            <div className="mt-2 flex flex-col">
+            <div className="mt-2 flex flex-col relative">
+              <h1 className="error">{errors.oldPrice?.message}</h1>
               <Input {...register("oldPrice")} label="OldPrice" type="number" />
             </div>
-            <div className="mt-2 flex flex-col">
+            <div className="mt-2 flex flex-col relative">
+              <h1 className="error">{errors.newPrice?.message}</h1>
               <Input {...register("newPrice")} label="NewPrice" type="number" />
             </div>
           </div>
 
-          <div className="mt-2 flex flex-col">
+          <div className="mt-2 flex flex-col relative">
             <h1>End Time of event</h1>
             <DateTimePicker
               data-cy="dateInput"
@@ -157,7 +203,8 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
             />
           </div>
 
-          <div className="mt-2 flex flex-col">
+          <div className="mt-2 flex flex-col relative">
+            <h1 className="error">{errors.category?.message}</h1>
             <Input
               {...register("category")}
               type="text"
@@ -166,7 +213,8 @@ const UpdateEvent: FC<IProps> = ({ data, setOpen }) => {
             />
           </div>
 
-          <div className="mt-2 flex flex-col">
+          <div className="mt-2 flex flex-col relative">
+            <h1 className="error">{errors.description?.message}</h1>
             <h1>Description</h1>
             <textarea
               rows={3}

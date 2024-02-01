@@ -1,11 +1,12 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SerializedError } from "@reduxjs/toolkit";
 import React, { ChangeEvent, FC, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiPhotograph } from "react-icons/hi";
+import { z } from "zod";
 
 import {
   IResponseOrder,
-  IUpdateOrder,
   useUpdateOrderImgMutation,
   useUpdateOrderMutation,
 } from "../../redux/api/order.api";
@@ -26,13 +27,7 @@ interface IProps {
     }>
   >;
 }
-interface IUpdate {
-  name: string;
-  price: number;
-  id: number;
-  category: string;
-  description: string;
-}
+
 const UpdateOrderModal: FC<IProps> = ({ data, setOpen }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -52,29 +47,71 @@ const UpdateOrderModal: FC<IProps> = ({ data, setOpen }) => {
     setUpdateImg(value);
   };
 
-  const form = useForm({
+  const schema = z.object({
+    name: z
+
+      .string({
+        required_error: "Name is required",
+        invalid_type_error: "Name must be a string",
+      })
+
+      .refine((data) => data.trim() !== "", {
+        message: "Name cannot be an empty string",
+      }),
+
+    price: z.coerce
+      .number({
+        required_error: "Price is required",
+        invalid_type_error: "Price must be a number",
+      })
+      .int()
+      .gte(1)
+      .lte(99999),
+    category: z
+      .string({
+        required_error: "Category is required",
+        invalid_type_error: "Category must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Category cannot be an empty string",
+      }),
+
+    description: z
+      .string({
+        required_error: "Description is required",
+        invalid_type_error: "Description must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Description cannot be an empty string",
+      }),
+  });
+
+  type Schema = z.infer<typeof schema>;
+
+  const { register, handleSubmit, formState } = useForm<Schema>({
+    resolver: zodResolver(schema),
     defaultValues: {
+      category: data.category,
       name: data.name,
       price: data.price,
-      category: data.category,
       description: data.description,
-      id: data.id,
     },
   });
-  const { register, handleSubmit } = form;
+
+  const { errors } = formState;
 
   if (isSuccess) {
     setOpen((prev) => ({ id: 0, open: false }));
   }
 
-  const submit = async (data: IUpdate) => {
-    const body: IUpdateOrder = {
-      category: data.category,
-      description: data.description,
-      name: data.name,
-      price: Number(data.price),
+  const submit = async (body: Schema) => {
+    const dto = {
+      category: body.category,
+      description: body.description,
+      name: body.name,
+      price: Number(body.price),
     };
-    await mutate({ id: data.id, payload: body });
+    await mutate({ id: data.id, payload: dto });
 
     const formData = new FormData();
     formData.append("imgOrder", updateImg as any);
@@ -110,20 +147,18 @@ const UpdateOrderModal: FC<IProps> = ({ data, setOpen }) => {
         >
           {isLoading && <h1>Loading.....</h1>}
           {error && (
-            <h1 className="text-[15px] text-red-400 my-2">
-              {(error as SerializedError).message}
-            </h1>
+            <h1 className="error">{(error as SerializedError).message}</h1>
           )}
 
           {errorUpdateImg && (
-            <h1 className="text-[15px] text-red-400 my-2">
-              {(error as SerializedError).message}
-            </h1>
+            <h1 className="error">{(error as SerializedError).message}</h1>
           )}
-          <div className="mt-2 flex flex-col ">
+          <div className="mt-2 flex flex-col relative ">
+            <h1 className="error">{errors.name?.message}</h1>
             <Input {...register("name")} label="Name" type="text" />
           </div>
-          <div className="flex flex-col mt-2">
+          <div className="flex flex-col mt-2 relative">
+            <h1 className="error">{errors.category?.message}</h1>
             <Input
               {...register("category")}
               name="category"
@@ -131,7 +166,8 @@ const UpdateOrderModal: FC<IProps> = ({ data, setOpen }) => {
               type="text"
             />
           </div>
-          <div className="flex flex-col mt-2">
+          <div className="flex flex-col mt-2 relative">
+            <h1 className="error">{errors.price?.message}</h1>
             <Input
               {...register("price")}
               type="number"
@@ -139,7 +175,8 @@ const UpdateOrderModal: FC<IProps> = ({ data, setOpen }) => {
               name="price"
             />
           </div>
-          <div className="flex flex-col mt-2">
+          <div className="flex flex-col mt-2 relative">
+            <h1 className="error">{errors.description?.message}</h1>
             <label className="mt-2">Description</label>
             <textarea
               {...register("description")}

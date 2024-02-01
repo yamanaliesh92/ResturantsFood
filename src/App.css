@@ -2,9 +2,7 @@
   box-sizing: border-box;
   margin: 0px;
 }
-
 body {
-  background: rgb(23 37 84);
   scroll-behavior: smooth;
   user-select: none;
 }

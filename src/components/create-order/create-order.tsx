@@ -1,35 +1,65 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SerializedError } from "@reduxjs/toolkit";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiPhotograph } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { z } from "zod";
 import { useCreateOrderMutation } from "../../redux/api/order.api";
 import Button from "../button";
 import Input from "../Input/input";
 
-export type ICreateOrders = {
-  name: string;
-  price: string;
-  category: string;
-  description: string;
-};
 const CreateOrder = () => {
   const [img, setImg] = useState<File | null>(null);
   const inputImgRef = useRef<HTMLInputElement>(null);
   const [mutate, { isLoading, isSuccess, error }] = useCreateOrderMutation();
   const [restaurantId, setRestaurantId] = useState<number>(0);
 
-  const form = useForm({
-    defaultValues: {
-      name: "",
-      price: "",
-      category: "",
-      description: "",
-    },
+  const schema = z.object({
+    name: z
+      .string({
+        required_error: "Name is required",
+        invalid_type_error: "Name must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Name cannot be an empty string",
+      }),
+    price: z.coerce
+      .number({
+        required_error: "Price is required",
+        invalid_type_error: "Price must be a number",
+      })
+      .int()
+      .gte(1)
+      .lte(99999),
+    category: z
+      .string({
+        required_error: "Category is required",
+        invalid_type_error: "Category must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Category cannot be an empty string",
+      }),
+
+    description: z
+      .string({
+        required_error: "Description is required",
+        invalid_type_error: "Description must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Description cannot be an empty string",
+      }),
   });
-  const { register, handleSubmit, formState } = form;
+
+  type Schema = z.infer<typeof schema>;
+
+  const { register, handleSubmit, formState } = useForm<Schema>({
+    resolver: zodResolver(schema),
+  });
 
   const { errors } = formState;
+
+  console.log("error", errors.name);
 
   useEffect(() => {
     const id: number = localStorage.getItem("id")
@@ -38,7 +68,7 @@ const CreateOrder = () => {
     setRestaurantId(id);
   }, []);
 
-  const onSubmit = async (body: ICreateOrders) => {
+  const onSubmit = async (body: Schema) => {
     if (!img) return;
     const fromDate = new FormData();
     fromDate.append("name", body.name);
@@ -66,69 +96,53 @@ const CreateOrder = () => {
   }
 
   return (
-    <div className="w-[200px] sm:w-[350px]   md:w-[550px] my-1 shadow-md overflow-y-auto flex-col flex  items-center h-fit rounded-[14px] bg-dark dark:bg-white p-2">
+    <div className="w-[234px] sm:w-[350px]   md:w-[550px] my-1 shadow-md overflow-y-auto flex-col flex  items-center h-fit rounded-[14px] bg-dark dark:bg-white p-2">
       <h1 className="sm:text-[20px] text-white dark:text-dark font-bold text-center">
         New Order
       </h1>
-      {error && (
-        <h1 className="error">
-          {" "}
-          <h1 className="error">{(error as SerializedError).message}</h1>
-        </h1>
-      )}
+      {error && <h1 className="error">{(error as SerializedError).message}</h1>}
 
       <form
         className="p-2 w-full flex flex-col"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col mt-2">
+        <div className="flex flex-col mt-2 relative">
           <p className="error">{errors.name?.message}</p>
           <Input
             placeholder={"Enter your name"}
-            {...register("name", {
-              required: { value: true, message: "name is required" },
-            })}
+            {...register("name")}
             label="Name"
             type="text"
           />
         </div>
 
-        <div className="flex flex-col mt-2">
+        <div className="flex flex-col mt-2 relative">
           <p className="error">{errors.price?.message}</p>
           <Input
             placeholder={"Enter your price"}
-            {...register("price", {
-              min: 1,
-              required: { value: true, message: "price is required" },
-            })}
+            {...register("price", { valueAsNumber: true })}
             type="number"
             label="Price"
           />
         </div>
 
-        <div className="flex flex-col mt-2">
+        <div className="flex flex-col mt-2 relative">
           <p className="error">{errors.category?.message}</p>
           <Input
             placeholder={"Enter your category"}
-            {...register("category", {
-              required: { value: true, message: "category is required" },
-            })}
+            {...register("category")}
             type="text"
             label="Category"
           />
         </div>
 
-        <div className="flex flex-col mt-2">
-          <p className="text-[15px] my-1  text-red-500">
-            {errors.description?.message}
-          </p>
+        <div className="flex flex-col mt-2 relative">
+          <p className="error">{errors.description?.message}</p>
           <label className="text-[14px] text-white dark:text-dark">
             Description
           </label>
           <textarea
-            {...register("description", {
-              required: { value: true, message: "description is required" },
-            })}
+            {...register("description")}
             placeholder="Enter your description"
             rows={3}
             className="w-[75%] mt-1  h-[55px] outline-0 text-sm bg-white text-dark dark:bg-white dark:text-dark   border border-white dark:border-dark p-2 rounded-md placeholder:text-dark   "

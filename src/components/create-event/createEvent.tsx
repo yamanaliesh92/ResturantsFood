@@ -11,14 +11,8 @@ import Button from "../button";
 import Input from "../Input/input";
 import { useForm } from "react-hook-form";
 import { SerializedError } from "@reduxjs/toolkit";
-
-interface ICreateEvent {
-  name: string;
-  newPrice: string;
-  oldPrice: string;
-  description: string;
-  category: string;
-}
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 const CreateEvent = () => {
   const [img, setImg] = useState<File | null>(null);
@@ -31,16 +25,55 @@ const CreateEvent = () => {
 
   const navigate = useNavigate();
 
-  const form = useForm({
-    defaultValues: {
-      name: "",
-      oldPrice: "",
-      newPrice: "",
-      category: "",
-      description: "",
-    },
+  const schema = z.object({
+    name: z
+      .string({
+        required_error: "Name is required",
+        invalid_type_error: "Name must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Name cannot be an empty string",
+      }),
+    newPrice: z.coerce
+      .number({
+        required_error: "NewPrice is required",
+        invalid_type_error: "NewPrice must be a number",
+      })
+      .int()
+      .gte(1)
+      .lte(99999),
+    oldPrice: z.coerce
+      .number({
+        required_error: "OldPrice is required",
+        invalid_type_error: "OldPrice must be a number",
+      })
+      .int()
+      .gte(1)
+      .lte(99999),
+    category: z
+      .string({
+        required_error: "Category is required",
+        invalid_type_error: "Category must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Category cannot be an empty string",
+      }),
+
+    description: z
+      .string({
+        required_error: "Description is required",
+        invalid_type_error: "Description must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Description cannot be an empty string",
+      }),
   });
-  const { register, handleSubmit, formState } = form;
+
+  type Schema = z.infer<typeof schema>;
+
+  const { register, handleSubmit, formState } = useForm<Schema>({
+    resolver: zodResolver(schema),
+  });
 
   const { errors } = formState;
 
@@ -55,7 +88,7 @@ const CreateEvent = () => {
     setRestaurantId(id);
   }, []);
 
-  const onSubmit = async (data: ICreateEvent) => {
+  const onSubmit = async (data: Schema) => {
     if (!img) return;
     const fromDate = new FormData();
     fromDate.append("name", data.name);
@@ -79,7 +112,7 @@ const CreateEvent = () => {
   };
 
   return (
-    <div className="w-[220px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center h-fit rounded-[14px] bg-dark dark:bg-white p-2">
+    <div className="w-[235px] sm:w-[350px]   md:w-[500px] my-2 shadow-md overflow-y-auto flex-col flex items-center h-fit rounded-[14px] bg-dark dark:bg-white p-2">
       <h1 className="sm:text-[20px] text-white dark:text-dark font-bold text-center">
         Create a Event
       </h1>
@@ -87,48 +120,42 @@ const CreateEvent = () => {
       {error && <h1 className="error">{(error as SerializedError).message}</h1>}
 
       <form className="w-full flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col">
+        <div className="flex flex-col relative">
           <p className="error">{errors.name?.message}</p>
           <Input
             placeholder={"Enter your name"}
-            {...register("name", {
-              required: { value: true, message: "name is required" },
-            })}
+            {...register("name")}
             label="Name"
             type="text"
           />
         </div>
-        <div className="flex flex-col ">
-          <p className="error">{errors.newPrice?.message}</p>
-          <Input
-            placeholder={"Enter your newPrice"}
-            {...register("newPrice", {
-              required: { value: true, message: "newPrice is required" },
-            })}
-            label="NewPrice"
-            type="number"
-          />
+        <div className="grid grid-cols-2 my-2 ">
+          <div className="flex flex-col relative ">
+            <p className="error">{errors.newPrice?.message}</p>
+            <Input
+              placeholder={"Enter your newPrice"}
+              {...register("newPrice", { valueAsNumber: true })}
+              label="NewPrice"
+              type="number"
+            />
+          </div>
+
+          <div className="flex flex-col relative ">
+            <p className="error">{errors.oldPrice?.message}</p>
+            <Input
+              placeholder={"Enter your oldPrice"}
+              {...register("oldPrice", { valueAsNumber: true })}
+              label="OldPrice"
+              type="number"
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col ">
-          <p className="error">{errors.oldPrice?.message}</p>
-          <Input
-            placeholder={"Enter your oldPrice"}
-            {...register("oldPrice", {
-              required: { value: true, message: "oldPrice is required" },
-            })}
-            label="oldPrice"
-            type="number"
-          />
-        </div>
-
-        <div className="flex flex-col">
+        <div className="flex flex-col relative">
           <p className="error">{errors.category?.message}</p>
           <Input
             placeholder={"Enter your category"}
-            {...register("category", {
-              required: { value: true, message: "category is required" },
-            })}
+            {...register("category")}
             type="text"
             label="Category"
           />
@@ -147,15 +174,13 @@ const CreateEvent = () => {
           />
         </div>
 
-        <div className="flex flex-col mt-1">
+        <div className="flex flex-col mt-1 relative">
           <p className="error">{errors.description?.message}</p>
           <label className="text-[14px] text-white dark:text-dark">
             Description
           </label>
           <textarea
-            {...register("description", {
-              required: { value: true, message: "description is required" },
-            })}
+            {...register("description")}
             placeholder="Enter your description"
             rows={2}
             className="w-[75%] mt-1  h-[55px] outline-0 text-sm bg-white text-dark dark:bg-white dark:text-dark   border border-white dark:border-dark p-2 rounded-md placeholder:text-dark"

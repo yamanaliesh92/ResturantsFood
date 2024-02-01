@@ -13,6 +13,8 @@ import Input from "../Input/input";
 import { useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { SerializedError } from "@reduxjs/toolkit";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const init = {
   email: "",
@@ -31,14 +33,25 @@ export interface IError {
 const Sign: FC<IProps> = ({ setOpen }) => {
   const [visible, setVisible] = useState<Boolean>(false);
 
-  const form = useForm<IPayloadRegister>({
-    defaultValues: {
-      email: "",
-      username: "",
-      password: "",
-    },
+  const schema = z.object({
+    email: z.string().email({ message: "Invalid email address" }),
+    username: z
+      .string({
+        required_error: "Username is required",
+        invalid_type_error: "Username must be a string",
+      })
+      .refine((data) => data.trim() !== "", {
+        message: "Username cannot be an empty string",
+      }),
+
+    password: z.string().min(2).max(20),
   });
-  const { register, control, handleSubmit, formState } = form;
+
+  type Schema = z.infer<typeof schema>;
+
+  const { register, handleSubmit, formState } = useForm<Schema>({
+    resolver: zodResolver(schema),
+  });
 
   const { errors } = formState;
 
@@ -60,12 +73,9 @@ const Sign: FC<IProps> = ({ setOpen }) => {
     setVisible((prev) => !prev);
   };
 
-  const onSubmit = async (body: IPayloadRegister) => {
+  const onSubmit = async (body: Schema) => {
     await mutate(body);
   };
-
-  const styleVisible =
-    "absolute left-[112px] sm:left-[200px] md:left-[277px] top-[50px] cursor-pointer";
 
   return (
     <div className="mt-10 w-[230px] sm:w-[400px] md:w-[500px]  mx-[20px]  sm:mx-auto   ">
@@ -83,14 +93,12 @@ const Sign: FC<IProps> = ({ setOpen }) => {
             <h1 className="error"> {(error as SerializedError).message}</h1>
           )}
 
-          <div className="flex flex-col items-start mt-2">
+          <div className="flex flex-col items-start mt-2 relative">
             <p className="error">{errors.email?.message}</p>
 
             <Input
               placeholder={"Enter your  email"}
-              {...register("email", {
-                required: { value: true, message: "email is required" },
-              })}
+              {...register("email")}
               label="Email"
               type="email"
             />
@@ -100,35 +108,31 @@ const Sign: FC<IProps> = ({ setOpen }) => {
             <Input
               id="password"
               placeholder={"Enter your password"}
-              {...register("password", {
-                required: { value: true, message: "password is required" },
-              })}
+              {...register("password")}
               type={visible ? "text" : "password"}
-              label="password"
+              label="Password"
             />
             {visible ? (
               <AiOutlineEye
-                className={styleVisible}
-                size={20}
+                className="styleVisible"
+                size={25}
                 data-testid={"hidePasswordTest"}
                 onClick={clickChangeVisible}
               />
             ) : (
               <AiOutlineEyeInvisible
-                className={styleVisible}
-                size={20}
+                className="styleVisible"
+                size={25}
                 data-testid={"showPasswordTest"}
                 onClick={clickChangeVisible}
               />
             )}
           </div>
-          <div className="flex flex-col my-3">
+          <div className="flex flex-col my-3 relative">
             <p className="error">{errors.username?.message}</p>
             <Input
               placeholder={"Enter your name"}
-              {...register("username", {
-                required: { value: true, message: "username is required" },
-              })}
+              {...register("username")}
               type="text"
               label="username"
             />
@@ -144,7 +148,6 @@ const Sign: FC<IProps> = ({ setOpen }) => {
           >
             Sign In
           </h1>
-          <DevTool control={control} />
         </div>
       </div>
     </div>

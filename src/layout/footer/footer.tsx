@@ -38,7 +38,7 @@ const Footer = () => {
 
           {footerProductLinks.map((item) => {
             return (
-              <h1 className="text-[14px] cursor-pointer items-center text-yellow-100 hover:text-[#34b789]">
+              <h1 className="text-[14px] cursor-pointer items-center text-dark dark:text-yellow-100">
                 {item.name}
               </h1>
             );
@@ -49,7 +49,7 @@ const Footer = () => {
 
           {footercompanyLinks.map((item) => {
             return (
-              <h1 className="text-[14px] cursor-pointer items-center text-yellow-100 hover:text-[#34b789]">
+              <h1 className="text-[14px] cursor-pointer items-center dark:text-yellow-100 text-dark">
                 {item.name}{" "}
               </h1>
             );
@@ -60,7 +60,7 @@ const Footer = () => {
 
           {footerSupportLinks.map((item) => {
             return (
-              <h1 className="text-[14px] cursor-pointer items-center text-yellow-100 hover:text-[#34b789]">
+              <h1 className="text-[14px] cursor-pointer items-center dark:text-yellow-100 text-dark">
                 {item.name}{" "}
               </h1>
             );
